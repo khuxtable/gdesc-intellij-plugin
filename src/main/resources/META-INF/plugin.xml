@@ -1,0 +1,128 @@
+<!-- Plugin Configuration File: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+	<!-- Unique identifier of the plugin. It should be FQN, cannot be changed between the plugin versions. -->
+	<id>org.kathrynhuxtable.gdesc.gdesc-plugin</id>
+
+	<!-- Public plugin name should be written in Title Case.
+		 Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+	<name>GDescPlugin</name>
+
+	<!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+	<vendor url="https://kathrynhuxtable.org">Kathryn Huxtable</vendor>
+
+	<!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+		 Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+	<description><![CDATA[
+        Style for editing GDesc files for game descriptions.
+    ]]></description>
+
+	<!-- Product and plugin compatibility requirements.
+		 Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+
+	<depends>com.intellij.java</depends>
+	<resource-bundle>messages.MyMessageBundle</resource-bundle>
+	<!-- Extensions defined by the plugin.
+		 Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+	<extensions defaultExtensionNs="com.intellij">
+		<toolWindow id="MyToolWindow" factoryClass="org.kathrynhuxtable.gdesc.gdescplugin.MyToolWindowFactory"
+		            icon="AllIcons.Toolwindows.ToolWindowPalette"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<fileType
+				name="GDesc File"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFileType"
+				fieldName="INSTANCE"
+				language="GDesc"
+				extensions="gdesc"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.parserDefinition
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.syntaxHighlighterFactory
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescSyntaxHighlighterFactory"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<colorSettingsPage
+				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescColorSettingsPage"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<annotator
+				language="JAVA"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescAnnotator"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<codeInsight.lineMarkerProvider
+				language="JAVA"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescLineMarkerProvider"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<completion.contributor
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescCompletionContributor"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<psi.referenceContributor
+				language="JAVA"
+				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescReferenceContributor"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.refactoringSupport
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescRefactoringSupportProvider"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.findUsagesProvider
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFindUsagesProvider"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.foldingBuilder
+				language="JAVA"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFoldingBuilder"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<gotoSymbolContributor
+				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescChooseByNameContributor"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.psiStructureViewFactory
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescStructureViewFactory"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<navbar implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescStructureAwareNavbar"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.formatter
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFormattingModelBuilder"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<codeStyleSettingsProvider
+				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescCodeStyleSettingsProvider"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<langCodeStyleSettingsProvider
+				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguageCodeStyleSettingsProvider"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<lang.commenter
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescCommenter"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<!-- Other extensions… -->
+		<lang.documentationProvider
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescDocumentationProvider"/>
+	</extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<spellchecker.support
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescSpellcheckingStrategy"/>
+	</extensions>
+</idea-plugin>
