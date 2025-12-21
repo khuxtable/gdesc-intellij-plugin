@@ -14,7 +14,6 @@ import com.intellij.util.indexing.IdFilter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
 
 final class GDescChooseByNameContributor implements ChooseByNameContributorEx {
 
@@ -23,19 +22,19 @@ final class GDescChooseByNameContributor implements ChooseByNameContributorEx {
                            @NotNull GlobalSearchScope scope,
                            @Nullable IdFilter filter) {
     Project project = Objects.requireNonNull(scope.getProject());
-    List<String> propertyKeys = ContainerUtil.map(
-        GDescUtil.findProperties(project), GDescProperty::getKey);
-    ContainerUtil.process(propertyKeys, processor);
+//    List<String> propertyKeys = ContainerUtil.map(
+//        GDescUtil.findProperties(project), GDescProperty::getKey);
+//    ContainerUtil.process(propertyKeys, processor);
   }
 
   @Override
   public void processElementsWithName(@NotNull String name,
                                       @NotNull Processor<? super NavigationItem> processor,
                                       @NotNull FindSymbolParameters parameters) {
-    List<NavigationItem> properties = ContainerUtil.map(
-        GDescUtil.findProperties(parameters.getProject(), name),
-        property -> (NavigationItem) property);
-    ContainerUtil.process(properties, processor);
+//    List<NavigationItem> properties = ContainerUtil.map(
+//        GDescUtil.findProperties(parameters.getProject(), name),
+//        property -> (NavigationItem) property);
+//    ContainerUtil.process(properties, processor);
   }
 
 }

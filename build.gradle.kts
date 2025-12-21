@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("org.jetbrains.intellij.platform") version "2.10.2"
+    id("antlr")
 }
 
 group = "org.kathrynhuxtable.gdesc"
@@ -10,7 +11,7 @@ version = "1.0-SNAPSHOT"
 sourceSets {
     main {
         java {
-            srcDirs("src/main/gen")
+            srcDirs("build/generated-src/antlr/main")
         }
     }
 }
@@ -24,6 +25,8 @@ repositories {
 
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
 dependencies {
+    antlr("org.antlr:antlr4:4.13.1")
+    implementation("org.antlr:antlr4-runtime:4.13.1")
     implementation("org.antlr:antlr4-intellij-adaptor:0.1")
     intellijPlatform {
         intellijIdea("2025.2.4")
@@ -51,5 +54,16 @@ tasks {
     withType<JavaCompile> {
         sourceCompatibility = "21"
         targetCompatibility = "21"
+    }
+    generateGrammarSource {
+        maxHeapSize = "64m"
+
+        packageName = "org.kathrynhuxtable.gdesc.gdescplugin.parser"
+        outputDirectory = file("build/generated-src/antlr/main")
+        arguments = arguments + listOf("-Xexact-output-dir")
+    }
+
+    compileJava {
+        dependsOn(generateGrammarSource)
     }
 }

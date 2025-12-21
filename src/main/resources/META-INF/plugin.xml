@@ -7,6 +7,8 @@
 		 Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
 	<name>GDescPlugin</name>
 
+	<version>1.0</version>
+
 	<!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
 	<vendor url="https://kathrynhuxtable.org">Kathryn Huxtable</vendor>
 
@@ -20,7 +22,15 @@
 		 Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
 
 	<depends>com.intellij.java</depends>
-	<resource-bundle>messages.MyMessageBundle</resource-bundle>
+
+<!--
+	<project-components>
+		<component>
+			<implementation-class>org.antlr.jetbrains.sample.SamplePluginController</implementation-class>
+		</component>
+	</project-components>
+-->
+
 	<!-- Extensions defined by the plugin.
 		 Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
 	<extensions defaultExtensionNs="com.intellij">
@@ -33,22 +43,27 @@
 		<lang.parserDefinition
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition"/>
+		<lang.ast.factory
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescASTFactory"/>
+		<externalAnnotator
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescExternalAnnotator"/>
 		<lang.syntaxHighlighterFactory
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescSyntaxHighlighterFactory"/>
 		<colorSettingsPage
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescColorSettingsPage"/>
 		<annotator
-				language="JAVA"
+				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescAnnotator"/>
-		<codeInsight.lineMarkerProvider
-				language="JAVA"
-				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescLineMarkerProvider"/>
+<!--
 		<completion.contributor
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescCompletionContributor"/>
+-->
 		<psi.referenceContributor
-				language="JAVA"
+				language="GDesc"
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescReferenceContributor"/>
 		<lang.refactoringSupport
 				language="GDesc"
@@ -61,9 +76,10 @@
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFoldingBuilder"/>
 		<gotoSymbolContributor
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescChooseByNameContributor"/>
-		<lang.psiStructureViewFactory
+<!--		<lang.psiStructureViewFactory
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescStructureViewFactory"/>
+-->
 		<navbar implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescStructureAwareNavbar"/>
 		<lang.formatter
 				language="GDesc"

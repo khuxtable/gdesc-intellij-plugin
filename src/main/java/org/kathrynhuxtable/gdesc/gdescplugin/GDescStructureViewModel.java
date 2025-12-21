@@ -9,8 +9,6 @@ import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
-
 public class GDescStructureViewModel extends StructureViewModelBase implements
     StructureViewModel.ElementInfoProvider {
 
@@ -31,12 +29,12 @@ public class GDescStructureViewModel extends StructureViewModelBase implements
 
   @Override
   public boolean isAlwaysLeaf(StructureViewTreeElement element) {
-    return element.getValue() instanceof GDescProperty;
+    return false;//element.getValue() instanceof GDescProperty;
   }
 
   @Override
   protected Class<?> @NotNull [] getSuitableClasses() {
-    return new Class[]{GDescProperty.class};
+    return null;//new Class[]{GDescProperty.class};
   }
 
 }

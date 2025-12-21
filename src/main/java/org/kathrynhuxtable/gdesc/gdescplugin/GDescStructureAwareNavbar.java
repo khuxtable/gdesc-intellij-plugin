@@ -8,8 +8,7 @@ import com.intellij.lang.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescFile;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescPSIFileRoot;
 
 final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension {
 
@@ -21,12 +20,12 @@ final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension
 
   @Override
   public @Nullable String getPresentableText(Object object) {
-    if (object instanceof GDescFile) {
-      return ((GDescFile) object).getName();
+    if (object instanceof GDescPSIFileRoot) {
+      return ((GDescPSIFileRoot) object).getName();
     }
-    if (object instanceof GDescProperty) {
-      return ((GDescProperty) object).getName();
-    }
+// `   if (object instanceof GDescProperty) {
+//`      return ((GDescProperty) object).getName();
+//    }
 
     return null;
   }
@@ -34,9 +33,9 @@ final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension
   @Override
   @Nullable
   public Icon getIcon(Object object) {
-    if (object instanceof GDescProperty) {
-      return AllIcons.Nodes.Property;
-    }
+//    if (object instanceof GDescProperty) {
+//      return AllIcons.Nodes.Property;
+//    }
 
     return null;
   }

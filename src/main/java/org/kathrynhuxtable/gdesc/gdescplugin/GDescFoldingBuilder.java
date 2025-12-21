@@ -21,7 +21,6 @@ import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
 
 final class GDescFoldingBuilder extends FoldingBuilderEx implements DumbAware {
 
@@ -30,7 +29,7 @@ final class GDescFoldingBuilder extends FoldingBuilderEx implements DumbAware {
                                                         @NotNull Document document,
                                                         boolean quick) {
     // Initialize the group of folding regions that will expand/collapse together.
-    FoldingGroup group = FoldingGroup.newGroup(GDescAnnotator.GDESC_PREFIX_STR);
+//    FoldingGroup group = FoldingGroup.newGroup(GDescAnnotator.GDESC_PREFIX_STR);
     // Initialize the list of folding regions
     List<FoldingDescriptor> descriptors = new ArrayList<>();
 
@@ -40,23 +39,23 @@ final class GDescFoldingBuilder extends FoldingBuilderEx implements DumbAware {
       public void visitLiteralExpression(@NotNull PsiLiteralExpression literalExpression) {
         super.visitLiteralExpression(literalExpression);
 
-        String value = PsiLiteralUtil.getStringLiteralContent(literalExpression);
-        if (value != null &&
-            value.startsWith(GDescAnnotator.GDESC_PREFIX_STR + GDescAnnotator.GDESC_SEPARATOR_STR)) {
-          Project project = literalExpression.getProject();
-          String key = value.substring(
-              GDescAnnotator.GDESC_PREFIX_STR.length() + GDescAnnotator.GDESC_SEPARATOR_STR.length()
-          );
-          // find GDescProperty for the given key in the project
-          GDescProperty gdescProperty = ContainerUtil.getOnlyItem(GDescUtil.findProperties(project, key));
-          if (gdescProperty != null) {
-            // Add a folding descriptor for the literal expression at this node.
-            descriptors.add(new FoldingDescriptor(literalExpression.getNode(),
-                new TextRange(literalExpression.getTextRange().getStartOffset() + 1,
-                    literalExpression.getTextRange().getEndOffset() - 1),
-                group, Collections.singleton(gdescProperty)));
-          }
-        }
+//        String value = PsiLiteralUtil.getStringLiteralContent(literalExpression);
+//        if (value != null &&
+//            value.startsWith(GDescAnnotator.GDESC_PREFIX_STR + GDescAnnotator.GDESC_SEPARATOR_STR)) {
+//          Project project = literalExpression.getProject();
+//          String key = value.substring(
+//              GDescAnnotator.GDESC_PREFIX_STR.length() + GDescAnnotator.GDESC_SEPARATOR_STR.length()
+//          );
+//          // find GDescProperty for the given key in the project
+//          GDescProperty gdescProperty = ContainerUtil.getOnlyItem(GDescUtil.findProperties(project, key));
+//          if (gdescProperty != null) {
+//            // Add a folding descriptor for the literal expression at this node.
+//            descriptors.add(new FoldingDescriptor(literalExpression.getNode(),
+//                new TextRange(literalExpression.getTextRange().getStartOffset() + 1,
+//                    literalExpression.getTextRange().getEndOffset() - 1),
+//                group, Collections.singleton(gdescProperty)));
+//          }
+//        }
       }
     });
 
@@ -79,27 +78,27 @@ final class GDescFoldingBuilder extends FoldingBuilderEx implements DumbAware {
         return null;
       }
 
-      String key = text.substring(GDescAnnotator.GDESC_PREFIX_STR.length() +
-          GDescAnnotator.GDESC_SEPARATOR_STR.length());
+//      String key = text.substring(GDescAnnotator.GDESC_PREFIX_STR.length() +
+//          GDescAnnotator.GDESC_SEPARATOR_STR.length());
+//
+//      GDescProperty gdescProperty = ContainerUtil.getOnlyItem(
+//          GDescUtil.findProperties(psiLiteralExpression.getProject(), key)
+//      );
+//      if (gdescProperty == null) {
+//        return StringUtil.THREE_DOTS;
+//      }
 
-      GDescProperty gdescProperty = ContainerUtil.getOnlyItem(
-          GDescUtil.findProperties(psiLiteralExpression.getProject(), key)
-      );
-      if (gdescProperty == null) {
-        return StringUtil.THREE_DOTS;
-      }
+//      String propertyValue = gdescProperty.getValue();
+//      // IMPORTANT: keys can come with no values, so a test for null is needed
+//      // IMPORTANT: Convert embedded \n to backslash n, so that the string will look
+//      // like it has LF embedded in it and embedded " to escaped "
+//      if (propertyValue == null) {
+//        return StringUtil.THREE_DOTS;
+//      }
 
-      String propertyValue = gdescProperty.getValue();
-      // IMPORTANT: keys can come with no values, so a test for null is needed
-      // IMPORTANT: Convert embedded \n to backslash n, so that the string will look
-      // like it has LF embedded in it and embedded " to escaped "
-      if (propertyValue == null) {
-        return StringUtil.THREE_DOTS;
-      }
-
-      return propertyValue
-          .replaceAll("\n", "\\n")
-          .replaceAll("\"", "\\\\\"");
+//      return propertyValue
+//          .replaceAll("\n", "\\n")
+//          .replaceAll("\"", "\\\\\"");
     }
 
     return null;

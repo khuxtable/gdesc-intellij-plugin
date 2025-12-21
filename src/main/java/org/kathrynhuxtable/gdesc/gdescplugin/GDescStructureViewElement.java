@@ -12,9 +12,7 @@ import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescFile;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.impl.GDescPropertyImpl;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescPSIFileRoot;
 
 public class GDescStructureViewElement implements StructureViewTreeElement, SortableTreeElement {
 
@@ -60,14 +58,14 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 
   @Override
   public TreeElement @NotNull [] getChildren() {
-    if (myElement instanceof GDescFile) {
-      List<GDescProperty> properties = PsiTreeUtil.getChildrenOfTypeAsList(myElement, GDescProperty.class);
-      List<TreeElement> treeElements = new ArrayList<>(properties.size());
-      for (GDescProperty property : properties) {
-        treeElements.add(new GDescStructureViewElement((GDescPropertyImpl) property));
-      }
-      return treeElements.toArray(new TreeElement[0]);
-    }
+//    if (myElement instanceof GDescPSIFileRoot) {
+//      List<GDescProperty> properties = PsiTreeUtil.getChildrenOfTypeAsList(myElement, GDescProperty.class);
+//      List<TreeElement> treeElements = new ArrayList<>(properties.size());
+//      for (GDescProperty property : properties) {
+//        treeElements.add(new GDescStructureViewElement((GDescPropertyImpl) property));
+//      }
+//      return treeElements.toArray(new TreeElement[0]);
+//    }
     return EMPTY_ARRAY;
   }
 

@@ -9,8 +9,6 @@ import com.intellij.psi.presentation.java.SymbolPresentationUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
-
 final class GDescDocumentationProvider extends AbstractDocumentationProvider {
 
 	/**
@@ -28,14 +26,14 @@ final class GDescDocumentationProvider extends AbstractDocumentationProvider {
 	 */
 	@Override
 	public @Nullable String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
-		if (element instanceof GDescProperty) {
-			final String key = ((GDescProperty) element).getKey();
-			final String value = ((GDescProperty) element).getValue();
-			final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
-			final String docComment = GDescUtil.findDocumentationComment((GDescProperty) element);
-
-			return renderFullDoc(key, value, file, docComment);
-		}
+//		if (element instanceof GDescProperty) {
+//			final String key = ((GDescProperty) element).getKey();
+//			final String value = ((GDescProperty) element).getValue();
+//			final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
+//			final String docComment = GDescUtil.findDocumentationComment((GDescProperty) element);
+//
+//			return renderFullDoc(key, value, file, docComment);
+//		}
 		return null;
 	}
 
@@ -44,11 +42,11 @@ final class GDescDocumentationProvider extends AbstractDocumentationProvider {
 	 */
 	@Override
 	public @Nullable String getQuickNavigateInfo(PsiElement element, PsiElement originalElement) {
-		if (element instanceof GDescProperty) {
-			final String key = ((GDescProperty) element).getKey();
-			final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
-			return "\"" + key + "\" in " + file;
-		}
+//		if (element instanceof GDescProperty) {
+//			final String key = ((GDescProperty) element).getKey();
+//			final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
+//			return "\"" + key + "\" in " + file;
+//		}
 		return null;
 	}
 

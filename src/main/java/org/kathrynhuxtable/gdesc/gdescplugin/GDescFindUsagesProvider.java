@@ -2,65 +2,77 @@
 
 package org.kathrynhuxtable.gdesc.gdescplugin;
 
-import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.tree.TokenSet;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescTokenSets;
+import org.antlr.intellij.adaptor.lexer.RuleIElementType;
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-final class GDescFindUsagesProvider implements FindUsagesProvider {
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.FunctionSubtree;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.IdentifierPSINode;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.VardefSubtree;
 
-  @Override
-  public WordsScanner getWordsScanner() {
-    return new DefaultWordsScanner(new GDescLexerAdapter(),
-        GDescTokenSets.IDENTIFIERS,
-        GDescTokenSets.COMMENTS,
-        TokenSet.EMPTY);
-  }
+import static org.kathrynhuxtable.gdesc.gdescplugin.parser.GameParser.*;
 
-  @Override
-  public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-    return psiElement instanceof PsiNamedElement;
-  }
+public class GDescFindUsagesProvider implements FindUsagesProvider {
+	/**
+	 * Is "find usages" meaningful for a kind of definition subtree?
+	 */
+	@Override
+	public boolean canFindUsagesFor(PsiElement psiElement) {
+		return psiElement instanceof IdentifierPSINode || // the case where we highlight the ID in def subtree itself
+				psiElement instanceof FunctionSubtree ||   // remaining cases are for resolve() results
+				psiElement instanceof VardefSubtree;
+	}
 
-  @Nullable
-  @Override
-  public String getHelpId(@NotNull PsiElement psiElement) {
-    return null;
-  }
+	@Nullable
+	@Override
+	public WordsScanner getWordsScanner() {
+		return null; // null implies use SimpleWordScanner default
+	}
 
-  @NotNull
-  @Override
-  public String getType(@NotNull PsiElement element) {
-    if (element instanceof GDescProperty) {
-      return "GDesc property";
-    }
-    return "";
-  }
+	@Nullable
+	@Override
+	public String getHelpId(PsiElement psiElement) {
+		return null;
+	}
 
-  @NotNull
-  @Override
-  public String getDescriptiveName(@NotNull PsiElement element) {
-    if (element instanceof GDescProperty) {
-      return ((GDescProperty) element).getKey();
-    }
-    return "";
-  }
+	/**
+	 * What kind of thing is the ID node? Can group by in "Find Usages" dialog
+	 */
+	@NotNull
+	@Override
+	public String getType(PsiElement element) {
+		// The parent of an ID node will be a RuleIElementType:
+		// function, vardef, formal_arg, statement, expr, call_expr, primary
+		ANTLRPsiNode parent = (ANTLRPsiNode) element.getParent();
+		RuleIElementType elType = (RuleIElementType) parent.getNode().getElementType();
+		switch (elType.getRuleIndex()) {
+		case RULE_functionInvocation:
+			return "function";
+		case RULE_variableDeclarator:
+		case RULE_directive:
+			return "variable";
+		case RULE_statement:
+		case RULE_expression:
+		case RULE_primary:
+			return "variable";
+		}
+		return "";
+	}
 
-  @NotNull
-  @Override
-  public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
-    if (element instanceof GDescProperty) {
-      return ((GDescProperty) element).getKey() +
-          GDescAnnotator.GDESC_SEPARATOR_STR +
-          ((GDescProperty) element).getValue();
-    }
-    return "";
-  }
+	@NotNull
+	@Override
+	public String getDescriptiveName(PsiElement element) {
+		return element.getText();
+	}
 
+	@NotNull
+	@Override
+	public String getNodeText(PsiElement element, boolean useFullName) {
+		String text = element.getText();
+		return text;
+	}
 }

@@ -10,11 +10,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
-import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
@@ -22,9 +20,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescElementFactory;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescFile;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescProperty;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescPSIFileRoot;
 
 class GDescCreatePropertyQuickFix extends BaseIntentionAction {
 
@@ -73,20 +69,20 @@ class GDescCreatePropertyQuickFix extends BaseIntentionAction {
 
 	private void createProperty(final Project project, final VirtualFile file) {
 		WriteCommandAction.writeCommandAction(project).run(() -> {
-			GDescFile simpleFile = (GDescFile) PsiManager.getInstance(project).findFile(file);
+			GDescPSIFileRoot simpleFile = (GDescPSIFileRoot) PsiManager.getInstance(project).findFile(file);
 			assert simpleFile != null;
 			ASTNode lastChildNode = simpleFile.getNode().getLastChildNode();
 			// TODO: Add another check for CRLF
-			if (lastChildNode != null/* && !lastChildNode.getElementType().equals(SimpleTypes.CRLF)*/) {
-				simpleFile.getNode().addChild(GDescElementFactory.createCRLF(project).getNode());
-			}
+//			if (lastChildNode != null/* && !lastChildNode.getElementType().equals(SimpleTypes.CRLF)*/) {
+//				simpleFile.getNode().addChild(GDescElementFactory.createCRLF(project).getNode());
+//			}
 			// IMPORTANT: change spaces to escaped spaces or the new node will only have the first word for the key
-			GDescProperty property = GDescElementFactory.createProperty(project, key.replaceAll(" ", "\\\\ "), "");
-			simpleFile.getNode().addChild(property.getNode());
-			((Navigatable) property.getLastChild().getNavigationElement()).navigate(true);
-			Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
-			assert editor != null;
-			editor.getCaretModel().moveCaretRelatively(2, 0, false, false, false);
+//			GDescProperty property = GDescElementFactory.createProperty(project, key.replaceAll(" ", "\\\\ "), "");
+//			simpleFile.getNode().addChild(property.getNode());
+//			((Navigatable) property.getLastChild().getNavigationElement()).navigate(true);
+//			Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+//			assert editor != null;
+//			editor.getCaretModel().moveCaretRelatively(2, 0, false, false, false);
 		});
 	}
 

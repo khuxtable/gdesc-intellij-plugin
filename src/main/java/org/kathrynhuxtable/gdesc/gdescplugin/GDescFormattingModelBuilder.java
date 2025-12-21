@@ -4,16 +4,15 @@ import com.intellij.formatting.*;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescTypes;
-
 final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 
   private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
-    return new SpacingBuilder(settings, GDesc.INSTANCE)
-        .around(GDescTypes.SEPARATOR)
-        .spaceIf(settings.getCommonSettings(GDesc.INSTANCE.getID()).SPACE_AROUND_ASSIGNMENT_OPERATORS)
-        .before(GDescTypes.PROPERTY)
-        .none();
+    return null;
+//    new SpacingBuilder(settings, GDesc.INSTANCE)
+//        .around(GDescTypes.SEPARATOR)
+//        .spaceIf(settings.getCommonSettings(GDesc.INSTANCE.getID()).SPACE_AROUND_ASSIGNMENT_OPERATORS)
+//        .before(GDescTypes.PROPERTY)
+//        .none();
   }
 
   @Override
