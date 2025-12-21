@@ -1,1 +1,1 @@
-rootProject.name = "gdesc-plugin"
+rootProject.name = "gdesc-intellij-plugin"

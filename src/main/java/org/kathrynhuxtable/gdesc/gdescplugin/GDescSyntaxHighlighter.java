@@ -10,8 +10,8 @@ import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
 import org.antlr.intellij.adaptor.lexer.TokenIElementType;
 import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.parser.GameLexer;
-import org.kathrynhuxtable.gdesc.gdescplugin.parser.GameParser;
+import org.kathrynhuxtable.gdesc.parser.GameLexer;
+import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
@@ -48,16 +48,48 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		return new ANTLRLexerAdaptor(GDesc.INSTANCE, lexer);
 	}
 
-	@NotNull
 	@Override
-	public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-		if (!(tokenType instanceof TokenIElementType)) return EMPTY_KEYS;
-		TokenIElementType myType = (TokenIElementType) tokenType;
+	public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
+		if (!(tokenType instanceof TokenIElementType myType)) return EMPTY_KEYS;
 		int ttype = myType.getANTLRTokenType();
 		TextAttributesKey attrKey;
 		switch (ttype) {
 		case GameLexer.IDENTIFIER:
 			attrKey = ID;
+			break;
+		case GameLexer.ANYOF:
+		case GameLexer.APPEND:
+		case GameLexer.APPORT:
+		case GameLexer.ATPLACE:
+		case GameLexer.CHANCE:
+		case GameLexer.CLEARFLAG:
+		case GameLexer.DESCRIBE:
+		case GameLexer.DROP:
+		case GameLexer.FLUSH:
+		case GameLexer.GET:
+		case GameLexer.GOTO:
+		case GameLexer.INPUT:
+		case GameLexer.INRANGE:
+		case GameLexer.ISAT:
+		case GameLexer.ISFLAG:
+		case GameLexer.ISHAVE:
+		case GameLexer.ISHERE:
+		case GameLexer.ISNEAR:
+		case GameLexer.KEY:
+		case GameLexer.MOVE:
+		case GameLexer.NEEDCMD:
+		case GameLexer.QUERY:
+		case GameLexer.QUIP:
+		case GameLexer.RESPOND:
+		case GameLexer.SAY:
+		case GameLexer.SETFLAG:
+		case GameLexer.SMOVE:
+		case GameLexer.STOP:
+		case GameLexer.TIE:
+		case GameLexer.TYPED:
+		case GameLexer.VARIS:
+		case GameLexer.VOCAB:
+			attrKey = INTERNAL_FUNCTION;
 			break;
 		case GameLexer.INCLUDE:
 		case GameLexer.INCLUDEOPT:

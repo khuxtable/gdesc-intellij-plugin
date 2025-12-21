@@ -3,8 +3,6 @@ package org.kathrynhuxtable.gdesc.gdescplugin;
 import java.util.Map;
 import javax.swing.*;
 
-import com.intellij.ide.G.w.GD;
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
@@ -12,8 +10,6 @@ import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 final class GDescColorSettingsPage implements ColorSettingsPage {
 

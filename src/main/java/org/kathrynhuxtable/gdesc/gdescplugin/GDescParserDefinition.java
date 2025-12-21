@@ -24,8 +24,8 @@ import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.parser.GameLexer;
-import org.kathrynhuxtable.gdesc.gdescplugin.parser.GameParser;
+import org.kathrynhuxtable.gdesc.parser.GameLexer;
+import org.kathrynhuxtable.gdesc.parser.GameParser;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.BlockSubtree;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.CallSubtree;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescPSIFileRoot;

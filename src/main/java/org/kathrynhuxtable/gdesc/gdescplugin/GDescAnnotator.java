@@ -52,18 +52,18 @@ final class GDescAnnotator implements Annotator {
 
 	@Override
 	public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
-		if (!(element instanceof IdentifierPSINode callSubtree)) {
-			return;
-		}
-
-		String name = callSubtree.getName();
-		if (!internalFunctions.contains(name)) {
-			return;
-		}
-
-		// Found at least one property, force the text attributes to GDesc syntax value character
-		holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-				.range(element.getTextRange()).textAttributes(GDescSyntaxHighlighter.INTERNAL_FUNCTION).create();
+//		if (!(element instanceof IdentifierPSINode callSubtree)) {
+//			return;
+//		}
+//
+//		String name = callSubtree.getName();
+//		if (!internalFunctions.contains(name)) {
+//			return;
+//		}
+//
+//		// Found at least one property, force the text attributes to GDesc syntax value character
+//		holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+//				.range(element.getTextRange()).textAttributes(GDescSyntaxHighlighter.INTERNAL_FUNCTION).create();
 	}
 
 }

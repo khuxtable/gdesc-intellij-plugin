@@ -54,9 +54,11 @@
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescSyntaxHighlighterFactory"/>
 		<colorSettingsPage
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescColorSettingsPage"/>
+<!--
 		<annotator
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescAnnotator"/>
+-->
 <!--
 		<completion.contributor
 				language="GDesc"

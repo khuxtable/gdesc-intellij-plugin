@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDesc;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition;
 
-import static org.kathrynhuxtable.gdesc.gdescplugin.parser.GameParser.*;
+import static org.kathrynhuxtable.gdesc.parser.GameParser.*;
 
 
 /**

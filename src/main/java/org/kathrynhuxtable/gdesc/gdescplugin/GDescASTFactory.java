@@ -8,11 +8,9 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.impl.source.tree.PsiCommentImpl;
 import com.intellij.psi.tree.IElementType;
 import org.antlr.intellij.adaptor.lexer.TokenIElementType;
-import org.kathrynhuxtable.gdesc.gdescplugin.parser.GameLexer;
+import org.kathrynhuxtable.gdesc.parser.GameLexer;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.IdentifierPSINode;
 import org.jetbrains.annotations.NotNull;
-
-import org.kathrynhuxtable.gdesc.gdescplugin.parser.GameLexer;
 
 /** How to create parse tree nodes (Jetbrains calls them AST nodes). Later
  *  non-leaf nodes are converted to PSI nodes by the {@link ParserDefinition}.
@@ -28,7 +26,7 @@ public class GDescASTFactory extends DefaultASTFactoryImpl {
 	 */
 	@NotNull
     @Override
-    public CompositeElement createComposite(IElementType type) {
+    public CompositeElement createComposite(@NotNull IElementType type) {
 	    return super.createComposite(type);
     }
 
@@ -38,7 +36,7 @@ public class GDescASTFactory extends DefaultASTFactoryImpl {
 	 */
 	@NotNull
 	@Override
-	public LeafElement createLeaf(@NotNull IElementType type, CharSequence text) {
+	public LeafElement createLeaf(@NotNull IElementType type, @NotNull CharSequence text) {
 		if ( type instanceof TokenIElementType &&
 			 ((TokenIElementType) type).getANTLRTokenType()== GameLexer.IDENTIFIER)
 		{
@@ -51,7 +49,6 @@ public class GDescASTFactory extends DefaultASTFactoryImpl {
 			// TODO: try not to create one for IDs under def subtree roots like vardef, function
 			return new IdentifierPSINode(type, text);
 		}
-		LeafElement leaf = super.createLeaf(type, text);
-		return leaf;
+		return super.createLeaf(type, text);
     }
 }

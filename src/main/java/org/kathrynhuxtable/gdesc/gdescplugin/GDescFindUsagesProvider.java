@@ -14,14 +14,14 @@ import org.kathrynhuxtable.gdesc.gdescplugin.psi.FunctionSubtree;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.IdentifierPSINode;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.VardefSubtree;
 
-import static org.kathrynhuxtable.gdesc.gdescplugin.parser.GameParser.*;
+import static org.kathrynhuxtable.gdesc.parser.GameParser.*;
 
 public class GDescFindUsagesProvider implements FindUsagesProvider {
 	/**
 	 * Is "find usages" meaningful for a kind of definition subtree?
 	 */
 	@Override
-	public boolean canFindUsagesFor(PsiElement psiElement) {
+	public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
 		return psiElement instanceof IdentifierPSINode || // the case where we highlight the ID in def subtree itself
 				psiElement instanceof FunctionSubtree ||   // remaining cases are for resolve() results
 				psiElement instanceof VardefSubtree;
@@ -35,7 +35,7 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 
 	@Nullable
 	@Override
-	public String getHelpId(PsiElement psiElement) {
+	public String getHelpId(@NotNull PsiElement psiElement) {
 		return null;
 	}
 
@@ -49,18 +49,12 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 		// function, vardef, formal_arg, statement, expr, call_expr, primary
 		ANTLRPsiNode parent = (ANTLRPsiNode) element.getParent();
 		RuleIElementType elType = (RuleIElementType) parent.getNode().getElementType();
-		switch (elType.getRuleIndex()) {
-		case RULE_functionInvocation:
-			return "function";
-		case RULE_variableDeclarator:
-		case RULE_directive:
-			return "variable";
-		case RULE_statement:
-		case RULE_expression:
-		case RULE_primary:
-			return "variable";
-		}
-		return "";
+		return switch (elType.getRuleIndex()) {
+			case RULE_functionInvocation -> "function";
+			case RULE_variableDeclarator, RULE_directive -> "variable";
+			case RULE_statement, RULE_expression, RULE_primary -> "variable";
+			default -> "";
+		};
 	}
 
 	@NotNull
@@ -72,7 +66,6 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 	@NotNull
 	@Override
 	public String getNodeText(PsiElement element, boolean useFullName) {
-		String text = element.getText();
-		return text;
+		return element.getText();
 	}
 }
