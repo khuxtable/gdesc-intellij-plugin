@@ -11,7 +11,7 @@ import org.antlr.intellij.adaptor.psi.Trees;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.GDesc;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition;
 
 import static org.kathrynhuxtable.gdesc.parser.GameParser.*;
@@ -73,9 +73,9 @@ public class IdentifierPSINode extends ANTLRPsiLeafNode implements PsiNamedEleme
 			                   kind+this+" at "+Integer.toHexString(this.hashCode()));
 		*/
 		PsiElement newID = Trees.createLeafFromText(getProject(),
-				GDesc.INSTANCE,
+				GDescLanguage.INSTANCE,
 				getContext(),
-				name,
+				name.toLowerCase(),
 				GDescParserDefinition.ID);
 		if (newID != null) {
 			return this.replace(newID); // use replace on leaves but replaceChild on ID nodes that are part of defs/decls.
@@ -104,9 +104,7 @@ public class IdentifierPSINode extends ANTLRPsiLeafNode implements PsiNamedEleme
 		// do not return a reference for the ID nodes in a definition
 		if (elType instanceof RuleIElementType) {
 			switch (((RuleIElementType) elType).getRuleIndex()) {
-			case RULE_statement:
-			case RULE_expression:
-			case RULE_primary:
+			case RULE_identifierReference:
 				return new VariableRef(this);
 			case RULE_functionInvocation:
 				return new FunctionRef(this);

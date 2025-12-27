@@ -47,9 +47,9 @@ public class GDescExternalAnnotator extends ExternalAnnotator<PsiFile, List<GDes
 	@Override
 	public List<Issue> doAnnotate(final PsiFile file) {
 		Collection<? extends PsiElement> funcNameNodes =
-			XPath.findAll(GDesc.INSTANCE, file, "/game/directive/identifier");
+			XPath.findAll(GDescLanguage.INSTANCE, file, "/game/directive/*/IDENTIFIER[1]");
 		Collection<? extends PsiElement> funcCallNameNodes =
-			XPath.findAll(GDesc.INSTANCE, file, "//functionInvocation/identifier");
+			XPath.findAll(GDescLanguage.INSTANCE, file, "//functionInvocation/IDENTIFIER[1]");
 
 		Map<String, PsiElement> funcNames = Trees.toMap(funcNameNodes);
 		Map<String, PsiElement> funcCalls = Trees.toMap(funcCallNameNodes);

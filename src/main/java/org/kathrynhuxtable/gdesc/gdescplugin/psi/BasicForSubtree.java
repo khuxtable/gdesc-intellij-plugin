@@ -11,12 +11,12 @@ import org.jetbrains.annotations.Nullable;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescSymtabUtils;
 
-public class BlockSubtree extends ANTLRPsiNode implements ScopeNode {
+public class BasicForSubtree extends ANTLRPsiNode implements ScopeNode {
 
 	public static final String XPATH =
-			"/block/statement/statementWithoutTrailingSubstatement/localVariableDeclarationStatement/localVariableDeclaration/variableDeclarator/IDENTIFIER";
+			"/*/forInit/localVariableDeclaration/variableDeclarator/IDENTIFIER";
 
-	public BlockSubtree(@NotNull ASTNode node) {
+	public BasicForSubtree(@NotNull ASTNode node) {
 		super(node);
 	}
 

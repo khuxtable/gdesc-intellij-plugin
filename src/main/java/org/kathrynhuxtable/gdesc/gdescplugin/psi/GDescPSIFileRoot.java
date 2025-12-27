@@ -7,19 +7,19 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import org.antlr.intellij.adaptor.SymtabUtils;
 import org.antlr.intellij.adaptor.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.GDesc;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescFileType;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescIcons;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescSymtabUtils;
 
 public class GDescPSIFileRoot extends PsiFileBase implements ScopeNode {
 
 	public GDescPSIFileRoot(@NotNull FileViewProvider viewProvider) {
-		super(viewProvider, GDesc.INSTANCE);
+		super(viewProvider, GDescLanguage.INSTANCE);
 	}
 
 	@NotNull
@@ -50,14 +50,15 @@ public class GDescPSIFileRoot extends PsiFileBase implements ScopeNode {
 	@Nullable
 	@Override
 	public PsiElement resolve(PsiNamedElement element) {
-//		System.out.println(getClass().getSimpleName()+
-//		                   ".resolve("+element.getName()+
-//		                   " at "+Integer.toHexString(element.hashCode())+")");
-		if (element.getParent() instanceof CallSubtree) {
-			return SymtabUtils.resolve(this, GDesc.INSTANCE,
-					element, "/script/function/ID");
-		}
-		return SymtabUtils.resolve(this, GDesc.INSTANCE,
-				element, "/script/vardef/ID");
+		System.out.println(getClass().getSimpleName()+
+		                   ".resolve("+element.getName()+
+		                   " at "+Integer.toHexString(element.hashCode())+")");
+		return GDescSymtabUtils.resolve(
+				this,
+				GDescLanguage.INSTANCE,
+				element,
+				"/game/directive/*/IDENTIFIER",
+				"/game/directive/flagDirective/flagClause/IDENTIFIER",
+				"/game/directive/stateDirective/stateClause/IDENTIFIER");
 	}
 }

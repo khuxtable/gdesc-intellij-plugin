@@ -1,38 +1,21 @@
 <!-- Plugin Configuration File: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-	<!-- Unique identifier of the plugin. It should be FQN, cannot be changed between the plugin versions. -->
 	<id>org.kathrynhuxtable.gdesc.gdesc-plugin</id>
 
-	<!-- Public plugin name should be written in Title Case.
-		 Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
 	<name>GDescPlugin</name>
 
 	<version>1.0</version>
 
-	<!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
 	<vendor url="https://kathrynhuxtable.org">Kathryn Huxtable</vendor>
 
-	<!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-		 Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
 	<description><![CDATA[
         Style for editing GDesc files for game descriptions.
     ]]></description>
 
 	<!-- Product and plugin compatibility requirements.
 		 Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
-
 	<depends>com.intellij.java</depends>
 
-<!--
-	<project-components>
-		<component>
-			<implementation-class>org.antlr.jetbrains.sample.SamplePluginController</implementation-class>
-		</component>
-	</project-components>
--->
-
-	<!-- Extensions defined by the plugin.
-		 Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
 	<extensions defaultExtensionNs="com.intellij">
 		<fileType
 				name="GDesc File"
@@ -46,9 +29,11 @@
 		<lang.ast.factory
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescASTFactory"/>
+<!--
 		<externalAnnotator
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescExternalAnnotator"/>
+-->
 		<lang.syntaxHighlighterFactory
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescSyntaxHighlighterFactory"/>
@@ -56,7 +41,7 @@
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescColorSettingsPage"/>
 <!--
 		<annotator
-				language="GDesc"
+				language="JAVA"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescAnnotator"/>
 -->
 <!--
@@ -64,25 +49,33 @@
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescCompletionContributor"/>
 -->
+<!--
 		<psi.referenceContributor
 				language="GDesc"
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescReferenceContributor"/>
+-->
+<!--
 		<lang.refactoringSupport
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescRefactoringSupportProvider"/>
+-->
 		<lang.findUsagesProvider
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFindUsagesProvider"/>
+<!--
 		<lang.foldingBuilder
 				language="JAVA"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFoldingBuilder"/>
+-->
+<!--
 		<gotoSymbolContributor
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescChooseByNameContributor"/>
-<!--		<lang.psiStructureViewFactory
-				language="GDesc"
-				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescStructureViewFactory"/>
 -->
+		<lang.psiStructureViewFactory
+				language="GDesc"
+				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.structview.GDescStructureViewFactory"/>
 		<navbar implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescStructureAwareNavbar"/>
+<!--
 		<lang.formatter
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFormattingModelBuilder"/>
@@ -90,15 +83,19 @@
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescCodeStyleSettingsProvider"/>
 		<langCodeStyleSettingsProvider
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguageCodeStyleSettingsProvider"/>
+-->
 		<lang.commenter
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescCommenter"/>
-		<!-- Other extensions… -->
+<!--
 		<lang.documentationProvider
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescDocumentationProvider"/>
+-->
+<!--
 		<spellchecker.support
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescSpellcheckingStrategy"/>
+-->
 	</extensions>
 </idea-plugin>

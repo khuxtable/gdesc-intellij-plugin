@@ -7,18 +7,18 @@ final class GDescCommenter implements Commenter {
 
   @Override
   public String getLineCommentPrefix() {
-    return "#";
+    return "//";
   }
 
   @Override
   public String getBlockCommentPrefix() {
-    return "";
+    return "/*";
   }
 
   @Nullable
   @Override
   public String getBlockCommentSuffix() {
-    return null;
+    return "*/";
   }
 
   @Nullable

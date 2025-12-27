@@ -10,7 +10,7 @@ public final class GDescFileType extends LanguageFileType {
   public static final GDescFileType INSTANCE = new GDescFileType();
 
   private GDescFileType() {
-    super(GDesc.INSTANCE);
+    super(GDescLanguage.INSTANCE);
   }
 
   @NotNull
