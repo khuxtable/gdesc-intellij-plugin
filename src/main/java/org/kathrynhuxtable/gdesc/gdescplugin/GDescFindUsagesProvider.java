@@ -10,9 +10,12 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.FunctionSubtree;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.GlobalDefSubtree;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.GlobalDefSubtree.DefinitionType;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.ProcSubtree;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.IdentifierPSINode;
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.VardefSubtree;
+import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 import static org.kathrynhuxtable.gdesc.parser.GameParser.*;
 
@@ -23,7 +26,8 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 	@Override
 	public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
 		return psiElement instanceof IdentifierPSINode || // the case where we highlight the ID in def subtree itself
-				psiElement instanceof FunctionSubtree ||   // remaining cases are for resolve() results
+//				psiElement instanceof GlobalDefSubtree ||
+				psiElement instanceof ProcSubtree ||   // remaining cases are for resolve() results
 				psiElement instanceof VardefSubtree;
 	}
 
@@ -51,7 +55,16 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 		RuleIElementType elType = (RuleIElementType) parent.getNode().getElementType();
 		return switch (elType.getRuleIndex()) {
 			case RULE_functionInvocation -> "function";
-			case RULE_variableDeclarator, RULE_directive -> "variable";
+			case RULE_stateClause -> "state";
+			case RULE_flagClause -> "flag";
+			case RULE_verbDirective -> "verb";
+			case RULE_variableDirective -> "global variable";
+			case RULE_arrayDirective -> "global array";
+			case RULE_textDirective -> "text";
+			case RULE_fragmentDirective -> "fragment";
+			case RULE_placeDirective -> "place";
+			case RULE_objectDirective -> "object";
+			case RULE_variableDeclarator -> "variable";
 			case RULE_statement, RULE_expression, RULE_primary -> "variable";
 			default -> "";
 		};

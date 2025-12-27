@@ -29,12 +29,13 @@ public abstract class GDescElementRef extends PsiReferenceBase<IdentifierPSINode
 		return new Object[0];
 	}
 
-	/** Change the REFERENCE's ID node (not the targeted def's ID node)
-	 *  to reflect a rename.
-	 *
-	 *  Without this method, we get an error ("Cannot find manipulator...").
-	 *
-	 *  getElement() refers to the identifier node that references the definition.
+	/**
+	 * Change the REFERENCE's ID node (not the targeted def's ID node)
+	 * to reflect a rename.
+	 * <p>
+	 * Without this method, we get an error ("Cannot find manipulator...").
+	 * <p>
+	 * getElement() refers to the identifier node that references the definition.
 	 */
 	@Override
 	public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
@@ -44,18 +45,19 @@ public abstract class GDescElementRef extends PsiReferenceBase<IdentifierPSINode
 		return myElement.setName(newElementName);
 	}
 
-	/** Resolve a reference to the definition subtree (subclass of
-	 *  IdentifierDefSubtree), do not resolve to the ID child of that
-	 *  definition subtree root.
+	/**
+	 * Resolve a reference to the definition subtree (subclass of
+	 * IdentifierDefSubtree), do not resolve to the ID child of that
+	 * definition subtree root.
 	 */
 	@Nullable
 	@Override
 	public PsiElement resolve() {
-//		System.out.println(getClass().getSimpleName()+
-//		                   ".resolve("+myElement.getName()+
-//		                   " at "+Integer.toHexString(myElement.hashCode())+")");
-		ScopeNode scope = (ScopeNode)myElement.getContext();
-		if ( scope==null ) return null;
+		System.out.println(getClass().getSimpleName() +
+				".resolve(" + myElement.getName() +
+				" at " + Integer.toHexString(myElement.hashCode()) + ")");
+		ScopeNode scope = (ScopeNode) myElement.getContext();
+		if (scope == null) return null;
 
 		return scope.resolve(myElement);
 	}
@@ -65,19 +67,20 @@ public abstract class GDescElementRef extends PsiReferenceBase<IdentifierPSINode
 		String refName = myElement.getName();
 //		System.out.println(getClass().getSimpleName()+".isReferenceTo("+refName+"->"+def.getText()+")");
 		// sometimes def comes in pointing to ID node itself. depends on what you click on
-		if ( def instanceof IdentifierPSINode && isDefSubtree(def.getParent()) ) {
+		if (def instanceof IdentifierPSINode && isDefSubtree(def.getParent())) {
 			def = def.getParent();
 		}
-		if ( isDefSubtree(def) ) {
-			PsiElement id = ((PsiNameIdentifierOwner)def).getNameIdentifier();
-			String defName = id!=null ? id.getText() : null;
-			return refName!=null && defName!=null && refName.equals(defName);
+		if (isDefSubtree(def)) {
+			PsiElement id = ((PsiNameIdentifierOwner) def).getNameIdentifier();
+			String defName = id != null ? id.getText() : null;
+			return refName != null && defName != null && refName.equals(defName);
 		}
 		return false;
 	}
 
-	/** Is the targeted def a subtree associated with this ref's kind of node?
-	 *  E.g., for a variable def, this should return true for VardefSubtree.
+	/**
+	 * Is the targeted def a subtree associated with this ref's kind of node?
+	 * E.g., for a variable def, this should return true for VardefSubtree.
 	 */
 	public abstract boolean isDefSubtree(PsiElement def);
 }

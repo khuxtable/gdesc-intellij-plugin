@@ -2,6 +2,7 @@ package org.kathrynhuxtable.gdesc.gdescplugin;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
+import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
@@ -34,9 +35,11 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 			createTextAttributesKey("GDESC_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BLOCK_COMMENT =
 			createTextAttributesKey("GDESC_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+	public static final TextAttributesKey BAD_CHARACTER =
+			createTextAttributesKey("GDESC_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
 	static {
-		PSIElementTypeFactory.defineLanguageIElementTypes(GDesc.INSTANCE,
+		PSIElementTypeFactory.defineLanguageIElementTypes(GDescLanguage.INSTANCE,
 				GameParser.tokenNames,
 				GameParser.ruleNames);
 	}
@@ -45,7 +48,7 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 	@Override
 	public Lexer getHighlightingLexer() {
 		GameLexer lexer = new GameLexer(null);
-		return new ANTLRLexerAdaptor(GDesc.INSTANCE, lexer);
+		return new ANTLRLexerAdaptor(GDescLanguage.INSTANCE, lexer);
 	}
 
 	@Override
@@ -63,10 +66,10 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.ATPLACE:
 		case GameLexer.CHANCE:
 		case GameLexer.CLEARFLAG:
-		case GameLexer.DESCRIBE:
-		case GameLexer.DROP:
-		case GameLexer.FLUSH:
-		case GameLexer.GET:
+		case GameLexer.DESCRIBE_:
+		case GameLexer.IDROP:
+		case GameLexer.FLUSHINPUT:
+		case GameLexer.IGET:
 		case GameLexer.GOTO:
 		case GameLexer.INPUT:
 		case GameLexer.INRANGE:
@@ -76,23 +79,22 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.ISHERE:
 		case GameLexer.ISNEAR:
 		case GameLexer.KEY:
-		case GameLexer.MOVE:
+		case GameLexer.MOVE_:
 		case GameLexer.NEEDCMD:
-		case GameLexer.QUERY:
+		case GameLexer.GETQUERY:
 		case GameLexer.QUIP:
 		case GameLexer.RESPOND:
-		case GameLexer.SAY:
+		case GameLexer.SAY_:
 		case GameLexer.SETFLAG:
 		case GameLexer.SMOVE:
 		case GameLexer.STOP:
 		case GameLexer.TIE:
-		case GameLexer.TYPED:
+		case GameLexer.USERTYPED:
 		case GameLexer.VARIS:
 		case GameLexer.VOCAB:
 			attrKey = INTERNAL_FUNCTION;
 			break;
 		case GameLexer.INCLUDE:
-		case GameLexer.INCLUDEOPT:
 		case GameLexer.NAME:
 		case GameLexer.VERSION:
 		case GameLexer.DATE:
@@ -149,6 +151,9 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 			break;
 		case GameLexer.LINE_COMMENT:
 			attrKey = BLOCK_COMMENT;
+			break;
+		case GameLexer.ERRCHAR:
+			attrKey = BAD_CHARACTER;
 			break;
 		default:
 			return EMPTY_KEYS;

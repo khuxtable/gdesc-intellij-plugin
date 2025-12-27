@@ -24,57 +24,93 @@ import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.*;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.GlobalDefSubtree.DefinitionType;
 import org.kathrynhuxtable.gdesc.parser.GameLexer;
 import org.kathrynhuxtable.gdesc.parser.GameParser;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.BlockSubtree;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.CallSubtree;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescPSIFileRoot;
 
 public class GDescParserDefinition implements ParserDefinition {
 	public static final IFileElementType FILE =
-			new IFileElementType(GDesc.INSTANCE);
+			new IFileElementType(GDescLanguage.INSTANCE);
 
 	public static TokenIElementType ID;
 
 	static {
-		PSIElementTypeFactory.defineLanguageIElementTypes(GDesc.INSTANCE,
+		PSIElementTypeFactory.defineLanguageIElementTypes(GDescLanguage.INSTANCE,
 				GameParser.tokenNames,
 				GameParser.ruleNames);
 		List<TokenIElementType> tokenIElementTypes =
-				PSIElementTypeFactory.getTokenIElementTypes(GDesc.INSTANCE);
+				PSIElementTypeFactory.getTokenIElementTypes(GDescLanguage.INSTANCE);
 		ID = tokenIElementTypes.get(GameLexer.IDENTIFIER);
 	}
 
 	public static final TokenSet COMMENTS =
 			PSIElementTypeFactory.createTokenSet(
-					GDesc.INSTANCE,
+					GDescLanguage.INSTANCE,
 					GameLexer.COMMENT,
 					GameLexer.LINE_COMMENT);
 
 	public static final TokenSet WHITESPACE =
 			PSIElementTypeFactory.createTokenSet(
-					GDesc.INSTANCE,
+					GDescLanguage.INSTANCE,
 					GameLexer.WS);
 
 	public static final TokenSet STRING =
 			PSIElementTypeFactory.createTokenSet(
-					GDesc.INSTANCE,
+					GDescLanguage.INSTANCE,
 					GameLexer.CHAR_LITERAL,
 					GameLexer.STRING_LITERAL,
 					GameLexer.TEXT_BLOCK);
+
+	public static final TokenSet OPERATOR =
+			PSIElementTypeFactory.createTokenSet(
+					GDescLanguage.INSTANCE,
+					GameLexer.ADD_ASSIGN,
+					GameLexer.SUB_ASSIGN,
+					GameLexer.MUL_ASSIGN,
+					GameLexer.DIV_ASSIGN,
+					GameLexer.AND_ASSIGN,
+					GameLexer.OR_ASSIGN,
+					GameLexer.XOR_ASSIGN,
+					GameLexer.MOD_ASSIGN,
+					GameLexer.LSHIFT_ASSIGN,
+					GameLexer.RSHIFT_ASSIGN,
+					GameLexer.URSHIFT_ASSIGN,
+					GameLexer.EQUAL,
+					GameLexer.LSHIFT,
+					GameLexer.URSHIFT,
+					GameLexer.RSHIFT,
+					GameLexer.GT,
+					GameLexer.LT,
+					GameLexer.QUESTION,
+					GameLexer.COLON,
+					GameLexer.EQUALS,
+					GameLexer.LE,
+					GameLexer.GE,
+					GameLexer.NOTEQUALS,
+					GameLexer.AND,
+					GameLexer.OR,
+					GameLexer.ADD,
+					GameLexer.SUB,
+					GameLexer.MUL,
+					GameLexer.DIV,
+					GameLexer.BITAND,
+					GameLexer.BITOR,
+					GameLexer.CARET,
+					GameLexer.MOD);
 
 	@NotNull
 	@Override
 	public Lexer createLexer(Project project) {
 		GameLexer lexer = new GameLexer(null);
-		return new ANTLRLexerAdaptor(GDesc.INSTANCE, lexer);
+		return new ANTLRLexerAdaptor(GDescLanguage.INSTANCE, lexer);
 	}
 
 	@NotNull
 	@Override
 	public PsiParser createParser(final Project project) {
 		final GameParser parser = new GameParser(null);
-		return new ANTLRParserAdaptor(GDesc.INSTANCE, parser) {
+		return new ANTLRParserAdaptor(GDescLanguage.INSTANCE, parser) {
 			@Override
 			protected ParseTree parse(Parser parser, IElementType root) {
 				// start rule depends on root passed in; sometimes we want to create an ID node etc...
@@ -106,7 +142,7 @@ public class GDescParserDefinition implements ParserDefinition {
 	}
 
 	@NotNull
-	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
+	public SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
 		return SpaceRequirements.MAY;
 	}
 
@@ -169,11 +205,30 @@ public class GDescParserDefinition implements ParserDefinition {
 			return new ANTLRPsiNode(node);
 		}
 		return switch (ruleElType.getRuleIndex()) {
-//			case GameParser.RULE_directive -> new DirectiveSubtree(node, elType);
-//			case GameParser.RULE_stateClause -> new StateClauseSubtree(node, elType);
-//			case GameParser.RULE_flagClause -> new FlagClauseSubtree(node, elType);
-//			case GameParser.RULE_variableDeclarator ->  new VariableDeclaratorSubtree(node, elType);
+			case GameParser.RULE_includePragma -> new PragmaSubtree(node);
+			case GameParser.RULE_namePragma -> new PragmaSubtree(node);
+			case GameParser.RULE_versionPragma -> new PragmaSubtree(node);
+			case GameParser.RULE_datePragma -> new PragmaSubtree(node);
+			case GameParser.RULE_authorPragma -> new PragmaSubtree(node);
+			case GameParser.RULE_noiseDirective -> new NoiseSubtree(node);
+			case GameParser.RULE_stateClause -> new GlobalDefSubtree(node, elType, DefinitionType.StateDef);
+			case GameParser.RULE_flagClause -> new GlobalDefSubtree(node, elType, DefinitionType.FlagDef);
+			case GameParser.RULE_verbDirective -> new GlobalDefSubtree(node, elType, DefinitionType.VerbDef);
+			case GameParser.RULE_variableDirective -> new GlobalDefSubtree(node, elType, DefinitionType.VariableDef);
+			case GameParser.RULE_arrayDirective -> new GlobalDefSubtree(node, elType, DefinitionType.ArrayDef);
+			case GameParser.RULE_textDirective -> new GlobalDefSubtree(node, elType, DefinitionType.TextDef);
+			case GameParser.RULE_fragmentDirective -> new GlobalDefSubtree(node, elType, DefinitionType.FragmentDef);
+			case GameParser.RULE_placeDirective -> new GlobalDefSubtree(node, elType, DefinitionType.PlaceDef);
+			case GameParser.RULE_objectDirective -> new GlobalDefSubtree(node, elType, DefinitionType.ObjectDef);
+			case GameParser.RULE_procDirective -> new ProcSubtree(node, elType);
+			case GameParser.RULE_initialDirective -> new MainBlockSubtree(node);
+			case GameParser.RULE_repeatDirective -> new MainBlockSubtree(node);
 			case GameParser.RULE_block -> new BlockSubtree(node);
+			case GameParser.RULE_basicForStatement, GameParser.RULE_basicForStatementNoShortIf ->
+					new BasicForSubtree(node);
+			case GameParser.RULE_enhancedForStatement, GameParser.RULE_enhancedForStatementNoShortIf ->
+					new EnhancedForSubtree(node);
+			case GameParser.RULE_variableDeclarator -> new VardefSubtree(node, elType);
 			case GameParser.RULE_functionInvocation -> new CallSubtree(node);
 			default -> new ANTLRPsiNode(node);
 		};

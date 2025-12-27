@@ -11,12 +11,9 @@ import org.jetbrains.annotations.Nullable;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescSymtabUtils;
 
-public class BlockSubtree extends ANTLRPsiNode implements ScopeNode {
+public class EnhancedForSubtree extends ANTLRPsiNode implements ScopeNode {
 
-	public static final String XPATH =
-			"/block/statement/statementWithoutTrailingSubstatement/localVariableDeclarationStatement/localVariableDeclaration/variableDeclarator/IDENTIFIER";
-
-	public BlockSubtree(@NotNull ASTNode node) {
+	public EnhancedForSubtree(@NotNull ASTNode node) {
 		super(node);
 	}
 
@@ -28,6 +25,6 @@ public class BlockSubtree extends ANTLRPsiNode implements ScopeNode {
 //				" at " + Integer.toHexString(getNode().hashCode()) + ")");
 
 		return GDescSymtabUtils.resolve(this, GDescLanguage.INSTANCE,
-				element, XPATH);
+				element, "/*/IDENTIFIER");
 	}
 }

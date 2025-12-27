@@ -4,12 +4,12 @@ import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.GDesc;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 
 public class GDescElementType extends IElementType {
 
   public GDescElementType(@NotNull @NonNls String debugName) {
-    super(debugName, GDesc.INSTANCE);
+    super(debugName, GDescLanguage.INSTANCE);
   }
 
 }

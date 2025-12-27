@@ -19,7 +19,7 @@ final class GDescCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
 
 	@Override
 	public Language getLanguage() {
-		return GDesc.INSTANCE;
+		return GDescLanguage.INSTANCE;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ final class GDescCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
 	private static class GDescCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
 
 		public GDescCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
-			super(GDesc.INSTANCE, currentSettings, settings);
+			super(GDescLanguage.INSTANCE, currentSettings, settings);
 		}
 
 	}
