@@ -109,7 +109,7 @@ final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension
 	public Icon getIcon(Object object) {
 		if (object instanceof GDescPSIFileRoot) {
 			return GDescIcons.FILE;
-		} else if (object instanceof ANTLRPsiNode antlrPsiNode) {
+		} else if (object instanceof ANTLRPsiNode) {
 			return GDescIcons.FUNC_ICON;
 		} else {
 			return null;

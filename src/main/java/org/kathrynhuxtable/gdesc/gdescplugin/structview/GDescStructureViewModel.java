@@ -9,8 +9,7 @@ import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
-import com.intellij.ide.util.treeView.smartTree.SorterUtil;
-import com.intellij.openapi.editor.PlatformEditorBundle;
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,6 +72,8 @@ public class GDescStructureViewModel extends StructureViewModelBase implements S
 				NoiseSubtree.class,
 				GlobalDefSubtree.class,
 				ProcSubtree.class,
-				MainBlockSubtree.class};
+				MainBlockSubtree.class,
+				ANTLRPsiNode.class
+		};
 	}
 }

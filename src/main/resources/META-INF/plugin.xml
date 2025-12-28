@@ -49,11 +49,9 @@
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescCompletionContributor"/>
 -->
-<!--
 		<psi.referenceContributor
 				language="GDesc"
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescReferenceContributor"/>
--->
 <!--
 		<lang.refactoringSupport
 				language="GDesc"
@@ -75,14 +73,18 @@
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.structview.GDescStructureViewFactory"/>
 		<navbar implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescStructureAwareNavbar"/>
-<!--
 		<lang.formatter
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescFormattingModelBuilder"/>
-		<codeStyleSettingsProvider
-				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescCodeStyleSettingsProvider"/>
-		<langCodeStyleSettingsProvider
-				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguageCodeStyleSettingsProvider"/>
+		<!--
+				<codeStyleSettingsProvider
+						implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescCodeStyleSettingsProvider"/>
+				<langCodeStyleSettingsProvider
+						implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguageCodeStyleSettingsProvider"/>
+		-->
+		<lang.braceMatcher language="GDesc" implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescPairedBraceMatcher"/>
+<!--
+		<lang.quoteHandler language="GDesc" implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescTokenSetQuoteHandler"/>
 -->
 		<lang.commenter
 				language="GDesc"

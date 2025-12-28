@@ -10,11 +10,12 @@ final class GDescReferenceContributor extends PsiReferenceContributor {
 
 	@Override
 	public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
-//		registrar.registerReferenceProvider(PlatformPatterns.psiElement(PsiLiteralExpression.class),
-//				new PsiReferenceProvider() {
-//					@Override
-//					public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element,
-//					                                                       @NotNull ProcessingContext context) {
+		registrar.registerReferenceProvider(PlatformPatterns.psiElement(PsiLiteralExpression.class),
+				new PsiReferenceProvider() {
+					@Override
+					public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element,
+					                                                       @NotNull ProcessingContext context) {
+						// TODO Implement this correctly.
 //						PsiLiteralExpression literalExpression = (PsiLiteralExpression) element;
 //						String value = literalExpression.getValue() instanceof String ?
 //								(String) literalExpression.getValue() : null;
@@ -23,9 +24,9 @@ final class GDescReferenceContributor extends PsiReferenceContributor {
 //									value.length() + 1);
 //							return new PsiReference[]{new GDescReference(element, property)};
 //						}
-//						return PsiReference.EMPTY_ARRAY;
-//					}
-//				});
+						return PsiReference.EMPTY_ARRAY;
+					}
+				});
 	}
 
 }

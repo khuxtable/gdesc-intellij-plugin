@@ -2,20 +2,19 @@
 
 package org.kathrynhuxtable.gdesc.gdescplugin;
 
+import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.TokenSet;
+import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
 import org.antlr.intellij.adaptor.lexer.RuleIElementType;
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GlobalDefSubtree;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GlobalDefSubtree.DefinitionType;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.ProcSubtree;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.IdentifierPSINode;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.VardefSubtree;
-import org.kathrynhuxtable.gdesc.parser.GameParser;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.*;
+import org.kathrynhuxtable.gdesc.parser.GameLexer;
 
 import static org.kathrynhuxtable.gdesc.parser.GameParser.*;
 
@@ -26,15 +25,21 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 	@Override
 	public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
 		return psiElement instanceof IdentifierPSINode || // the case where we highlight the ID in def subtree itself
-//				psiElement instanceof GlobalDefSubtree ||
+				psiElement instanceof GlobalDefSubtree ||
 				psiElement instanceof ProcSubtree ||   // remaining cases are for resolve() results
-				psiElement instanceof VardefSubtree;
+				psiElement instanceof VardefSubtree ||
+				psiElement instanceof VariableRef;
 	}
 
 	@Nullable
 	@Override
 	public WordsScanner getWordsScanner() {
-		return null; // null implies use SimpleWordScanner default
+		GameLexer lexer = new GameLexer(null);
+		ANTLRLexerAdaptor myLexer = new ANTLRLexerAdaptor(GDescLanguage.INSTANCE, lexer);
+		return new DefaultWordsScanner(myLexer,
+				GDescParserDefinition.IDENTIFIERS,
+				GDescParserDefinition.COMMENTS,
+				TokenSet.EMPTY);
 	}
 
 	@Nullable

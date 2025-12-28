@@ -30,10 +30,17 @@ import org.kathrynhuxtable.gdesc.parser.GameLexer;
 import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 public class GDescParserDefinition implements ParserDefinition {
+
 	public static final IFileElementType FILE =
 			new IFileElementType(GDescLanguage.INSTANCE);
 
 	public static TokenIElementType ID;
+	public static TokenIElementType LBRACE;
+	public static TokenIElementType RBRACE;
+	public static TokenIElementType LPAREN;
+	public static TokenIElementType RPAREN;
+	public static TokenIElementType LBRACK;
+	public static TokenIElementType RBRACK;
 
 	static {
 		PSIElementTypeFactory.defineLanguageIElementTypes(GDescLanguage.INSTANCE,
@@ -42,7 +49,19 @@ public class GDescParserDefinition implements ParserDefinition {
 		List<TokenIElementType> tokenIElementTypes =
 				PSIElementTypeFactory.getTokenIElementTypes(GDescLanguage.INSTANCE);
 		ID = tokenIElementTypes.get(GameLexer.IDENTIFIER);
+
+		LBRACE = tokenIElementTypes.get(GameLexer.LBRACE);
+		RBRACE = tokenIElementTypes.get(GameLexer.RBRACE);
+		LPAREN = tokenIElementTypes.get(GameLexer.LPAREN);
+		RPAREN = tokenIElementTypes.get(GameLexer.RPAREN);
+		LBRACK = tokenIElementTypes.get(GameLexer.LBRACK);
+		RBRACK = tokenIElementTypes.get(GameLexer.RBRACK);
 	}
+
+	public static final TokenSet IDENTIFIERS =
+			PSIElementTypeFactory.createTokenSet(
+					GDescLanguage.INSTANCE,
+					GameLexer.IDENTIFIER);
 
 	public static final TokenSet COMMENTS =
 			PSIElementTypeFactory.createTokenSet(

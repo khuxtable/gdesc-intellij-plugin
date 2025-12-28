@@ -7,12 +7,10 @@ import org.jetbrains.annotations.NotNull;
 final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 
 	private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
-		return null;
-//		new SpacingBuilder(settings, GDescLanguage.INSTANCE)
-//				.around(GDescParserDefinition.OPERATOR)
-//				.spaceIf(settings.getCommonSettings(GDescLanguage.INSTANCE.getID()).SPACE_AROUND_ASSIGNMENT_OPERATORS)
-//				.before(GDescParserDefinition.STRING).none();
-//		;
+		return new SpacingBuilder(settings, GDescLanguage.INSTANCE)
+				.around(GDescParserDefinition.OPERATOR)
+				.spaceIf(settings.getCommonSettings(GDescLanguage.INSTANCE.getID()).SPACE_AROUND_ASSIGNMENT_OPERATORS)
+				.before(GDescParserDefinition.STRING).none();
 	}
 
 	@Override
