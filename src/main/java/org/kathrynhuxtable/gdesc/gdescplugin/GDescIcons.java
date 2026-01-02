@@ -21,6 +21,20 @@ import com.intellij.openapi.util.IconLoader;
 
 public class GDescIcons {
 
-  public static final Icon FILE = IconLoader.getIcon("/icons/jar-gray.png", GDescIcons.class);
-  public static final Icon FUNC_ICON = IconLoader.getIcon("/icons/f.png", GDescIcons.class);
+	public static final Icon FILE = IconLoader.getIcon("/icons/gdesc_file.svg", GDescIcons.class);
+	public static final Icon INCLUDE_PRAGMA_ICON = IconLoader.getIcon("/icons/include_pragma.svg", GDescIcons.class);
+	public static final Icon INFO_PRAGMA_ICON = IconLoader.getIcon("/icons/info_pragma.svg", GDescIcons.class);
+	public static final Icon FLAG_DIRECTIVE_ICON = IconLoader.getIcon("/icons/flag_directive.svg", GDescIcons.class);
+	public static final Icon STATE_DIRECTIVE_ICON = IconLoader.getIcon("/icons/state_directive.svg", GDescIcons.class);
+	public static final Icon NOISE_DIRECTIVE_ICON = IconLoader.getIcon("/icons/noise_directive.svg", GDescIcons.class);
+	public static final Icon VERB_DIRECTIVE_ICON = IconLoader.getIcon("/icons/verb_directive.svg", GDescIcons.class);
+	public static final Icon VARIABLE_DIRECTIVE_ICON = IconLoader.getIcon("/icons/variable_directive.svg", GDescIcons.class);
+	public static final Icon TEXT_DIRECTIVE_ICON = IconLoader.getIcon("/icons/text_directive.svg", GDescIcons.class);
+	public static final Icon FRAGMENT_DIRECTIVE_ICON = IconLoader.getIcon("/icons/fragment_directive.svg", GDescIcons.class);
+	public static final Icon PLACE_DIRECTIVE_ICON = IconLoader.getIcon("/icons/place_directive.svg", GDescIcons.class);
+	public static final Icon OBJECT_DIRECTIVE_ICON = IconLoader.getIcon("/icons/object_directive.svg", GDescIcons.class);
+	public static final Icon ACTION_DIRECTIVE_ICON = IconLoader.getIcon("/icons/action_directive.svg", GDescIcons.class);
+	public static final Icon PROC_DIRECTIVE_ICON = IconLoader.getIcon("/icons/proc_directive.svg", GDescIcons.class);
+	public static final Icon INITIAL_DIRECTIVE_ICON = IconLoader.getIcon("/icons/initial_directive.svg", GDescIcons.class);
+	public static final Icon REPEAT_DIRECTIVE_ICON = IconLoader.getIcon("/icons/repeat_directive.svg", GDescIcons.class);
 }

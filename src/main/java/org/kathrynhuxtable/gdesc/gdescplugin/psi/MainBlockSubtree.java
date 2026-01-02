@@ -16,14 +16,22 @@
 package org.kathrynhuxtable.gdesc.gdescplugin.psi;
 
 import com.intellij.lang.ASTNode;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /** A subtree associated with a function definition.
  *  Its scope is the set of arguments.
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class MainBlockSubtree extends ANTLRPsiNode implements GDescDirectiveElement {
-	public MainBlockSubtree(@NotNull ASTNode node) {
+
+	private boolean initial;
+
+	public MainBlockSubtree(@NotNull ASTNode node, boolean initial) {
 		super(node);
+		this.initial = initial;
 	}
 }

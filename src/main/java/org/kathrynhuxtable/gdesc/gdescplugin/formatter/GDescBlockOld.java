@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kathrynhuxtable.gdesc.gdescplugin;
+package org.kathrynhuxtable.gdesc.gdescplugin.formatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +25,12 @@ import com.intellij.psi.formatter.common.AbstractBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GDescBlock extends AbstractBlock {
+public class GDescBlockOld extends AbstractBlock {
 
   private final SpacingBuilder spacingBuilder;
 
-  protected GDescBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
-                       SpacingBuilder spacingBuilder) {
+  protected GDescBlockOld(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
+                          SpacingBuilder spacingBuilder) {
     super(node, wrap, alignment);
     this.spacingBuilder = spacingBuilder;
   }
@@ -41,7 +41,7 @@ public class GDescBlock extends AbstractBlock {
     ASTNode child = myNode.getFirstChildNode();
     while (child != null) {
       if (child.getElementType() != TokenType.WHITE_SPACE) {
-        Block block = new GDescBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(),
+        Block block = new GDescBlockOld(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(),
             spacingBuilder);
         blocks.add(block);
       }

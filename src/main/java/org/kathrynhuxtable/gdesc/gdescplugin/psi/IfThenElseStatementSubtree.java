@@ -15,16 +15,13 @@
  */
 package org.kathrynhuxtable.gdesc.gdescplugin.psi;
 
-import com.intellij.psi.PsiElement;
+import com.intellij.lang.ASTNode;
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 
-public class VariableRef extends GDescElementRef {
-	public VariableRef(@NotNull IdentifierPSINode element) {
-		super(element);
-	}
+public class IfThenElseStatementSubtree extends ANTLRPsiNode {
 
-	@Override
-	public boolean isDefSubtree(PsiElement def) {
-		return def instanceof VariableDeclaratorSubtree;
+	public IfThenElseStatementSubtree(@NotNull ASTNode node) {
+		super(node);
 	}
 }

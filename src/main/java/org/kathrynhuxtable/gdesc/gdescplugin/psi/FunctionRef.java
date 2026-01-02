@@ -28,6 +28,6 @@ public class FunctionRef extends GDescElementRef {
 
 	@Override
 	public boolean isDefSubtree(PsiElement def) {
-		return def instanceof ProcSubtree;
+		return def instanceof ProcDirectiveSubtree;
 	}
 }

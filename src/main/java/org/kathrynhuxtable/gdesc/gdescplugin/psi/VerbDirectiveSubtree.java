@@ -16,40 +16,18 @@
 package org.kathrynhuxtable.gdesc.gdescplugin.psi;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.IElementType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree;
-import org.antlr.intellij.adaptor.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
-import org.kathrynhuxtable.gdesc.gdescplugin.GDescSymtabUtils;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GlobalDefSubtree extends IdentifierDefSubtree implements GDescDirectiveElement {
+public class VerbDirectiveSubtree extends IdentifierDefSubtree implements GDescDirectiveElement {
 
-	public enum DefinitionType {
-		ArrayDef,
-		FlagDef,
-		StateDef,
-		VariableDef,
-		VerbDef,
-		TextDef,
-		FragmentDef,
-		PlaceDef,
-		ObjectDef,
-	}
-
-	private DefinitionType definitionType;
-
-	public GlobalDefSubtree(@NotNull ASTNode node, @NotNull IElementType idElementTyp, DefinitionType definitionType) {
+	public VerbDirectiveSubtree(@NotNull ASTNode node, @NotNull IElementType idElementTyp) {
 		super(node, idElementTyp);
-		this.definitionType = definitionType;
 	}
 
 //	@Override

@@ -22,8 +22,8 @@ import org.jetbrains.annotations.NotNull;
 /** A subtree associated with a function definition.
  *  Its scope is the set of arguments.
  */
-public class PragmaSubtree extends ANTLRPsiNode implements GDescDirectiveElement {
-	public PragmaSubtree(@NotNull ASTNode node) {
+public class ActionDirectiveSubtree extends ANTLRPsiNode implements GDescDirectiveElement {
+	public ActionDirectiveSubtree(@NotNull ASTNode node) {
 		super(node);
 	}
 }

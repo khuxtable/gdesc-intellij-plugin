@@ -31,8 +31,8 @@ import org.kathrynhuxtable.gdesc.gdescplugin.GDescSymtabUtils;
  * A subtree associated with a function definition.
  * Its scope is the set of arguments.
  */
-public class ProcSubtree extends IdentifierDefSubtree implements ScopeNode, GDescDirectiveElement {
-	public ProcSubtree(@NotNull ASTNode node, @NotNull IElementType idElementType) {
+public class ProcDirectiveSubtree extends IdentifierDefSubtree implements ScopeNode, GDescDirectiveElement {
+	public ProcDirectiveSubtree(@NotNull ASTNode node, @NotNull IElementType idElementType) {
 		super(node, idElementType);
 	}
 

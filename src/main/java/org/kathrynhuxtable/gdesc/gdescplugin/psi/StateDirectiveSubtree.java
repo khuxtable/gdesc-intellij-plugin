@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kathrynhuxtable.gdesc.gdescplugin;
+package org.kathrynhuxtable.gdesc.gdescplugin.psi;
 
-import javax.swing.*;
-
-import com.intellij.ide.IconProvider;
-import com.intellij.psi.PsiElement;
+import com.intellij.lang.ASTNode;
+import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-
-final class GDescPropertyIconProvider extends IconProvider {
-
-  @Override
-  public @Nullable Icon getIcon(@NotNull PsiElement element, int flags) {
-    return null;//element instanceof GDescProperty ? GDescIcons.FILE : null;
-  }
-
+/** A subtree associated with a function definition.
+ *  Its scope is the set of arguments.
+ */
+public class StateDirectiveSubtree extends ANTLRPsiNode implements GDescDirectiveElement {
+	public StateDirectiveSubtree(@NotNull ASTNode node) {
+		super(node);
+	}
 }

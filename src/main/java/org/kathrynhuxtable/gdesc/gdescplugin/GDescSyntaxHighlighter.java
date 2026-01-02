@@ -81,25 +81,25 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.ATPLACE:
 		case GameLexer.CHANCE:
 		case GameLexer.CLEARFLAG:
-		case GameLexer.DESCRIBE_:
-		case GameLexer.IDROP:
-		case GameLexer.FLUSHINPUT:
-		case GameLexer.IGET:
+		case GameLexer.DESCRIBE:
+		case GameLexer.DROP:
+		case GameLexer.FLUSH:
+		case GameLexer.GET:
 		case GameLexer.GOTO:
 		case GameLexer.INPUT:
-		case GameLexer.INRANGE:
+		case GameLexer.IN:
 		case GameLexer.ISAT:
 		case GameLexer.ISFLAG:
-		case GameLexer.ISHAVE:
-		case GameLexer.ISHERE:
+		case GameLexer.HAVE:
+		case GameLexer.ISHEAR:
 		case GameLexer.ISNEAR:
 		case GameLexer.KEY:
-		case GameLexer.MOVE_:
+		case GameLexer.MOVE:
 		case GameLexer.NEEDCMD:
-		case GameLexer.GETQUERY:
+		case GameLexer.QUERY:
 		case GameLexer.QUIP:
 		case GameLexer.RESPOND:
-		case GameLexer.SAY_:
+		case GameLexer.SAY:
 		case GameLexer.SETFLAG:
 		case GameLexer.SMOVE:
 		case GameLexer.STOP:
@@ -110,10 +110,7 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 			attrKey = INTERNAL_FUNCTION;
 			break;
 		case GameLexer.INCLUDE:
-		case GameLexer.NAME:
-		case GameLexer.VERSION:
-		case GameLexer.DATE:
-		case GameLexer.AUTHOR:
+		case GameLexer.INFO:
 		case GameLexer.FLAGS:
 		case GameLexer.STATE:
 		case GameLexer.TEXT:

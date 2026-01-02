@@ -40,7 +40,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
 import org.kathrynhuxtable.gdesc.gdescplugin.psi.*;
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GlobalDefSubtree.DefinitionType;
 import org.kathrynhuxtable.gdesc.parser.GameLexer;
 import org.kathrynhuxtable.gdesc.parser.GameParser;
 
@@ -56,6 +55,16 @@ public class GDescParserDefinition implements ParserDefinition {
 	public static TokenIElementType RPAREN;
 	public static TokenIElementType LBRACK;
 	public static TokenIElementType RBRACK;
+	public static TokenIElementType QUESTION;
+	public static TokenIElementType COLON;
+	public static TokenIElementType COMMENT;
+	public static TokenIElementType LINE_COMMENT;
+
+	public static RuleIElementType FUNC_REF;
+	public static RuleIElementType TERNARY_EXPRESSION;
+	public static RuleIElementType BLOCK;
+	public static RuleIElementType BASIC_FOR_STATEMENT;
+	public static RuleIElementType ENHANCED_FOR_STATEMENT;
 
 	static {
 		PSIElementTypeFactory.defineLanguageIElementTypes(GDescLanguage.INSTANCE,
@@ -63,6 +72,9 @@ public class GDescParserDefinition implements ParserDefinition {
 				GameParser.ruleNames);
 		List<TokenIElementType> tokenIElementTypes =
 				PSIElementTypeFactory.getTokenIElementTypes(GDescLanguage.INSTANCE);
+		List<RuleIElementType> ruleIElementTypes =
+				PSIElementTypeFactory.getRuleIElementTypes(GDescLanguage.INSTANCE);
+
 		ID = tokenIElementTypes.get(GameLexer.IDENTIFIER);
 
 		LBRACE = tokenIElementTypes.get(GameLexer.LBRACE);
@@ -71,6 +83,16 @@ public class GDescParserDefinition implements ParserDefinition {
 		RPAREN = tokenIElementTypes.get(GameLexer.RPAREN);
 		LBRACK = tokenIElementTypes.get(GameLexer.LBRACK);
 		RBRACK = tokenIElementTypes.get(GameLexer.RBRACK);
+		QUESTION = tokenIElementTypes.get(GameLexer.QUESTION);
+		COLON = tokenIElementTypes.get(GameLexer.COLON);
+		COMMENT = tokenIElementTypes.get(GameLexer.COMMENT);
+		LINE_COMMENT = tokenIElementTypes.get(GameLexer.LINE_COMMENT);
+
+		FUNC_REF = ruleIElementTypes.get(GameParser.RULE_functionInvocation);
+		TERNARY_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_queryExpression);
+		BLOCK = ruleIElementTypes.get(GameParser.RULE_block);
+		BASIC_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_basicForStatement);
+		ENHANCED_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_enhancedForStatement);
 	}
 
 	public static final TokenSet IDENTIFIERS =
@@ -239,31 +261,65 @@ public class GDescParserDefinition implements ParserDefinition {
 			return new ANTLRPsiNode(node);
 		}
 		return switch (ruleElType.getRuleIndex()) {
-			case GameParser.RULE_includePragma -> new PragmaSubtree(node);
-			case GameParser.RULE_namePragma -> new PragmaSubtree(node);
-			case GameParser.RULE_versionPragma -> new PragmaSubtree(node);
-			case GameParser.RULE_datePragma -> new PragmaSubtree(node);
-			case GameParser.RULE_authorPragma -> new PragmaSubtree(node);
-			case GameParser.RULE_noiseDirective -> new NoiseSubtree(node);
-			case GameParser.RULE_stateClause -> new GlobalDefSubtree(node, elType, DefinitionType.StateDef);
-			case GameParser.RULE_flagClause -> new GlobalDefSubtree(node, elType, DefinitionType.FlagDef);
-			case GameParser.RULE_verbDirective -> new GlobalDefSubtree(node, elType, DefinitionType.VerbDef);
-			case GameParser.RULE_variableDirective -> new GlobalDefSubtree(node, elType, DefinitionType.VariableDef);
-			case GameParser.RULE_arrayDirective -> new GlobalDefSubtree(node, elType, DefinitionType.ArrayDef);
-			case GameParser.RULE_textDirective -> new GlobalDefSubtree(node, elType, DefinitionType.TextDef);
-			case GameParser.RULE_fragmentDirective -> new GlobalDefSubtree(node, elType, DefinitionType.FragmentDef);
-			case GameParser.RULE_placeDirective -> new GlobalDefSubtree(node, elType, DefinitionType.PlaceDef);
-			case GameParser.RULE_objectDirective -> new GlobalDefSubtree(node, elType, DefinitionType.ObjectDef);
-			case GameParser.RULE_procDirective -> new ProcSubtree(node, elType);
-			case GameParser.RULE_initialDirective -> new MainBlockSubtree(node);
-			case GameParser.RULE_repeatDirective -> new MainBlockSubtree(node);
+			// Main directives
+			case GameParser.RULE_includePragma -> new IncludePragmaSubtree(node);
+			case GameParser.RULE_infoPragma -> new InfoPragmaSubtree(node);
+			case GameParser.RULE_flagDirective -> new FlagDirectiveSubtree(node);
+			case GameParser.RULE_stateDirective -> new StateDirectiveSubtree(node);
+			case GameParser.RULE_noiseDirective -> new NoiseDirectiveSubtree(node);
+			case GameParser.RULE_verbDirective -> new VerbDirectiveSubtree(node, elType);
+			case GameParser.RULE_variableDirective -> new VariableDirectiveSubtree(node, elType);
+			case GameParser.RULE_textDirective -> new TextDirectiveSubtree(node, elType, false);
+			case GameParser.RULE_fragmentDirective -> new TextDirectiveSubtree(node, elType, true);
+			case GameParser.RULE_placeDirective -> new PlaceDirectiveSubtree(node, elType);
+			case GameParser.RULE_objectDirective -> new ObjectDirectiveSubtree(node, elType);
+			case GameParser.RULE_actionDirective -> new ActionDirectiveSubtree(node);
+			case GameParser.RULE_procDirective -> new ProcDirectiveSubtree(node, elType);
+			case GameParser.RULE_initialDirective -> new MainBlockSubtree(node, true);
+			case GameParser.RULE_repeatDirective -> new MainBlockSubtree(node, false);
+			// Directive Clauses
+			case GameParser.RULE_flagClause -> new FlagClauseSubtree(node, elType);
+			case GameParser.RULE_stateClause -> new StateClauseSubtree(node, elType);
+			// Block and Statements
 			case GameParser.RULE_block -> new BlockSubtree(node);
-			case GameParser.RULE_basicForStatement, GameParser.RULE_basicForStatementNoShortIf ->
-					new BasicForSubtree(node);
-			case GameParser.RULE_enhancedForStatement, GameParser.RULE_enhancedForStatementNoShortIf ->
-					new EnhancedForSubtree(node);
-			case GameParser.RULE_variableDeclarator -> new VardefSubtree(node, elType);
-			case GameParser.RULE_functionInvocation -> new CallSubtree(node);
+			case GameParser.RULE_emptyStatement ->  new EmptyStatementSubtree(node);
+			case GameParser.RULE_localVariableDeclarationStatement ->   new LocalVariableDeclarationStatementSubtree(node);
+			case GameParser.RULE_expressionStatement ->  new ExpressionStatementSubtree(node);
+			case GameParser.RULE_breakStatement ->  new BreakStatementSubtree(node);
+			case GameParser.RULE_continueStatement ->  new ContinueStatementSubtree(node);
+			case GameParser.RULE_returnStatement ->  new ReturnStatementSubtree(node);
+			case GameParser.RULE_ifThenStatement ->   new IfThenStatementSubtree(node);
+			case GameParser.RULE_ifThenElseStatement ->  new IfThenElseStatementSubtree(node);
+			case GameParser.RULE_whileStatement ->  new WhileStatementSubtree(node);
+			case GameParser.RULE_repeatStatement -> new RepeatStatementSubtree(node);
+			case GameParser.RULE_basicForStatement -> new BasicForSubtree(node);
+			case GameParser.RULE_enhancedForStatement -> new EnhancedForSubtree(node);
+			// Statement Clauses
+			case GameParser.RULE_variableDeclarator -> new VariableDeclaratorSubtree(node, elType);
+			case GameParser.RULE_optionalLabel -> new LabelClauseSubtree(node, elType);
+			// Expressions
+			case GameParser.RULE_assignment -> new AssignmentExpressionSubtree(node, elType);
+			case GameParser.RULE_arrayAccess -> new ArrayReferenceSubtree(node, elType);
+			case GameParser.RULE_queryExpression ->  new QueryExpressionSubtree(node, elType);
+			case GameParser.RULE_conditionalOrExpression, GameParser.RULE_conditionalAndExpression,
+			     GameParser.RULE_inclusiveOrExpression, GameParser.RULE_exclusiveOrExpression,
+			     GameParser.RULE_andExpression, GameParser.RULE_relationalExpression,
+			     GameParser.RULE_shiftExpression, GameParser.RULE_additiveExpression,
+			     GameParser.RULE_multiplicativeExpression -> {
+				if (node.getChildren(TokenSet.ANY).length > 1) {
+					yield new BinaryExpressionSubtree(node, elType);
+				} else {
+					yield new ANTLRPsiNode(node);
+				}
+			}
+			case GameParser.RULE_unaryExpression, GameParser.RULE_preIncrementOrDecrementExpression,
+			     GameParser.RULE_unaryExpressionNotPlusMinus -> new UnaryPreExpressionSubtree(node, elType);
+			case GameParser.RULE_postIncrementOrDecrementExpression ->  new UnaryPostExpressionSubtree(node, elType);
+			case GameParser.RULE_parenthesizedExpression ->  new ParenthesizedExpressionSubtree(node, elType);
+			case GameParser.RULE_functionInvocation -> new FunctionInvocationSubtree(node);
+			case GameParser.RULE_optionalExpressionList -> new OptionalExpressionListSubtree(node, elType);
+			case GameParser.RULE_refExpression ->  new RefExpressionSubtree(node, elType);
+			case GameParser.RULE_instanceofExpression -> new InstanceOfExpressionSubtree(node, elType);
 			default -> new ANTLRPsiNode(node);
 		};
 	}

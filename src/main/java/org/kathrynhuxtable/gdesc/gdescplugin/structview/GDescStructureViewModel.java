@@ -33,7 +33,7 @@ import org.kathrynhuxtable.gdesc.gdescplugin.psi.*;
 public class GDescStructureViewModel extends StructureViewModelBase implements StructureViewModel.ElementInfoProvider {
 
 	Sorter TYPE_SORTER = new Sorter() {
-		public Comparator getComparator() {
+		public Comparator<?> getComparator() {
 			return (o1, o2) -> {
 				GDescStructureViewElement e1 = (GDescStructureViewElement)o1;
 				GDescStructureViewElement e2 = (GDescStructureViewElement)o2;
@@ -83,10 +83,10 @@ public class GDescStructureViewModel extends StructureViewModelBase implements S
 	@Override
 	protected Class<?> @NotNull [] getSuitableClasses() {
 		return new Class[]{
-				PragmaSubtree.class,
-				NoiseSubtree.class,
-				GlobalDefSubtree.class,
-				ProcSubtree.class,
+				IncludePragmaSubtree.class,
+				NoiseDirectiveSubtree.class,
+				FlagClauseSubtree.class,
+				ProcDirectiveSubtree.class,
 				MainBlockSubtree.class,
 				ANTLRPsiNode.class
 		};

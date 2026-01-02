@@ -20,9 +20,9 @@ import com.intellij.psi.tree.IElementType;
 import org.antlr.intellij.adaptor.psi.IdentifierDefSubtree;
 import org.jetbrains.annotations.NotNull;
 
-public class VardefSubtree extends IdentifierDefSubtree {
+public class UnaryPreExpressionSubtree extends IdentifierDefSubtree {
 
-	public VardefSubtree(@NotNull ASTNode node, @NotNull IElementType idElementTyp) {
+	public UnaryPreExpressionSubtree(@NotNull ASTNode node, @NotNull IElementType idElementTyp) {
 		super(node, idElementTyp);
 	}
 }

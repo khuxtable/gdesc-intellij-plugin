@@ -38,9 +38,9 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 	@Override
 	public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
 		return psiElement instanceof IdentifierPSINode || // the case where we highlight the ID in def subtree itself
-				psiElement instanceof GlobalDefSubtree ||
-				psiElement instanceof ProcSubtree ||   // remaining cases are for resolve() results
-				psiElement instanceof VardefSubtree ||
+				psiElement instanceof FlagClauseSubtree ||
+				psiElement instanceof ProcDirectiveSubtree ||   // remaining cases are for resolve() results
+				psiElement instanceof VariableDeclaratorSubtree ||
 				psiElement instanceof VariableRef;
 	}
 
@@ -77,7 +77,6 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 			case RULE_flagClause -> "flag";
 			case RULE_verbDirective -> "verb";
 			case RULE_variableDirective -> "global variable";
-			case RULE_arrayDirective -> "global array";
 			case RULE_textDirective -> "text";
 			case RULE_fragmentDirective -> "fragment";
 			case RULE_placeDirective -> "place";

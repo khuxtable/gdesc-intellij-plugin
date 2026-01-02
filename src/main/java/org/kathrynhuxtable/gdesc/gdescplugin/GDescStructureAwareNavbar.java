@@ -26,7 +26,7 @@ import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescPSIFileRoot;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.*;
 import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension {
@@ -49,21 +49,9 @@ final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension
 					ASTNode[] children = node.getChildren(TokenSet.ANY);
 					yield children[2].getText() + " [include]";
 				}
-				case GameParser.RULE_namePragma -> {
+				case GameParser.RULE_infoPragma -> {
 					ASTNode[] children = node.getChildren(TokenSet.ANY);
 					yield children[2].getText() + " [name]";
-				}
-				case GameParser.RULE_versionPragma -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [version]";
-				}
-				case GameParser.RULE_datePragma -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [date]";
-				}
-				case GameParser.RULE_authorPragma -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [author]";
 				}
 				case GameParser.RULE_flagDirective -> {
 					ASTNode[] children = node.getChildren(TokenSet.ANY);
@@ -81,10 +69,6 @@ final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension
 				case GameParser.RULE_variableDirective -> {
 					ASTNode[] children = node.getChildren(TokenSet.ANY);
 					yield children[2].getText() + " [variable]";
-				}
-				case GameParser.RULE_arrayDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [array]";
 				}
 				case GameParser.RULE_textDirective -> {
 					ASTNode[] children = node.getChildren(TokenSet.ANY);
@@ -122,12 +106,23 @@ final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension
 	@Override
 	@Nullable
 	public Icon getIcon(Object object) {
-		if (object instanceof GDescPSIFileRoot) {
-			return GDescIcons.FILE;
-		} else if (object instanceof ANTLRPsiNode) {
-			return GDescIcons.FUNC_ICON;
-		} else {
-			return null;
-		}
+		return switch (object) {
+			case IncludePragmaSubtree include -> GDescIcons.INCLUDE_PRAGMA_ICON;
+			case InfoPragmaSubtree info -> GDescIcons.INFO_PRAGMA_ICON;
+			case FlagDirectiveSubtree flag -> GDescIcons.FLAG_DIRECTIVE_ICON;
+			case StateDirectiveSubtree state -> GDescIcons.STATE_DIRECTIVE_ICON;
+			case NoiseDirectiveSubtree noise -> GDescIcons.NOISE_DIRECTIVE_ICON;
+			case VerbDirectiveSubtree verb -> GDescIcons.VERB_DIRECTIVE_ICON;
+			case VariableDirectiveSubtree variable -> GDescIcons.VARIABLE_DIRECTIVE_ICON;
+			case TextDirectiveSubtree text ->
+				text.isFragment() ? GDescIcons.FRAGMENT_DIRECTIVE_ICON : GDescIcons.TEXT_DIRECTIVE_ICON;
+			case PlaceDirectiveSubtree place -> GDescIcons.PLACE_DIRECTIVE_ICON;
+			case ObjectDirectiveSubtree obj -> GDescIcons.OBJECT_DIRECTIVE_ICON;
+			case ActionDirectiveSubtree action -> GDescIcons.ACTION_DIRECTIVE_ICON;
+			case ProcDirectiveSubtree proc -> GDescIcons.PROC_DIRECTIVE_ICON;
+			case MainBlockSubtree initial ->
+				initial.isInitial() ? GDescIcons.INITIAL_DIRECTIVE_ICON : GDescIcons.REPEAT_DIRECTIVE_ICON;
+			default -> null;
+		};
 	}
 }

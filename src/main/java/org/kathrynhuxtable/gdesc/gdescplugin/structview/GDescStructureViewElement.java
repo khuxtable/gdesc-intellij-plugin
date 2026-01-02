@@ -72,8 +72,7 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 		ASTNode node = element.getNode();
 		RuleIElementType elementType = (RuleIElementType) node.getElementType();
 		return switch (elementType.getRuleIndex()) {
-			case GameParser.RULE_includePragma, GameParser.RULE_namePragma, GameParser.RULE_versionPragma,
-			     GameParser.RULE_datePragma, GameParser.RULE_authorPragma -> element.getText();
+			case GameParser.RULE_includePragma, GameParser.RULE_infoPragma -> element.getText();
 			case GameParser.RULE_flagDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
 				yield children[2].getText() + " [flag]";
@@ -90,10 +89,6 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 			case GameParser.RULE_variableDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
 				yield children[2].getText() + " [variable]";
-			}
-			case GameParser.RULE_arrayDirective -> {
-				ASTNode[] children = node.getChildren(TokenSet.ANY);
-				yield children[2].getText() + " [array]";
 			}
 			case GameParser.RULE_textDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
@@ -130,14 +125,12 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 		ASTNode node = element.getNode();
 		RuleIElementType elementType = (RuleIElementType) node.getElementType();
 		return switch (elementType.getRuleIndex()) {
-			case GameParser.RULE_includePragma, GameParser.RULE_namePragma, GameParser.RULE_versionPragma,
-			     GameParser.RULE_datePragma, GameParser.RULE_authorPragma -> "Pragma";
+			case GameParser.RULE_includePragma, GameParser.RULE_infoPragma -> "Pragma";
 			case GameParser.RULE_flagDirective -> "Flag";
 			case GameParser.RULE_stateDirective -> "State";
 			case GameParser.RULE_noiseDirective -> "Noise";
 			case GameParser.RULE_verbDirective -> "Verb";
 			case GameParser.RULE_variableDirective -> "Variable";
-			case GameParser.RULE_arrayDirective -> "Array";
 			case GameParser.RULE_textDirective -> "Text";
 			case GameParser.RULE_fragmentDirective -> "Fragment";
 			case GameParser.RULE_placeDirective -> "Place";

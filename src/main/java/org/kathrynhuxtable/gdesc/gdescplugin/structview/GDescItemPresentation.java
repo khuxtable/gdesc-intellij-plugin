@@ -25,6 +25,7 @@ import org.antlr.intellij.adaptor.lexer.RuleIElementType;
 import org.jetbrains.annotations.Nullable;
 
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescIcons;
+import org.kathrynhuxtable.gdesc.gdescplugin.psi.*;
 import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 public class GDescItemPresentation implements ItemPresentation {
@@ -37,7 +38,24 @@ public class GDescItemPresentation implements ItemPresentation {
 	@Nullable
 	@Override
 	public Icon getIcon(boolean unused) {
-		return GDescIcons.FUNC_ICON;
+		return switch (element) {
+			case IncludePragmaSubtree include -> GDescIcons.INCLUDE_PRAGMA_ICON;
+			case InfoPragmaSubtree info -> GDescIcons.INFO_PRAGMA_ICON;
+			case FlagDirectiveSubtree flag -> GDescIcons.FLAG_DIRECTIVE_ICON;
+			case StateDirectiveSubtree state -> GDescIcons.STATE_DIRECTIVE_ICON;
+			case NoiseDirectiveSubtree noise -> GDescIcons.NOISE_DIRECTIVE_ICON;
+			case VerbDirectiveSubtree verb -> GDescIcons.VERB_DIRECTIVE_ICON;
+			case VariableDirectiveSubtree variable -> GDescIcons.VARIABLE_DIRECTIVE_ICON;
+			case TextDirectiveSubtree text ->
+					text.isFragment() ? GDescIcons.FRAGMENT_DIRECTIVE_ICON : GDescIcons.TEXT_DIRECTIVE_ICON;
+			case PlaceDirectiveSubtree place -> GDescIcons.PLACE_DIRECTIVE_ICON;
+			case ObjectDirectiveSubtree object -> GDescIcons.OBJECT_DIRECTIVE_ICON;
+			case ActionDirectiveSubtree action -> GDescIcons.ACTION_DIRECTIVE_ICON;
+			case ProcDirectiveSubtree proc -> GDescIcons.PROC_DIRECTIVE_ICON;
+			case MainBlockSubtree initial ->
+					initial.isInitial() ? GDescIcons.INITIAL_DIRECTIVE_ICON : GDescIcons.REPEAT_DIRECTIVE_ICON;
+			default -> null;
+		};
 	}
 
 	@Nullable
@@ -50,21 +68,9 @@ public class GDescItemPresentation implements ItemPresentation {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
 				yield children[2].getText() + " [include]";
 			}
-			case GameParser.RULE_namePragma -> {
+			case GameParser.RULE_infoPragma -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
-				yield children[2].getText() + " [name]";
-			}
-			case GameParser.RULE_versionPragma -> {
-				ASTNode[] children = node.getChildren(TokenSet.ANY);
-				yield children[2].getText() + " [version]";
-			}
-			case GameParser.RULE_datePragma -> {
-				ASTNode[] children = node.getChildren(TokenSet.ANY);
-				yield children[2].getText() +  " [date]";
-			}
-			case GameParser.RULE_authorPragma -> {
-				ASTNode[] children = node.getChildren(TokenSet.ANY);
-				yield children[2].getText() + " [author]";
+				yield children[2].getText() + " [game]";
 			}
 			case GameParser.RULE_flagDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
@@ -82,10 +88,6 @@ public class GDescItemPresentation implements ItemPresentation {
 			case GameParser.RULE_variableDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
 				yield children[2].getText() + " [variable]";
-			}
-			case GameParser.RULE_arrayDirective -> {
-				ASTNode[] children = node.getChildren(TokenSet.ANY);
-				yield children[2].getText() + " [array]";
 			}
 			case GameParser.RULE_textDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
