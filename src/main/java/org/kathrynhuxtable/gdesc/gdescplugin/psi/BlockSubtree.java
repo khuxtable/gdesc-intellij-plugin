@@ -29,7 +29,7 @@ import org.kathrynhuxtable.gdesc.gdescplugin.GDescSymtabUtils;
 public class BlockSubtree extends ANTLRPsiNode implements ScopeNode {
 
 	public static final String XPATH =
-			"/block/statement/statementWithoutTrailingSubstatement/localVariableDeclarationStatement/localVariableDeclaration/variableDeclarator/IDENTIFIER";
+			"/block/statement/localVariableDeclarationStatement/localVariableDeclaration/variableDeclarator/IDENTIFIER";
 
 	public BlockSubtree(@NotNull ASTNode node) {
 		super(node);
