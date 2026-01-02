@@ -45,58 +45,16 @@ final class GDescStructureAwareNavbar extends StructureAwareNavBarModelExtension
 			ASTNode node = antlrPsiNode.getNode();
 			RuleIElementType elementType = (RuleIElementType) node.getElementType();
 			return switch (elementType.getRuleIndex()) {
-				case GameParser.RULE_includePragma -> {
+				case GameParser.RULE_includePragma, GameParser.RULE_infoPragma, GameParser.RULE_flagDirective,
+				     GameParser.RULE_stateDirective, GameParser.RULE_verbDirective, GameParser.RULE_noiseDirective, GameParser.RULE_variableDirective,
+				     GameParser.RULE_textDirective, GameParser.RULE_fragmentDirective, GameParser.RULE_placeDirective,
+				     GameParser.RULE_objectDirective, GameParser.RULE_actionDirective, GameParser.RULE_procDirective -> {
 					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [include]";
+					yield children[2].getText();
 				}
-				case GameParser.RULE_infoPragma -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [name]";
-				}
-				case GameParser.RULE_flagDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [flag]";
-				}
-				case GameParser.RULE_stateDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [state]";
-				}
-				case GameParser.RULE_noiseDirective -> "noise";
-				case GameParser.RULE_verbDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [verb]";
-				}
-				case GameParser.RULE_variableDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [variable]";
-				}
-				case GameParser.RULE_textDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [text]";
-				}
-				case GameParser.RULE_fragmentDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [fragment]";
-				}
-				case GameParser.RULE_placeDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [place]";
-				}
-				case GameParser.RULE_objectDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [object]";
-				}
-				case GameParser.RULE_actionDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [action]";
-				}
-				case GameParser.RULE_procDirective -> {
-					ASTNode[] children = node.getChildren(TokenSet.ANY);
-					yield children[2].getText() + " [proc]";
-				}
-				case GameParser.RULE_initialDirective -> "initial [initial]";
-				case GameParser.RULE_repeatDirective -> "repeat [repeat]";
-				default -> "directive:" + elementType.getRuleIndex() + " [directive]";
+				case GameParser.RULE_initialDirective -> "initial";
+				case GameParser.RULE_repeatDirective -> "repeat";
+				default -> "directive:" + elementType.getRuleIndex();
 			};
 		} else {
 			return null;
