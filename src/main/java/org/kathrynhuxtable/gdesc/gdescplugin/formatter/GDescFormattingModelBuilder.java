@@ -59,19 +59,19 @@ final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 	}
 
 	private boolean isList(ASTNode node) {
-		return false;//node.getElementType() == GDescListElementType.LIST;
+		return node.getElementType() == OPTIONAL_EXPRESSION_LIST;
 	}
 
 	private boolean isRhsExpr(ASTNode node) {
-		return false;//node.getElementType() == GDescExprElementType.RHS_EXPR;
+		return true;//node.getElementType() == GDescExprElementType.RHS_EXPR;
 	}
 
 	private List<GDescAbstractBlock> buildChildren(GDescAbstractBlock parentBlock, ASTNode parentNode, SpacingBuilder spacingBuilder) {
 		Alignment alignment = null;
-		if (isList(parentNode) || isRhsExpr(parentNode)) {
-			// Create alignment for args or for init/cond/update part of "for" stmt or for rhs of assignment
-			alignment = Alignment.createAlignment();
-		}
+//		if (isList(parentNode) || isRhsExpr(parentNode)) {
+//			// Create alignment for args or for init/cond/update part of "for" stmt or for rhs of assignment
+//			alignment = Alignment.createAlignment();
+//		}
 		return _buildChildren(parentBlock, parentNode, spacingBuilder, alignment);
 	}
 
@@ -107,12 +107,15 @@ final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 			return new GDescLeafBlock(parentBlock, child, spacingBuilder, indent, alignment);
 		} else if (isElementType(child, BLOCK) /*&& isElementType(child.getTreeNext(), LBRACE)*/) {
 			return new GDescCodeBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), alignment, spacingBuilder, false);
-//		} else if (child.getElementType() instanceof GDescStmtElementType || isList(child) ) {
-//			return new GDescStmtBlock(parentBlock, child, false/*node.getElementType() == GDescParserDefinition.GDESC_FILE_ELEMENT_TYPE*/, spacingBuilder, alignment);
+		} else if (isElementType(child, BLOCK, EMPTY_STATEMENT, LOCAL_VARIABLE_DECLARATION_STATEMENT, EXPRESSION_STATEMENT,
+				BREAK_STATEMENT, CONTINUE_STATEMENT, RETURN_STATEMENT, IF_STATEMENT, IF_THEN_ELSE_STATEMENT,
+				WHILE_STATEMENT, REPEAT_STATEMENT, BASIC_FOR_STATEMENT, ENHANCED_FOR_STATEMENT) || isList(child)) {
+			return new GDescStmtBlock(parentBlock, child, false/*node.getElementType() == GDescParserDefinition.GDESC_FILE_ELEMENT_TYPE*/, spacingBuilder, alignment);
 		} else if (isBinaryOrMethodCallExpr(child)) {
 			return new GDescBinaryExpr(parentBlock, child, spacingBuilder, alignment);
 		} else if (isElementType(child, TERNARY_EXPRESSION)) {
 			return new GDescTernaryExpr(parentBlock, child, spacingBuilder, alignment);
+// GDesc does not implement closures, so I don't think I need this, but I'm not deleting it yet.
 //		} else if (child.getElementType() instanceof GDescExprElementType) {
 //			// Don't align closures even when passed as args to calls
 //			return new GDescBlock(parentBlock, child, spacingBuilder, isElementType(child, GDescExprElementType.CLOSURE) ? null : alignment);
@@ -257,7 +260,9 @@ final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 
 	private static boolean isBinaryOrMethodCallExpr(ASTNode child) {
 		// Need to ignore bracketed BinaryExpr since they are just "(" BinaryExpr ")" and have no operator to align on
-		return //isElementType(child, GDescParserDefinition.BINARY_EXPR) &&
+		return isElementType(child, CONDITIONAL_OR_EXPRESSION, CONDITIONAL_AND_EXPRESSION, INCLUSIVE_OR_EXPRESSION,
+				EXCLUSIVE_OR_EXPRESSION, AND_EXPRESSION, RELATIONAL_EXPRESSION, SHIFT_EXPRESSION, ADDITIVE_EXPRESSION,
+				MULTIPLICATIVE_EXPRESSION) &&
 				!isElementType(getFirstChildNotWhiteSpace(child.getPsi()), LPAREN) ||
 				isElementType(child, FUNC_REF);
 	}
@@ -271,7 +276,7 @@ final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 
 		@Override
 		public Alignment getAlignment(ASTNode node) {
-			IElementType elementType = node.getElementType();
+//			IElementType elementType = node.getElementType();
 			if (isElementType(node, QUESTION, COLON)) {
 				return operatorAlignment;
 			}
@@ -325,10 +330,13 @@ final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 
 		@Override
 		public @Nullable Indent getIndent() {
-			// FIXME What is this about?
-//			if (myNode instanceof GDescPsiList) {
-//				return Indent.getNormalIndent();
-//			}
+			if (isElementType(myNode, OPTIONAL_EXPRESSION_LIST)) {
+				return Indent.getNormalIndent();
+			} else if (isElementType(myNode, INCLUDE_PRAGMA, INFO_PRAGMA, FLAG_DIRECTIVE, STATE_DIRECTIVE, NOISE_DIRECTIVE,
+					VERB_DIRECTIVE, VARIABLE_DIRECTIVE, TEXT_DIRECTIVE, FRAGMENT_DIRECTIVE, PLACE_DIRECTIVE, OBJECT_DIRECTIVE,
+					ACTION_DIRECTIVE, PROC_DIRECTIVE, INITIAL_DIRECTIVE, REPEAT_DIRECTIVE)) {
+				return null;
+			}
 			return isTopLevel || myAlignment != null ? Indent.getNoneIndent() : Indent.getNormalIndent();
 		}
 	}
@@ -345,7 +353,13 @@ final class GDescFormattingModelBuilder implements FormattingModelBuilder {
 
 		@Override
 		public @Nullable Indent getIndent() {
-			return getAlignment() == null ? Indent.getContinuationWithoutFirstIndent() : Indent.getNoneIndent();
+			if (isElementType(myNode, GAME, DIRECTIVE)) {
+				return Indent.getNoneIndent();
+			} else if (getAlignment() == null) {
+				return Indent.getContinuationWithoutFirstIndent();
+			} else {
+				return Indent.getNoneIndent();
+			}
 		}
 
 		@Override

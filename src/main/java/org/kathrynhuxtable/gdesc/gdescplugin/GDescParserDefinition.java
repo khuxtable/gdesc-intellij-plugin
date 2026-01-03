@@ -60,11 +60,51 @@ public class GDescParserDefinition implements ParserDefinition {
 	public static TokenIElementType COMMENT;
 	public static TokenIElementType LINE_COMMENT;
 
+	public static RuleIElementType INCLUDE_PRAGMA;
+	public static RuleIElementType INFO_PRAGMA;
+	public static RuleIElementType FLAG_DIRECTIVE;
+	public static RuleIElementType STATE_DIRECTIVE;
+	public static RuleIElementType NOISE_DIRECTIVE;
+	public static RuleIElementType VERB_DIRECTIVE;
+	public static RuleIElementType VARIABLE_DIRECTIVE;
+	public static RuleIElementType TEXT_DIRECTIVE;
+	public static RuleIElementType FRAGMENT_DIRECTIVE;
+	public static RuleIElementType PLACE_DIRECTIVE;
+	public static RuleIElementType OBJECT_DIRECTIVE;
+	public static RuleIElementType ACTION_DIRECTIVE;
+	public static RuleIElementType PROC_DIRECTIVE;
+	public static RuleIElementType INITIAL_DIRECTIVE;
+	public static RuleIElementType REPEAT_DIRECTIVE;
+
 	public static RuleIElementType FUNC_REF;
 	public static RuleIElementType TERNARY_EXPRESSION;
+
+	public static RuleIElementType GAME;
+	public static RuleIElementType DIRECTIVE;
+
 	public static RuleIElementType BLOCK;
+	public static RuleIElementType EMPTY_STATEMENT;
+	public static RuleIElementType LOCAL_VARIABLE_DECLARATION_STATEMENT;
+	public static RuleIElementType EXPRESSION_STATEMENT;
+	public static RuleIElementType BREAK_STATEMENT;
+	public static RuleIElementType CONTINUE_STATEMENT;
+	public static RuleIElementType RETURN_STATEMENT;
+	public static RuleIElementType IF_STATEMENT;
+	public static RuleIElementType IF_THEN_ELSE_STATEMENT;
+	public static RuleIElementType WHILE_STATEMENT;
+	public static RuleIElementType REPEAT_STATEMENT;
 	public static RuleIElementType BASIC_FOR_STATEMENT;
 	public static RuleIElementType ENHANCED_FOR_STATEMENT;
+	public static RuleIElementType CONDITIONAL_OR_EXPRESSION;
+	public static RuleIElementType CONDITIONAL_AND_EXPRESSION;
+	public static RuleIElementType INCLUSIVE_OR_EXPRESSION;
+	public static RuleIElementType EXCLUSIVE_OR_EXPRESSION;
+	public static RuleIElementType AND_EXPRESSION;
+	public static RuleIElementType RELATIONAL_EXPRESSION;
+	public static RuleIElementType SHIFT_EXPRESSION;
+	public static RuleIElementType ADDITIVE_EXPRESSION;
+	public static RuleIElementType MULTIPLICATIVE_EXPRESSION;
+	public static RuleIElementType OPTIONAL_EXPRESSION_LIST;
 
 	static {
 		PSIElementTypeFactory.defineLanguageIElementTypes(GDescLanguage.INSTANCE,
@@ -88,11 +128,52 @@ public class GDescParserDefinition implements ParserDefinition {
 		COMMENT = tokenIElementTypes.get(GameLexer.COMMENT);
 		LINE_COMMENT = tokenIElementTypes.get(GameLexer.LINE_COMMENT);
 
+		GAME = ruleIElementTypes.get(GameParser.RULE_game);
+		DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_directive);
+
+		INCLUDE_PRAGMA = ruleIElementTypes.get(GameParser.RULE_includePragma);
+		INFO_PRAGMA = ruleIElementTypes.get(GameParser.RULE_infoPragma);
+		FLAG_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_flagDirective);
+		STATE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_stateDirective);
+		NOISE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_noiseDirective);
+		VERB_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_verbDirective);
+		VARIABLE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_variableDirective);
+		TEXT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_textDirective);
+		FRAGMENT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_fragmentDirective);
+		PLACE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_placeDirective);
+		OBJECT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_objectDirective);
+		ACTION_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_actionDirective);
+		PROC_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_procDirective);
+		INITIAL_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_initialDirective);
+		REPEAT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_repeatDirective);
+
 		FUNC_REF = ruleIElementTypes.get(GameParser.RULE_functionInvocation);
 		TERNARY_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_queryExpression);
+
 		BLOCK = ruleIElementTypes.get(GameParser.RULE_block);
+		EMPTY_STATEMENT = ruleIElementTypes.get(GameParser.RULE_emptyStatement);
+		LOCAL_VARIABLE_DECLARATION_STATEMENT = ruleIElementTypes.get(GameParser.RULE_localVariableDeclarationStatement);
+		EXPRESSION_STATEMENT = ruleIElementTypes.get(GameParser.RULE_expressionStatement);
+		BREAK_STATEMENT = ruleIElementTypes.get(GameParser.RULE_breakStatement);
+		CONTINUE_STATEMENT = ruleIElementTypes.get(GameParser.RULE_continueStatement);
+		RETURN_STATEMENT = ruleIElementTypes.get(GameParser.RULE_returnStatement);
+		IF_STATEMENT = ruleIElementTypes.get(GameParser.RULE_ifStatement);
+		WHILE_STATEMENT = ruleIElementTypes.get(GameParser.RULE_whileStatement);
+		REPEAT_STATEMENT = ruleIElementTypes.get(GameParser.RULE_repeatStatement);
 		BASIC_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_basicForStatement);
 		ENHANCED_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_enhancedForStatement);
+
+		CONDITIONAL_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_conditionalOrExpression);
+		CONDITIONAL_AND_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_conditionalAndExpression);
+		INCLUSIVE_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_inclusiveOrExpression);
+		EXCLUSIVE_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_exclusiveOrExpression);
+		AND_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_andExpression);
+		RELATIONAL_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_relationalExpression);
+		SHIFT_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_shiftExpression);
+		ADDITIVE_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_additiveExpression);
+		MULTIPLICATIVE_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_multiplicativeExpression);
+
+		OPTIONAL_EXPRESSION_LIST = ruleIElementTypes.get(GameParser.RULE_optionalExpressionList);
 	}
 
 	public static final TokenSet IDENTIFIERS =
@@ -288,8 +369,7 @@ public class GDescParserDefinition implements ParserDefinition {
 			case GameParser.RULE_breakStatement ->  new BreakStatementSubtree(node);
 			case GameParser.RULE_continueStatement ->  new ContinueStatementSubtree(node);
 			case GameParser.RULE_returnStatement ->  new ReturnStatementSubtree(node);
-			case GameParser.RULE_ifThenStatement ->   new IfThenStatementSubtree(node);
-			case GameParser.RULE_ifThenElseStatement ->  new IfThenElseStatementSubtree(node);
+			case GameParser.RULE_ifStatement ->   new IfStatementSubtree(node);
 			case GameParser.RULE_whileStatement ->  new WhileStatementSubtree(node);
 			case GameParser.RULE_repeatStatement -> new RepeatStatementSubtree(node);
 			case GameParser.RULE_basicForStatement -> new BasicForSubtree(node);
