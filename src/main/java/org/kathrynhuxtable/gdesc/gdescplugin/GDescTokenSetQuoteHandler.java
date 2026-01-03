@@ -15,13 +15,7 @@
  */
 package org.kathrynhuxtable.gdesc.gdescplugin;
 
-import com.intellij.codeInsight.editorActions.QuoteHandler;
 import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.highlighter.HighlighterIterator;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 
 public class GDescTokenSetQuoteHandler extends SimpleTokenSetQuoteHandler {
 
