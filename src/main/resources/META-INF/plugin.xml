@@ -82,9 +82,8 @@
 				implementation="org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguageCodeStyleSettingsProvider"/>
 		<lang.braceMatcher language="GDesc"
 		                   implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescPairedBraceMatcher"/>
-		<!--
-				<lang.quoteHandler language="GDesc" implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescTokenSetQuoteHandler"/>
-		-->
+		<lang.quoteHandler language="GDesc"
+		                   implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescTokenSetQuoteHandler"/>
 		<lang.commenter
 				language="GDesc"
 				implementationClass="org.kathrynhuxtable.gdesc.gdescplugin.GDescCommenter"/>

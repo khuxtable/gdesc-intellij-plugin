@@ -199,6 +199,12 @@ public class GDescParserDefinition implements ParserDefinition {
 					GameLexer.STRING_LITERAL,
 					GameLexer.TEXT_BLOCK);
 
+	public static final TokenSet ONE_LINE_STRING =
+			PSIElementTypeFactory.createTokenSet(
+					GDescLanguage.INSTANCE,
+					GameLexer.CHAR_LITERAL,
+					GameLexer.STRING_LITERAL);
+
 	public static final TokenSet OPERATOR =
 			PSIElementTypeFactory.createTokenSet(
 					GDescLanguage.INSTANCE,
