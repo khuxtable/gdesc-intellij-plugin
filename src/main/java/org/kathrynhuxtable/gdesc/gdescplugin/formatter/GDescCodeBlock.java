@@ -27,7 +27,7 @@ public class GDescCodeBlock extends GDescAbstractBlock {
 
 	@Override
 	public Indent getIndent() {
-		return isTopLevel ? Indent.getNoneIndent() : Indent.getNormalIndent();
+		return Indent.getNormalIndent();
 	}
 
 	@Override

@@ -28,12 +28,10 @@ public class GDescFormattingModelBuilder implements FormattingModelBuilder {
 		final CodeStyleSettings codeStyleSettings = formattingContext.getCodeStyleSettings();
 		return FormattingModelProvider
 				.createFormattingModelForPsiFile(formattingContext.getContainingFile(),
-						new GDescCodeBlock(null,
+						new GDescBlock(null,
 								formattingContext.getNode(),
-								Wrap.createWrap(WrapType.NONE, false),
-								null,
 								createSpaceBuilder(codeStyleSettings),
-								true),
+								null),
 						codeStyleSettings);
 	}
 

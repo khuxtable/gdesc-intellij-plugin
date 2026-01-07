@@ -31,6 +31,7 @@ import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescTokenTypeService;
 
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.*;
@@ -94,14 +95,6 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 		return alignment;
 	}
 
-	protected boolean isList(ASTNode node) {
-		return node.getElementType() == OPTIONAL_EXPRESSION_LIST;
-	}
-
-	protected boolean isRhsExpr(ASTNode node) {
-		return true;//node.getElementType() == GDescExprElementType.RHS_EXPR;
-	}
-
 	protected List<GDescAbstractBlock> buildChildren(GDescAbstractBlock parentBlock, ASTNode parentNode, SpacingBuilder spacingBuilder) {
 		Alignment alignment = null;
 //		if (isList(parentNode) || isRhsExpr(parentNode)) {
@@ -133,31 +126,48 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 	protected GDescAbstractBlock createBlock(GDescAbstractBlock parentBlock, ASTNode node, SpacingBuilder spacingBuilder, ASTNode child, Alignment alignment) {
 		if (child.getElementType() == TokenType.WHITE_SPACE) {
 			return null;
-		}
-		if (child.getFirstChildNode() == null) {
+		} else if (child.getElementType() == DIRECTIVE) {
+			return new GDescDirectiveBlock(parentBlock, child.getFirstChildNode(), Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
+		} else if (child.getElementType() == STATEMENT) {
+			return new GDescCodeBlock(parentBlock, child.getFirstChildNode(), Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
+		} else if (child.getFirstChildNode() == null) {
 			boolean isSpecialChar = isElementType(child, LBRACE, RBRACE, LBRACK, RBRACK, LPAREN, RPAREN);
 			Indent indent = isSpecialChar ? Indent.getNoneIndent() :
 					isElementType(child, GDescParserDefinition.COMMENT, GDescParserDefinition.LINE_COMMENT) ? Indent.getNormalIndent() :
 							alignment != null ? Indent.getNoneIndent()
 									: Indent.getContinuationWithoutFirstIndent();
 			return new GDescLeafBlock(parentBlock, child, spacingBuilder, indent, alignment);
+		} else if (isDirective(child)) {
+			return new GDescDirectiveBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
 		} else if (isElementType(child, BLOCK) /*&& isElementType(child.getTreeNext(), LBRACE)*/) {
 			return new GDescCodeBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), alignment, spacingBuilder, false);
-		} else if (isElementType(child, BLOCK, EMPTY_STATEMENT, LOCAL_VARIABLE_DECLARATION_STATEMENT, EXPRESSION_STATEMENT,
-				BREAK_STATEMENT, CONTINUE_STATEMENT, RETURN_STATEMENT, IF_STATEMENT, IF_THEN_ELSE_STATEMENT,
-				WHILE_STATEMENT, REPEAT_STATEMENT, BASIC_FOR_STATEMENT, ENHANCED_FOR_STATEMENT) || isList(child)) {
-			return new GDescStmtBlock(parentBlock, child, false/*node.getElementType() == GDescParserDefinition.GDESC_FILE_ELEMENT_TYPE*/, spacingBuilder, alignment);
+		} else if (isStatement(child)) {
+			return new GDescCodeBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
+		} else if (isList(child)) {
+			return new GDescStmtBlock(parentBlock, child, spacingBuilder, alignment);
 		} else if (isBinaryOrMethodCallExpr(child)) {
 			return new GDescBinaryExpr(parentBlock, child, spacingBuilder, alignment);
 		} else if (isElementType(child, TERNARY_EXPRESSION)) {
 			return new GDescTernaryExpr(parentBlock, child, spacingBuilder, alignment);
-// GDesc does not implement closures, so I don't think I need this, but I'm not deleting it yet.
-//		} else if (child.getElementType() instanceof GDescExprElementType) {
-//			// Don't align closures even when passed as args to calls
-//			return new GDescBlock(parentBlock, child, spacingBuilder, isElementType(child, GDescExprElementType.CLOSURE) ? null : alignment);
 		} else {
 			return new GDescBlock(parentBlock, child, spacingBuilder, alignment);
 		}
+	}
+
+	private static boolean isDirective(ASTNode child) {
+		return isElementType(child, INCLUDE_PRAGMA, INFO_PRAGMA, FLAG_DIRECTIVE, STATE_DIRECTIVE, NOISE_DIRECTIVE,
+				VERB_DIRECTIVE, VARIABLE_DIRECTIVE, TEXT_DIRECTIVE, FRAGMENT_DIRECTIVE, PLACE_DIRECTIVE, OBJECT_DIRECTIVE,
+				ACTION_DIRECTIVE, PROC_DIRECTIVE, INITIAL_DIRECTIVE, REPEAT_DIRECTIVE);
+	}
+
+	private static boolean isStatement(ASTNode child) {
+		return isElementType(child, BLOCK, EMPTY_STATEMENT, LOCAL_VARIABLE_DECLARATION_STATEMENT, EXPRESSION_STATEMENT,
+				BREAK_STATEMENT, CONTINUE_STATEMENT, RETURN_STATEMENT, IF_STATEMENT, WHILE_STATEMENT, REPEAT_STATEMENT,
+				BASIC_FOR_STATEMENT, ENHANCED_FOR_STATEMENT);
+	}
+
+	private boolean isList(ASTNode node) {
+		return node.getElementType() == OPTIONAL_EXPRESSION_LIST;
 	}
 
 	public static boolean isElementType(PsiElement element, IElementType... types) {
@@ -173,7 +183,7 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 
 	// Get first non-comment, non-whitespace child
 	public static PsiElement getFirstChildNotWhiteSpace(PsiElement parent) {
-		return getFirstChild(parent, child -> Stream.of(GDescParserDefinition.COMMENT, GDescParserDefinition.WHITESPACE, WHITE_SPACE)
+		return getFirstChild(parent, child -> Stream.of(GDescParserDefinition.COMMENT, GDescTokenTypeService.WHITESPACE, WHITE_SPACE)
 				.noneMatch(type -> child.getNode().getElementType().equals(type)));
 	}
 

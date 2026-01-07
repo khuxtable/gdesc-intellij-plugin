@@ -29,7 +29,7 @@ import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.tree.IElementType;
 import lombok.Getter;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescTokenTypeService;
 
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.FUNC_REF;
 
@@ -51,7 +51,7 @@ public class GDescBinaryExpr extends GDescBlock {
 				.flatMap(child -> flattenChildren.test(child) ? Arrays.stream(child.getChildren(null)) : Stream.of(child))
 				.toList()) {
 			IElementType elementType = child.getElementType();
-			if (pos == Pos.LEFT && GDescParserDefinition.OPERATOR.contains(elementType)) {
+			if (pos == Pos.LEFT && GDescTokenTypeService.OPERATOR.contains(elementType)) {
 				// Once we get to the operator we need to check on newlines positions to decide how to align
 				// We only align on operators when they are the first thing on a line (i.e. previous whitespace included '\n')
 				// and are not followed by a newline. We also align on operator if our parent is operator aligned.

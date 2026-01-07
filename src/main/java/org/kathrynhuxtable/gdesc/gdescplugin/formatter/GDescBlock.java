@@ -20,8 +20,7 @@ import com.intellij.lang.ASTNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.DIRECTIVE;
-import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.GAME;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.*;
 
 public class GDescBlock extends GDescAbstractBlock {
 	GDescBlock(GDescAbstractBlock parentBlock, ASTNode node, SpacingBuilder spacingBuilder, Alignment alignment) {
@@ -35,7 +34,7 @@ public class GDescBlock extends GDescAbstractBlock {
 
 	@Override
 	public @Nullable Indent getIndent() {
-		if (isElementType(myNode, GAME, DIRECTIVE)) {
+		if (isElementType(myNode, GAME, DIRECTIVE, BLOCK)) {
 			return Indent.getNoneIndent();
 		} else if (getAlignment() == null) {
 			return Indent.getContinuationWithoutFirstIndent();

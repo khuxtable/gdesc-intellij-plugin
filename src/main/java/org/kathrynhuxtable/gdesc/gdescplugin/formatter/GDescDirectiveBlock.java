@@ -20,28 +20,23 @@ import com.intellij.lang.ASTNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.*;
-
-public class GDescStmtBlock extends GDescAbstractBlock {
-	GDescStmtBlock(GDescAbstractBlock parentBlock, ASTNode node, SpacingBuilder spacingBuilder, Alignment alignment) {
-		super(parentBlock, node, null, alignment, spacingBuilder, false);
+public class GDescDirectiveBlock extends GDescAbstractBlock {
+	GDescDirectiveBlock(GDescAbstractBlock parentBlock, ASTNode node, Wrap wrap, Alignment alignment, SpacingBuilder spacingBuilder, boolean isTopLevel) {
+		super(parentBlock, node, wrap, alignment, spacingBuilder, isTopLevel);
 	}
 
 	@Override
-	public @Nullable Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-		return null;
+	public Indent getIndent() {
+		return Indent.getNoneIndent();
+	}
+
+	@Override
+	public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
+		return spacingBuilder.getSpacing(this, child1, child2);
 	}
 
 	@Override
 	public boolean isLeaf() {
 		return false;
-	}
-
-	@Override
-	public @Nullable Indent getIndent() {
-		if (isElementType(myNode, OPTIONAL_EXPRESSION_LIST)) {
-			return Indent.getNormalIndent();
-		}
-		return myAlignment != null ? Indent.getNoneIndent() : Indent.getNormalIndent();
 	}
 }

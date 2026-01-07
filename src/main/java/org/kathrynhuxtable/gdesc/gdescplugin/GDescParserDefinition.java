@@ -15,8 +15,6 @@
  */
 package org.kathrynhuxtable.gdesc.gdescplugin;
 
-import java.util.List;
-
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiBuilder;
@@ -30,7 +28,6 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.antlr.intellij.adaptor.lexer.ANTLRLexerAdaptor;
-import org.antlr.intellij.adaptor.lexer.PSIElementTypeFactory;
 import org.antlr.intellij.adaptor.lexer.RuleIElementType;
 import org.antlr.intellij.adaptor.lexer.TokenIElementType;
 import org.antlr.intellij.adaptor.parser.ANTLRParserAdaptor;
@@ -45,202 +42,65 @@ import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 public class GDescParserDefinition implements ParserDefinition {
 
-	public static final IFileElementType FILE =
-			new IFileElementType(GDescLanguage.INSTANCE);
+	public static final IFileElementType FILE = GDescTokenTypeService.FILE;
 
-	public static TokenIElementType ID;
-	public static TokenIElementType LBRACE;
-	public static TokenIElementType RBRACE;
-	public static TokenIElementType LPAREN;
-	public static TokenIElementType RPAREN;
-	public static TokenIElementType LBRACK;
-	public static TokenIElementType RBRACK;
-	public static TokenIElementType QUESTION;
-	public static TokenIElementType COLON;
-	public static TokenIElementType COMMENT;
-	public static TokenIElementType LINE_COMMENT;
+	public static TokenIElementType ID = GDescTokenTypeService.ID;
+	public static TokenIElementType LBRACE = GDescTokenTypeService.LBRACE;
+	public static TokenIElementType RBRACE = GDescTokenTypeService.RBRACE;
+	public static TokenIElementType LPAREN = GDescTokenTypeService.LPAREN;
+	public static TokenIElementType RPAREN = GDescTokenTypeService.RPAREN;
+	public static TokenIElementType LBRACK = GDescTokenTypeService.LBRACK;
+	public static TokenIElementType RBRACK = GDescTokenTypeService.RBRACK;
+	public static TokenIElementType QUESTION = GDescTokenTypeService.QUESTION;
+	public static TokenIElementType COLON = GDescTokenTypeService.COLON;
+	public static TokenIElementType COMMENT = GDescTokenTypeService.COMMENT;
+	public static TokenIElementType LINE_COMMENT = GDescTokenTypeService.LINE_COMMENT;
 
-	public static RuleIElementType INCLUDE_PRAGMA;
-	public static RuleIElementType INFO_PRAGMA;
-	public static RuleIElementType FLAG_DIRECTIVE;
-	public static RuleIElementType STATE_DIRECTIVE;
-	public static RuleIElementType NOISE_DIRECTIVE;
-	public static RuleIElementType VERB_DIRECTIVE;
-	public static RuleIElementType VARIABLE_DIRECTIVE;
-	public static RuleIElementType TEXT_DIRECTIVE;
-	public static RuleIElementType FRAGMENT_DIRECTIVE;
-	public static RuleIElementType PLACE_DIRECTIVE;
-	public static RuleIElementType OBJECT_DIRECTIVE;
-	public static RuleIElementType ACTION_DIRECTIVE;
-	public static RuleIElementType PROC_DIRECTIVE;
-	public static RuleIElementType INITIAL_DIRECTIVE;
-	public static RuleIElementType REPEAT_DIRECTIVE;
+	public static RuleIElementType INCLUDE_PRAGMA = GDescTokenTypeService.INCLUDE_PRAGMA;
+	public static RuleIElementType INFO_PRAGMA = GDescTokenTypeService.INFO_PRAGMA;
+	public static RuleIElementType FLAG_DIRECTIVE = GDescTokenTypeService.FLAG_DIRECTIVE;
+	public static RuleIElementType STATE_DIRECTIVE = GDescTokenTypeService.STATE_DIRECTIVE;
+	public static RuleIElementType NOISE_DIRECTIVE = GDescTokenTypeService.NOISE_DIRECTIVE;
+	public static RuleIElementType VERB_DIRECTIVE = GDescTokenTypeService.VERB_DIRECTIVE;
+	public static RuleIElementType VARIABLE_DIRECTIVE = GDescTokenTypeService.VARIABLE_DIRECTIVE;
+	public static RuleIElementType TEXT_DIRECTIVE = GDescTokenTypeService.TEXT_DIRECTIVE;
+	public static RuleIElementType FRAGMENT_DIRECTIVE = GDescTokenTypeService.FRAGMENT_DIRECTIVE;
+	public static RuleIElementType PLACE_DIRECTIVE = GDescTokenTypeService.PLACE_DIRECTIVE;
+	public static RuleIElementType OBJECT_DIRECTIVE = GDescTokenTypeService.OBJECT_DIRECTIVE;
+	public static RuleIElementType ACTION_DIRECTIVE = GDescTokenTypeService.ACTION_DIRECTIVE;
+	public static RuleIElementType PROC_DIRECTIVE = GDescTokenTypeService.PROC_DIRECTIVE;
+	public static RuleIElementType INITIAL_DIRECTIVE = GDescTokenTypeService.INITIAL_DIRECTIVE;
+	public static RuleIElementType REPEAT_DIRECTIVE = GDescTokenTypeService.REPEAT_DIRECTIVE;
 
-	public static RuleIElementType FUNC_REF;
-	public static RuleIElementType TERNARY_EXPRESSION;
+	public static RuleIElementType FUNC_REF = GDescTokenTypeService.FUNC_REF;
+	public static RuleIElementType TERNARY_EXPRESSION = GDescTokenTypeService.TERNARY_EXPRESSION;
 
-	public static RuleIElementType GAME;
-	public static RuleIElementType DIRECTIVE;
+	public static RuleIElementType GAME = GDescTokenTypeService.GAME;
+	public static RuleIElementType DIRECTIVE = GDescTokenTypeService.DIRECTIVE;
 
-	public static RuleIElementType BLOCK;
-	public static RuleIElementType EMPTY_STATEMENT;
-	public static RuleIElementType LOCAL_VARIABLE_DECLARATION_STATEMENT;
-	public static RuleIElementType EXPRESSION_STATEMENT;
-	public static RuleIElementType BREAK_STATEMENT;
-	public static RuleIElementType CONTINUE_STATEMENT;
-	public static RuleIElementType RETURN_STATEMENT;
-	public static RuleIElementType IF_STATEMENT;
-	public static RuleIElementType IF_THEN_ELSE_STATEMENT;
-	public static RuleIElementType WHILE_STATEMENT;
-	public static RuleIElementType REPEAT_STATEMENT;
-	public static RuleIElementType BASIC_FOR_STATEMENT;
-	public static RuleIElementType ENHANCED_FOR_STATEMENT;
-	public static RuleIElementType CONDITIONAL_OR_EXPRESSION;
-	public static RuleIElementType CONDITIONAL_AND_EXPRESSION;
-	public static RuleIElementType INCLUSIVE_OR_EXPRESSION;
-	public static RuleIElementType EXCLUSIVE_OR_EXPRESSION;
-	public static RuleIElementType AND_EXPRESSION;
-	public static RuleIElementType RELATIONAL_EXPRESSION;
-	public static RuleIElementType SHIFT_EXPRESSION;
-	public static RuleIElementType ADDITIVE_EXPRESSION;
-	public static RuleIElementType MULTIPLICATIVE_EXPRESSION;
-	public static RuleIElementType OPTIONAL_EXPRESSION_LIST;
-
-	static {
-		PSIElementTypeFactory.defineLanguageIElementTypes(GDescLanguage.INSTANCE,
-				GameParser.tokenNames,
-				GameParser.ruleNames);
-		List<TokenIElementType> tokenIElementTypes =
-				PSIElementTypeFactory.getTokenIElementTypes(GDescLanguage.INSTANCE);
-		List<RuleIElementType> ruleIElementTypes =
-				PSIElementTypeFactory.getRuleIElementTypes(GDescLanguage.INSTANCE);
-
-		ID = tokenIElementTypes.get(GameLexer.IDENTIFIER);
-
-		LBRACE = tokenIElementTypes.get(GameLexer.LBRACE);
-		RBRACE = tokenIElementTypes.get(GameLexer.RBRACE);
-		LPAREN = tokenIElementTypes.get(GameLexer.LPAREN);
-		RPAREN = tokenIElementTypes.get(GameLexer.RPAREN);
-		LBRACK = tokenIElementTypes.get(GameLexer.LBRACK);
-		RBRACK = tokenIElementTypes.get(GameLexer.RBRACK);
-		QUESTION = tokenIElementTypes.get(GameLexer.QUESTION);
-		COLON = tokenIElementTypes.get(GameLexer.COLON);
-		COMMENT = tokenIElementTypes.get(GameLexer.COMMENT);
-		LINE_COMMENT = tokenIElementTypes.get(GameLexer.LINE_COMMENT);
-
-		GAME = ruleIElementTypes.get(GameParser.RULE_game);
-		DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_directive);
-
-		INCLUDE_PRAGMA = ruleIElementTypes.get(GameParser.RULE_includePragma);
-		INFO_PRAGMA = ruleIElementTypes.get(GameParser.RULE_infoPragma);
-		FLAG_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_flagDirective);
-		STATE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_stateDirective);
-		NOISE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_noiseDirective);
-		VERB_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_verbDirective);
-		VARIABLE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_variableDirective);
-		TEXT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_textDirective);
-		FRAGMENT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_fragmentDirective);
-		PLACE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_placeDirective);
-		OBJECT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_objectDirective);
-		ACTION_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_actionDirective);
-		PROC_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_procDirective);
-		INITIAL_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_initialDirective);
-		REPEAT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_repeatDirective);
-
-		FUNC_REF = ruleIElementTypes.get(GameParser.RULE_functionInvocation);
-		TERNARY_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_queryExpression);
-
-		BLOCK = ruleIElementTypes.get(GameParser.RULE_block);
-		EMPTY_STATEMENT = ruleIElementTypes.get(GameParser.RULE_emptyStatement);
-		LOCAL_VARIABLE_DECLARATION_STATEMENT = ruleIElementTypes.get(GameParser.RULE_localVariableDeclarationStatement);
-		EXPRESSION_STATEMENT = ruleIElementTypes.get(GameParser.RULE_expressionStatement);
-		BREAK_STATEMENT = ruleIElementTypes.get(GameParser.RULE_breakStatement);
-		CONTINUE_STATEMENT = ruleIElementTypes.get(GameParser.RULE_continueStatement);
-		RETURN_STATEMENT = ruleIElementTypes.get(GameParser.RULE_returnStatement);
-		IF_STATEMENT = ruleIElementTypes.get(GameParser.RULE_ifStatement);
-		WHILE_STATEMENT = ruleIElementTypes.get(GameParser.RULE_whileStatement);
-		REPEAT_STATEMENT = ruleIElementTypes.get(GameParser.RULE_repeatStatement);
-		BASIC_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_basicForStatement);
-		ENHANCED_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_enhancedForStatement);
-
-		CONDITIONAL_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_conditionalOrExpression);
-		CONDITIONAL_AND_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_conditionalAndExpression);
-		INCLUSIVE_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_inclusiveOrExpression);
-		EXCLUSIVE_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_exclusiveOrExpression);
-		AND_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_andExpression);
-		RELATIONAL_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_relationalExpression);
-		SHIFT_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_shiftExpression);
-		ADDITIVE_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_additiveExpression);
-		MULTIPLICATIVE_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_multiplicativeExpression);
-
-		OPTIONAL_EXPRESSION_LIST = ruleIElementTypes.get(GameParser.RULE_optionalExpressionList);
-	}
-
-	public static final TokenSet IDENTIFIERS =
-			PSIElementTypeFactory.createTokenSet(
-					GDescLanguage.INSTANCE,
-					GameLexer.IDENTIFIER);
-
-	public static final TokenSet COMMENTS =
-			PSIElementTypeFactory.createTokenSet(
-					GDescLanguage.INSTANCE,
-					GameLexer.COMMENT,
-					GameLexer.LINE_COMMENT);
-
-	public static final TokenSet WHITESPACE =
-			PSIElementTypeFactory.createTokenSet(
-					GDescLanguage.INSTANCE,
-					GameLexer.WS);
-
-	public static final TokenSet STRING =
-			PSIElementTypeFactory.createTokenSet(
-					GDescLanguage.INSTANCE,
-					GameLexer.CHAR_LITERAL,
-					GameLexer.STRING_LITERAL,
-					GameLexer.TEXT_BLOCK);
-
-	public static final TokenSet ONE_LINE_STRING =
-			PSIElementTypeFactory.createTokenSet(
-					GDescLanguage.INSTANCE,
-					GameLexer.CHAR_LITERAL,
-					GameLexer.STRING_LITERAL);
-
-	public static final TokenSet OPERATOR =
-			PSIElementTypeFactory.createTokenSet(
-					GDescLanguage.INSTANCE,
-					GameLexer.ADD_ASSIGN,
-					GameLexer.SUB_ASSIGN,
-					GameLexer.MUL_ASSIGN,
-					GameLexer.DIV_ASSIGN,
-					GameLexer.AND_ASSIGN,
-					GameLexer.OR_ASSIGN,
-					GameLexer.XOR_ASSIGN,
-					GameLexer.MOD_ASSIGN,
-					GameLexer.LSHIFT_ASSIGN,
-					GameLexer.RSHIFT_ASSIGN,
-					GameLexer.URSHIFT_ASSIGN,
-					GameLexer.EQUAL,
-					GameLexer.LSHIFT,
-					GameLexer.URSHIFT,
-					GameLexer.RSHIFT,
-					GameLexer.GT,
-					GameLexer.LT,
-					GameLexer.QUESTION,
-					GameLexer.COLON,
-					GameLexer.EQUALS,
-					GameLexer.LE,
-					GameLexer.GE,
-					GameLexer.NOTEQUALS,
-					GameLexer.AND,
-					GameLexer.OR,
-					GameLexer.ADD,
-					GameLexer.SUB,
-					GameLexer.MUL,
-					GameLexer.DIV,
-					GameLexer.BITAND,
-					GameLexer.BITOR,
-					GameLexer.CARET,
-					GameLexer.MOD);
+	public static RuleIElementType BLOCK = GDescTokenTypeService.BLOCK;
+	public static RuleIElementType STATEMENT = GDescTokenTypeService.STATEMENT;
+	public static RuleIElementType EMPTY_STATEMENT = GDescTokenTypeService.EMPTY_STATEMENT;
+	public static RuleIElementType LOCAL_VARIABLE_DECLARATION_STATEMENT = GDescTokenTypeService.LOCAL_VARIABLE_DECLARATION_STATEMENT;
+	public static RuleIElementType EXPRESSION_STATEMENT = GDescTokenTypeService.EXPRESSION_STATEMENT;
+	public static RuleIElementType BREAK_STATEMENT = GDescTokenTypeService.BREAK_STATEMENT;
+	public static RuleIElementType CONTINUE_STATEMENT = GDescTokenTypeService.CONTINUE_STATEMENT;
+	public static RuleIElementType RETURN_STATEMENT = GDescTokenTypeService.RETURN_STATEMENT;
+	public static RuleIElementType IF_STATEMENT = GDescTokenTypeService.IF_STATEMENT;
+	public static RuleIElementType WHILE_STATEMENT = GDescTokenTypeService.WHILE_STATEMENT;
+	public static RuleIElementType REPEAT_STATEMENT = GDescTokenTypeService.REPEAT_STATEMENT;
+	public static RuleIElementType BASIC_FOR_STATEMENT = GDescTokenTypeService.BASIC_FOR_STATEMENT;
+	public static RuleIElementType ENHANCED_FOR_STATEMENT = GDescTokenTypeService.ENHANCED_FOR_STATEMENT;
+	public static RuleIElementType CONDITIONAL_OR_EXPRESSION = GDescTokenTypeService.CONDITIONAL_OR_EXPRESSION;
+	public static RuleIElementType CONDITIONAL_AND_EXPRESSION = GDescTokenTypeService.CONDITIONAL_AND_EXPRESSION;
+	public static RuleIElementType INCLUSIVE_OR_EXPRESSION = GDescTokenTypeService.INCLUSIVE_OR_EXPRESSION;
+	public static RuleIElementType EXCLUSIVE_OR_EXPRESSION = GDescTokenTypeService.EXCLUSIVE_OR_EXPRESSION;
+	public static RuleIElementType AND_EXPRESSION = GDescTokenTypeService.AND_EXPRESSION;
+	public static RuleIElementType RELATIONAL_EXPRESSION = GDescTokenTypeService.RELATIONAL_EXPRESSION;
+	public static RuleIElementType SHIFT_EXPRESSION = GDescTokenTypeService.SHIFT_EXPRESSION;
+	public static RuleIElementType ADDITIVE_EXPRESSION = GDescTokenTypeService.ADDITIVE_EXPRESSION;
+	public static RuleIElementType MULTIPLICATIVE_EXPRESSION = GDescTokenTypeService.MULTIPLICATIVE_EXPRESSION;
+	public static RuleIElementType OPTIONAL_EXPRESSION_LIST = GDescTokenTypeService.OPTIONAL_EXPRESSION_LIST;
 
 	@NotNull
 	@Override
@@ -271,17 +131,17 @@ public class GDescParserDefinition implements ParserDefinition {
 	 */
 	@NotNull
 	public TokenSet getWhitespaceTokens() {
-		return WHITESPACE;
+		return GDescTokenTypeService.WHITESPACE;
 	}
 
 	@NotNull
 	public TokenSet getCommentTokens() {
-		return COMMENTS;
+		return GDescTokenTypeService.COMMENTS;
 	}
 
 	@NotNull
 	public TokenSet getStringLiteralElements() {
-		return STRING;
+		return GDescTokenTypeService.STRING;
 	}
 
 	@NotNull
@@ -369,14 +229,15 @@ public class GDescParserDefinition implements ParserDefinition {
 			case GameParser.RULE_stateClause -> new StateClauseSubtree(node, elType);
 			// Block and Statements
 			case GameParser.RULE_block -> new BlockSubtree(node);
-			case GameParser.RULE_emptyStatement ->  new EmptyStatementSubtree(node);
-			case GameParser.RULE_localVariableDeclarationStatement ->   new LocalVariableDeclarationStatementSubtree(node);
-			case GameParser.RULE_expressionStatement ->  new ExpressionStatementSubtree(node);
-			case GameParser.RULE_breakStatement ->  new BreakStatementSubtree(node);
-			case GameParser.RULE_continueStatement ->  new ContinueStatementSubtree(node);
-			case GameParser.RULE_returnStatement ->  new ReturnStatementSubtree(node);
-			case GameParser.RULE_ifStatement ->   new IfStatementSubtree(node);
-			case GameParser.RULE_whileStatement ->  new WhileStatementSubtree(node);
+			case GameParser.RULE_emptyStatement -> new EmptyStatementSubtree(node);
+			case GameParser.RULE_localVariableDeclarationStatement ->
+					new LocalVariableDeclarationStatementSubtree(node);
+			case GameParser.RULE_expressionStatement -> new ExpressionStatementSubtree(node);
+			case GameParser.RULE_breakStatement -> new BreakStatementSubtree(node);
+			case GameParser.RULE_continueStatement -> new ContinueStatementSubtree(node);
+			case GameParser.RULE_returnStatement -> new ReturnStatementSubtree(node);
+			case GameParser.RULE_ifStatement -> new IfStatementSubtree(node);
+			case GameParser.RULE_whileStatement -> new WhileStatementSubtree(node);
 			case GameParser.RULE_repeatStatement -> new RepeatStatementSubtree(node);
 			case GameParser.RULE_basicForStatement -> new BasicForSubtree(node);
 			case GameParser.RULE_enhancedForStatement -> new EnhancedForSubtree(node);
@@ -386,7 +247,7 @@ public class GDescParserDefinition implements ParserDefinition {
 			// Expressions
 			case GameParser.RULE_assignment -> new AssignmentExpressionSubtree(node, elType);
 			case GameParser.RULE_arrayAccess -> new ArrayReferenceSubtree(node, elType);
-			case GameParser.RULE_queryExpression ->  new QueryExpressionSubtree(node, elType);
+			case GameParser.RULE_queryExpression -> new QueryExpressionSubtree(node, elType);
 			case GameParser.RULE_conditionalOrExpression, GameParser.RULE_conditionalAndExpression,
 			     GameParser.RULE_inclusiveOrExpression, GameParser.RULE_exclusiveOrExpression,
 			     GameParser.RULE_andExpression, GameParser.RULE_relationalExpression,
@@ -400,11 +261,11 @@ public class GDescParserDefinition implements ParserDefinition {
 			}
 			case GameParser.RULE_unaryExpression, GameParser.RULE_preIncrementOrDecrementExpression,
 			     GameParser.RULE_unaryExpressionNotPlusMinus -> new UnaryPreExpressionSubtree(node, elType);
-			case GameParser.RULE_postIncrementOrDecrementExpression ->  new UnaryPostExpressionSubtree(node, elType);
-			case GameParser.RULE_parenthesizedExpression ->  new ParenthesizedExpressionSubtree(node, elType);
+			case GameParser.RULE_postIncrementOrDecrementExpression -> new UnaryPostExpressionSubtree(node, elType);
+			case GameParser.RULE_parenthesizedExpression -> new ParenthesizedExpressionSubtree(node, elType);
 			case GameParser.RULE_functionInvocation -> new FunctionInvocationSubtree(node);
 			case GameParser.RULE_optionalExpressionList -> new OptionalExpressionListSubtree(node, elType);
-			case GameParser.RULE_refExpression ->  new RefExpressionSubtree(node, elType);
+			case GameParser.RULE_refExpression -> new RefExpressionSubtree(node, elType);
 			case GameParser.RULE_instanceofExpression -> new InstanceOfExpressionSubtree(node, elType);
 			default -> new ANTLRPsiNode(node);
 		};

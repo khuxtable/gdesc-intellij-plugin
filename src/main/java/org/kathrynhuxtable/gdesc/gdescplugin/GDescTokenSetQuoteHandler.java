@@ -20,6 +20,6 @@ import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler;
 public class GDescTokenSetQuoteHandler extends SimpleTokenSetQuoteHandler {
 
 	public GDescTokenSetQuoteHandler() {
-		super(GDescParserDefinition.ONE_LINE_STRING);
+		super(GDescTokenTypeService.ONE_LINE_STRING);
 	}
 }
