@@ -50,8 +50,8 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 		GameLexer lexer = new GameLexer(null);
 		ANTLRLexerAdaptor myLexer = new ANTLRLexerAdaptor(GDescLanguage.INSTANCE, lexer);
 		return new DefaultWordsScanner(myLexer,
-				GDescTokenTypeService.IDENTIFIERS,
-				GDescTokenTypeService.COMMENTS,
+				GDescElementTypeService.IDENTIFIERS,
+				GDescElementTypeService.COMMENTS,
 				TokenSet.EMPTY);
 	}
 

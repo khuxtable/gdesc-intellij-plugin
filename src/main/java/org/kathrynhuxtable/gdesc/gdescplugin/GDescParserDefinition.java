@@ -42,65 +42,65 @@ import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 public class GDescParserDefinition implements ParserDefinition {
 
-	public static final IFileElementType FILE = GDescTokenTypeService.FILE;
+	public static final IFileElementType FILE = GDescElementTypeService.FILE;
 
-	public static TokenIElementType ID = GDescTokenTypeService.ID;
-	public static TokenIElementType LBRACE = GDescTokenTypeService.LBRACE;
-	public static TokenIElementType RBRACE = GDescTokenTypeService.RBRACE;
-	public static TokenIElementType LPAREN = GDescTokenTypeService.LPAREN;
-	public static TokenIElementType RPAREN = GDescTokenTypeService.RPAREN;
-	public static TokenIElementType LBRACK = GDescTokenTypeService.LBRACK;
-	public static TokenIElementType RBRACK = GDescTokenTypeService.RBRACK;
-	public static TokenIElementType QUESTION = GDescTokenTypeService.QUESTION;
-	public static TokenIElementType COLON = GDescTokenTypeService.COLON;
-	public static TokenIElementType COMMENT = GDescTokenTypeService.COMMENT;
-	public static TokenIElementType LINE_COMMENT = GDescTokenTypeService.LINE_COMMENT;
+	public static TokenIElementType ID = GDescElementTypeService.ID;
+	public static TokenIElementType LBRACE = GDescElementTypeService.LBRACE;
+	public static TokenIElementType RBRACE = GDescElementTypeService.RBRACE;
+	public static TokenIElementType LPAREN = GDescElementTypeService.LPAREN;
+	public static TokenIElementType RPAREN = GDescElementTypeService.RPAREN;
+	public static TokenIElementType LBRACK = GDescElementTypeService.LBRACK;
+	public static TokenIElementType RBRACK = GDescElementTypeService.RBRACK;
+	public static TokenIElementType QUESTION = GDescElementTypeService.QUESTION;
+	public static TokenIElementType COLON = GDescElementTypeService.COLON;
+	public static TokenIElementType COMMENT = GDescElementTypeService.COMMENT;
+	public static TokenIElementType LINE_COMMENT = GDescElementTypeService.LINE_COMMENT;
 
-	public static RuleIElementType INCLUDE_PRAGMA = GDescTokenTypeService.INCLUDE_PRAGMA;
-	public static RuleIElementType INFO_PRAGMA = GDescTokenTypeService.INFO_PRAGMA;
-	public static RuleIElementType FLAG_DIRECTIVE = GDescTokenTypeService.FLAG_DIRECTIVE;
-	public static RuleIElementType STATE_DIRECTIVE = GDescTokenTypeService.STATE_DIRECTIVE;
-	public static RuleIElementType NOISE_DIRECTIVE = GDescTokenTypeService.NOISE_DIRECTIVE;
-	public static RuleIElementType VERB_DIRECTIVE = GDescTokenTypeService.VERB_DIRECTIVE;
-	public static RuleIElementType VARIABLE_DIRECTIVE = GDescTokenTypeService.VARIABLE_DIRECTIVE;
-	public static RuleIElementType TEXT_DIRECTIVE = GDescTokenTypeService.TEXT_DIRECTIVE;
-	public static RuleIElementType FRAGMENT_DIRECTIVE = GDescTokenTypeService.FRAGMENT_DIRECTIVE;
-	public static RuleIElementType PLACE_DIRECTIVE = GDescTokenTypeService.PLACE_DIRECTIVE;
-	public static RuleIElementType OBJECT_DIRECTIVE = GDescTokenTypeService.OBJECT_DIRECTIVE;
-	public static RuleIElementType ACTION_DIRECTIVE = GDescTokenTypeService.ACTION_DIRECTIVE;
-	public static RuleIElementType PROC_DIRECTIVE = GDescTokenTypeService.PROC_DIRECTIVE;
-	public static RuleIElementType INITIAL_DIRECTIVE = GDescTokenTypeService.INITIAL_DIRECTIVE;
-	public static RuleIElementType REPEAT_DIRECTIVE = GDescTokenTypeService.REPEAT_DIRECTIVE;
+	public static RuleIElementType INCLUDE_PRAGMA = GDescElementTypeService.INCLUDE_PRAGMA;
+	public static RuleIElementType INFO_PRAGMA = GDescElementTypeService.INFO_PRAGMA;
+	public static RuleIElementType FLAG_DIRECTIVE = GDescElementTypeService.FLAG_DIRECTIVE;
+	public static RuleIElementType STATE_DIRECTIVE = GDescElementTypeService.STATE_DIRECTIVE;
+	public static RuleIElementType NOISE_DIRECTIVE = GDescElementTypeService.NOISE_DIRECTIVE;
+	public static RuleIElementType VERB_DIRECTIVE = GDescElementTypeService.VERB_DIRECTIVE;
+	public static RuleIElementType VARIABLE_DIRECTIVE = GDescElementTypeService.VARIABLE_DIRECTIVE;
+	public static RuleIElementType TEXT_DIRECTIVE = GDescElementTypeService.TEXT_DIRECTIVE;
+	public static RuleIElementType FRAGMENT_DIRECTIVE = GDescElementTypeService.FRAGMENT_DIRECTIVE;
+	public static RuleIElementType PLACE_DIRECTIVE = GDescElementTypeService.PLACE_DIRECTIVE;
+	public static RuleIElementType OBJECT_DIRECTIVE = GDescElementTypeService.OBJECT_DIRECTIVE;
+	public static RuleIElementType ACTION_DIRECTIVE = GDescElementTypeService.ACTION_DIRECTIVE;
+	public static RuleIElementType PROC_DIRECTIVE = GDescElementTypeService.PROC_DIRECTIVE;
+	public static RuleIElementType INITIAL_DIRECTIVE = GDescElementTypeService.INITIAL_DIRECTIVE;
+	public static RuleIElementType REPEAT_DIRECTIVE = GDescElementTypeService.REPEAT_DIRECTIVE;
 
-	public static RuleIElementType FUNC_REF = GDescTokenTypeService.FUNC_REF;
-	public static RuleIElementType TERNARY_EXPRESSION = GDescTokenTypeService.TERNARY_EXPRESSION;
+	public static RuleIElementType FUNC_REF = GDescElementTypeService.FUNC_REF;
+	public static RuleIElementType TERNARY_EXPRESSION = GDescElementTypeService.TERNARY_EXPRESSION;
 
-	public static RuleIElementType GAME = GDescTokenTypeService.GAME;
-	public static RuleIElementType DIRECTIVE = GDescTokenTypeService.DIRECTIVE;
+	public static RuleIElementType GAME = GDescElementTypeService.GAME;
+	public static RuleIElementType DIRECTIVE = GDescElementTypeService.DIRECTIVE;
 
-	public static RuleIElementType BLOCK = GDescTokenTypeService.BLOCK;
-	public static RuleIElementType STATEMENT = GDescTokenTypeService.STATEMENT;
-	public static RuleIElementType EMPTY_STATEMENT = GDescTokenTypeService.EMPTY_STATEMENT;
-	public static RuleIElementType LOCAL_VARIABLE_DECLARATION_STATEMENT = GDescTokenTypeService.LOCAL_VARIABLE_DECLARATION_STATEMENT;
-	public static RuleIElementType EXPRESSION_STATEMENT = GDescTokenTypeService.EXPRESSION_STATEMENT;
-	public static RuleIElementType BREAK_STATEMENT = GDescTokenTypeService.BREAK_STATEMENT;
-	public static RuleIElementType CONTINUE_STATEMENT = GDescTokenTypeService.CONTINUE_STATEMENT;
-	public static RuleIElementType RETURN_STATEMENT = GDescTokenTypeService.RETURN_STATEMENT;
-	public static RuleIElementType IF_STATEMENT = GDescTokenTypeService.IF_STATEMENT;
-	public static RuleIElementType WHILE_STATEMENT = GDescTokenTypeService.WHILE_STATEMENT;
-	public static RuleIElementType REPEAT_STATEMENT = GDescTokenTypeService.REPEAT_STATEMENT;
-	public static RuleIElementType BASIC_FOR_STATEMENT = GDescTokenTypeService.BASIC_FOR_STATEMENT;
-	public static RuleIElementType ENHANCED_FOR_STATEMENT = GDescTokenTypeService.ENHANCED_FOR_STATEMENT;
-	public static RuleIElementType CONDITIONAL_OR_EXPRESSION = GDescTokenTypeService.CONDITIONAL_OR_EXPRESSION;
-	public static RuleIElementType CONDITIONAL_AND_EXPRESSION = GDescTokenTypeService.CONDITIONAL_AND_EXPRESSION;
-	public static RuleIElementType INCLUSIVE_OR_EXPRESSION = GDescTokenTypeService.INCLUSIVE_OR_EXPRESSION;
-	public static RuleIElementType EXCLUSIVE_OR_EXPRESSION = GDescTokenTypeService.EXCLUSIVE_OR_EXPRESSION;
-	public static RuleIElementType AND_EXPRESSION = GDescTokenTypeService.AND_EXPRESSION;
-	public static RuleIElementType RELATIONAL_EXPRESSION = GDescTokenTypeService.RELATIONAL_EXPRESSION;
-	public static RuleIElementType SHIFT_EXPRESSION = GDescTokenTypeService.SHIFT_EXPRESSION;
-	public static RuleIElementType ADDITIVE_EXPRESSION = GDescTokenTypeService.ADDITIVE_EXPRESSION;
-	public static RuleIElementType MULTIPLICATIVE_EXPRESSION = GDescTokenTypeService.MULTIPLICATIVE_EXPRESSION;
-	public static RuleIElementType OPTIONAL_EXPRESSION_LIST = GDescTokenTypeService.OPTIONAL_EXPRESSION_LIST;
+	public static RuleIElementType BLOCK = GDescElementTypeService.BLOCK;
+	public static RuleIElementType STATEMENT = GDescElementTypeService.STATEMENT;
+	public static RuleIElementType EMPTY_STATEMENT = GDescElementTypeService.EMPTY_STATEMENT;
+	public static RuleIElementType LOCAL_VARIABLE_DECLARATION_STATEMENT = GDescElementTypeService.LOCAL_VARIABLE_DECLARATION_STATEMENT;
+	public static RuleIElementType EXPRESSION_STATEMENT = GDescElementTypeService.EXPRESSION_STATEMENT;
+	public static RuleIElementType BREAK_STATEMENT = GDescElementTypeService.BREAK_STATEMENT;
+	public static RuleIElementType CONTINUE_STATEMENT = GDescElementTypeService.CONTINUE_STATEMENT;
+	public static RuleIElementType RETURN_STATEMENT = GDescElementTypeService.RETURN_STATEMENT;
+	public static RuleIElementType IF_STATEMENT = GDescElementTypeService.IF_STATEMENT;
+	public static RuleIElementType WHILE_STATEMENT = GDescElementTypeService.WHILE_STATEMENT;
+	public static RuleIElementType REPEAT_STATEMENT = GDescElementTypeService.REPEAT_STATEMENT;
+	public static RuleIElementType BASIC_FOR_STATEMENT = GDescElementTypeService.BASIC_FOR_STATEMENT;
+	public static RuleIElementType ENHANCED_FOR_STATEMENT = GDescElementTypeService.ENHANCED_FOR_STATEMENT;
+	public static RuleIElementType CONDITIONAL_OR_EXPRESSION = GDescElementTypeService.CONDITIONAL_OR_EXPRESSION;
+	public static RuleIElementType CONDITIONAL_AND_EXPRESSION = GDescElementTypeService.CONDITIONAL_AND_EXPRESSION;
+	public static RuleIElementType INCLUSIVE_OR_EXPRESSION = GDescElementTypeService.INCLUSIVE_OR_EXPRESSION;
+	public static RuleIElementType EXCLUSIVE_OR_EXPRESSION = GDescElementTypeService.EXCLUSIVE_OR_EXPRESSION;
+	public static RuleIElementType AND_EXPRESSION = GDescElementTypeService.AND_EXPRESSION;
+	public static RuleIElementType RELATIONAL_EXPRESSION = GDescElementTypeService.RELATIONAL_EXPRESSION;
+	public static RuleIElementType SHIFT_EXPRESSION = GDescElementTypeService.SHIFT_EXPRESSION;
+	public static RuleIElementType ADDITIVE_EXPRESSION = GDescElementTypeService.ADDITIVE_EXPRESSION;
+	public static RuleIElementType MULTIPLICATIVE_EXPRESSION = GDescElementTypeService.MULTIPLICATIVE_EXPRESSION;
+	public static RuleIElementType OPTIONAL_EXPRESSION_LIST = GDescElementTypeService.OPTIONAL_EXPRESSION_LIST;
 
 	@NotNull
 	@Override
@@ -131,17 +131,17 @@ public class GDescParserDefinition implements ParserDefinition {
 	 */
 	@NotNull
 	public TokenSet getWhitespaceTokens() {
-		return GDescTokenTypeService.WHITESPACE;
+		return GDescElementTypeService.WHITESPACE;
 	}
 
 	@NotNull
 	public TokenSet getCommentTokens() {
-		return GDescTokenTypeService.COMMENTS;
+		return GDescElementTypeService.COMMENTS;
 	}
 
 	@NotNull
 	public TokenSet getStringLiteralElements() {
-		return GDescTokenTypeService.STRING;
+		return GDescElementTypeService.STRING;
 	}
 
 	@NotNull

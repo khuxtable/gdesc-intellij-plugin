@@ -48,11 +48,7 @@ final class GDescLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 		if (settingsType == SettingsType.SPACING_SETTINGS) {
 			consumer.showStandardOptions(
 					"SPACE_AROUND_ASSIGNMENT_OPERATORS",
-					"SPACE_AROUND_LOGICAL_OPERATORS",
-					"SPACE_AROUND_EQUALITY_OPERATORS",
-					"SPACE_AROUND_RELATIONAL_OPERATORS",
-					"SPACE_AROUND_ADDITIVE_OPERATORS",
-					"SPACE_AROUND_MULTIPLICATIVE_OPERATORS",
+					"SPACES_IN_TERNARY_OPERATOR",
 					"SPACE_AROUND_UNARY_OPERATOR",
 					"SPACE_AFTER_COMMA",
 					"SPACE_BEFORE_COMMA",
@@ -61,23 +57,7 @@ final class GDescLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 			);
 			consumer.renameStandardOption(
 					"SPACE_AROUND_ASSIGNMENT_OPERATORS",
-					"Space around assigment operators (=, =>)"
-			);
-			consumer.renameStandardOption(
-					"SPACE_AROUND_LOGICAL_OPERATORS",
-					"Logical operators (.or., .and.)"
-			);
-			consumer.renameStandardOption(
-					"SPACE_AROUND_EQUALITY_OPERATORS",
-					"Equality operators (==, .eq., ...)"
-			);
-			consumer.renameStandardOption(
-					"SPACE_AROUND_RELATIONAL_OPERATORS",
-					"Relational operators (<, .lt., ...)"
-			);
-			consumer.renameStandardOption(
-					"SPACE_AROUND_MULTIPLICATIVE_OPERATORS",
-					"Multiplicative operators (*, /)"
+					"Space around binary operators (=, +, ==, ||, etc.)"
 			);
 			consumer.renameStandardOption(
 					"SPACE_AROUND_UNARY_OPERATOR",
@@ -87,8 +67,14 @@ final class GDescLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 			CodeStyleSettingsCustomizableOptions codeStyleSettingsCustomizable = CodeStyleSettingsCustomizableOptions.getInstance();
 			consumer.showCustomOption(
 					GDescCodeStyleSettings.class,
+					"SPACES_IN_TERNARY_OPERATOR",
+					"Ternary operator (? :)",
+					codeStyleSettingsCustomizable.SPACES_IN_TERNARY_OPERATOR
+			);
+			consumer.showCustomOption(
+					GDescCodeStyleSettings.class,
 					"SPACE_AROUND_NOT_OPERATOR",
-					"Not operator (.not.)",
+					"Not operator (!)",
 					codeStyleSettingsCustomizable.SPACES_AROUND_OPERATORS
 			);
 			consumer.showCustomOption(

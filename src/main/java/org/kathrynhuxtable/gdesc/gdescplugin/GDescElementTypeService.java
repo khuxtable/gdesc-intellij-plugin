@@ -27,7 +27,7 @@ import org.antlr.intellij.adaptor.lexer.TokenIElementType;
 import org.kathrynhuxtable.gdesc.parser.GameLexer;
 import org.kathrynhuxtable.gdesc.parser.GameParser;
 
-public class GDescTokenTypeService {
+public class GDescElementTypeService {
 
 	public static final IFileElementType FILE = new IFileElementType(GDescLanguage.INSTANCE);
 
@@ -39,9 +39,16 @@ public class GDescTokenTypeService {
 	public static TokenIElementType LBRACK;
 	public static TokenIElementType RBRACK;
 	public static TokenIElementType QUESTION;
+	public static TokenIElementType EQUAL;
 	public static TokenIElementType COLON;
+	public static TokenIElementType SEMICOLON;
+	public static TokenIElementType SUB;
+	public static TokenIElementType COMMA;
 	public static TokenIElementType COMMENT;
 	public static TokenIElementType LINE_COMMENT;
+
+	public static RuleIElementType GAME;
+	public static RuleIElementType DIRECTIVE;
 
 	public static RuleIElementType INCLUDE_PRAGMA;
 	public static RuleIElementType INFO_PRAGMA;
@@ -59,11 +66,10 @@ public class GDescTokenTypeService {
 	public static RuleIElementType INITIAL_DIRECTIVE;
 	public static RuleIElementType REPEAT_DIRECTIVE;
 
+	public static RuleIElementType VARIABLE_DECLARATOR;
+
 	public static RuleIElementType FUNC_REF;
 	public static RuleIElementType TERNARY_EXPRESSION;
-
-	public static RuleIElementType GAME;
-	public static RuleIElementType DIRECTIVE;
 
 	public static RuleIElementType BLOCK;
 	public static RuleIElementType STATEMENT;
@@ -78,6 +84,8 @@ public class GDescTokenTypeService {
 	public static RuleIElementType REPEAT_STATEMENT;
 	public static RuleIElementType BASIC_FOR_STATEMENT;
 	public static RuleIElementType ENHANCED_FOR_STATEMENT;
+
+	public static RuleIElementType ASSIGNMENT;
 	public static RuleIElementType CONDITIONAL_OR_EXPRESSION;
 	public static RuleIElementType CONDITIONAL_AND_EXPRESSION;
 	public static RuleIElementType INCLUSIVE_OR_EXPRESSION;
@@ -105,7 +113,11 @@ public class GDescTokenTypeService {
 		LBRACK = tokenIElementTypes.get(GameLexer.LBRACK);
 		RBRACK = tokenIElementTypes.get(GameLexer.RBRACK);
 		QUESTION = tokenIElementTypes.get(GameLexer.QUESTION);
+		EQUAL = tokenIElementTypes.get(GameLexer.EQUAL);
 		COLON = tokenIElementTypes.get(GameLexer.COLON);
+		SEMICOLON = tokenIElementTypes.get(GameLexer.SEMI);
+		SUB = tokenIElementTypes.get(GameLexer.SUB);
+		COMMA = tokenIElementTypes.get(GameLexer.COMMA);
 		COMMENT = tokenIElementTypes.get(GameLexer.COMMENT);
 		LINE_COMMENT = tokenIElementTypes.get(GameLexer.LINE_COMMENT);
 
@@ -128,6 +140,8 @@ public class GDescTokenTypeService {
 		INITIAL_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_initialDirective);
 		REPEAT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_repeatDirective);
 
+		VARIABLE_DECLARATOR = ruleIElementTypes.get(GameParser.RULE_variableDeclarator);
+
 		FUNC_REF = ruleIElementTypes.get(GameParser.RULE_functionInvocation);
 		TERNARY_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_queryExpression);
 
@@ -145,6 +159,7 @@ public class GDescTokenTypeService {
 		BASIC_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_basicForStatement);
 		ENHANCED_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_enhancedForStatement);
 
+		ASSIGNMENT = ruleIElementTypes.get(GameParser.RULE_assignment);
 		CONDITIONAL_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_conditionalOrExpression);
 		CONDITIONAL_AND_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_conditionalAndExpression);
 		INCLUSIVE_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_inclusiveOrExpression);

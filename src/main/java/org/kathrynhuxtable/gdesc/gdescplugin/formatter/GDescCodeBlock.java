@@ -17,12 +17,20 @@ package org.kathrynhuxtable.gdesc.gdescplugin.formatter;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
+
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.COMMA;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.SEMICOLON;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.*;
+
 public class GDescCodeBlock extends GDescAbstractBlock {
-	GDescCodeBlock(GDescAbstractBlock parentBlock, ASTNode node, Wrap wrap, Alignment alignment, SpacingBuilder spacingBuilder, boolean isTopLevel) {
-		super(parentBlock, node, wrap, alignment, spacingBuilder, isTopLevel);
+	GDescCodeBlock(GDescAbstractBlock parentBlock, ASTNode node, Wrap wrap, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings, boolean isTopLevel) {
+		super(parentBlock, node, wrap, alignment, spacingBuilder, settings, isTopLevel);
 	}
 
 	@Override
@@ -31,12 +39,29 @@ public class GDescCodeBlock extends GDescAbstractBlock {
 	}
 
 	@Override
-	public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-		return spacingBuilder.getSpacing(this, child1, child2);
+	public boolean isLeaf() {
+		return false;
 	}
 
 	@Override
-	public boolean isLeaf() {
-		return false;
+	public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
+		CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
+		SpacingBuilder builder = new SpacingBuilder(commonSettings)
+				// Add a space before the '('
+				.before(LPAREN)
+				.spaceIf(true)
+				// Add a space after the ')'
+				.after(RPAREN)
+				.spaceIf(true)
+				// Add a space after a ','
+				.after(COMMA)
+				.spaceIf(true)
+				// Add spaces around ':'
+				.around(COLON)
+				.spaceIf(true)
+				// Add a space after the ';'
+				.after(SEMICOLON)
+				.spaceIf(true);
+		return builder.getSpacing(parentBlock, child1, child2);
 	}
 }

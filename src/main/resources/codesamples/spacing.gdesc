@@ -1,5 +1,7 @@
 // You are reading the ".gdesc" entry.
-info name: "Sample Spacing";
+info name:"Sample Spacing"
+    author : "Me";
+
 /*
  * Multi-line comments exist.
  */
@@ -14,10 +16,13 @@ proc stuff {
 
 proc bail.out stuff nonsense {
     var qualifier;                  // Local variable initialised to zero
-    if (status==1) {
+    if(status==1) {
+        var x=1+3*4;
+        x-=x*(5+x);
+        x=y==1?1+y:15;
         if (arg1 instanceof verb) {  // If that word is an object name
             if (!isnear(arg1)) {
-                quip("There is no # here!", arg1);
+                quip("There is no # here!",arg1);
             } else {
                 quip("You need to say what you want to do with the #.", arg1);
             }

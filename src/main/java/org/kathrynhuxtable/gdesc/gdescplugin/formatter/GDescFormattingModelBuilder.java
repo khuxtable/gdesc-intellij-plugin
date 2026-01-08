@@ -30,8 +30,8 @@ public class GDescFormattingModelBuilder implements FormattingModelBuilder {
 				.createFormattingModelForPsiFile(formattingContext.getContainingFile(),
 						new GDescBlock(null,
 								formattingContext.getNode(),
-								createSpaceBuilder(codeStyleSettings),
-								null),
+								null, createSpaceBuilder(codeStyleSettings),
+								codeStyleSettings),
 						codeStyleSettings);
 	}
 

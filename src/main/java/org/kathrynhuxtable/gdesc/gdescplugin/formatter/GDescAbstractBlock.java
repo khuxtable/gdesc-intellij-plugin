@@ -26,14 +26,19 @@ import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.TokenType;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition;
-import org.kathrynhuxtable.gdesc.gdescplugin.GDescTokenTypeService;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService;
 
 import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.ASSIGNMENT;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.VARIABLE_DECLARATOR;
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.*;
 
 public abstract class GDescAbstractBlock extends AbstractBlock {
@@ -42,16 +47,18 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 
 	boolean isTopLevel;
 	SpacingBuilder spacingBuilder;
+	CodeStyleSettings settings;
 	List<GDescAbstractBlock> childBlocks;
 	Alignment alignment;
 	GDescAbstractBlock parentBlock;
 
-	GDescAbstractBlock(GDescAbstractBlock parentBlock, ASTNode node, Wrap wrap, Alignment alignment, SpacingBuilder spacingBuilder, boolean isTopLevel) {
+	GDescAbstractBlock(GDescAbstractBlock parentBlock, ASTNode node, Wrap wrap, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings, boolean isTopLevel) {
 		super(node, /*wrap*/ null, alignment);
 		this.parentBlock = parentBlock;
-		this.spacingBuilder = spacingBuilder;
-		this.isTopLevel = isTopLevel;
 		this.alignment = alignment;
+		this.spacingBuilder = spacingBuilder;
+		this.settings = settings;
+		this.isTopLevel = isTopLevel;
 	}
 
 	@Override
@@ -83,16 +90,16 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 		} else if (newChildIndex == 0) {
 			alignment = getAlignment();    // If parent is aligned then first child should be aligned
 		}
-		return new ChildAttributes(isTopLevel && !(this instanceof GDescStmtBlock) ? Indent.getNoneIndent() : Indent.getNormalIndent(), alignment);
-	}
-
-	public Alignment getAlignment(ASTNode node) {
-		return getAlignment();
+		return new ChildAttributes(getNode().getElementType() == GAME ? Indent.getNoneIndent() : Indent.getNormalIndent(), alignment);
 	}
 
 	@Override
 	public Alignment getAlignment() {
 		return alignment;
+	}
+
+	public Alignment getAlignment(ASTNode node) {
+		return getAlignment();
 	}
 
 	protected List<GDescAbstractBlock> buildChildren(GDescAbstractBlock parentBlock, ASTNode parentNode, SpacingBuilder spacingBuilder) {
@@ -126,31 +133,38 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 	protected GDescAbstractBlock createBlock(GDescAbstractBlock parentBlock, ASTNode node, SpacingBuilder spacingBuilder, ASTNode child, Alignment alignment) {
 		if (child.getElementType() == TokenType.WHITE_SPACE) {
 			return null;
-		} else if (child.getElementType() == DIRECTIVE) {
-			return new GDescDirectiveBlock(parentBlock, child.getFirstChildNode(), Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
-		} else if (child.getElementType() == STATEMENT) {
-			return new GDescCodeBlock(parentBlock, child.getFirstChildNode(), Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
 		} else if (child.getFirstChildNode() == null) {
-			boolean isSpecialChar = isElementType(child, LBRACE, RBRACE, LBRACK, RBRACK, LPAREN, RPAREN);
-			Indent indent = isSpecialChar ? Indent.getNoneIndent() :
-					isElementType(child, GDescParserDefinition.COMMENT, GDescParserDefinition.LINE_COMMENT) ? Indent.getNormalIndent() :
-							alignment != null ? Indent.getNoneIndent()
-									: Indent.getContinuationWithoutFirstIndent();
-			return new GDescLeafBlock(parentBlock, child, spacingBuilder, indent, alignment);
+			return new GDescLeafBlock(parentBlock, child, alignment, spacingBuilder, settings, getLeafIndent(child, alignment));
+		} else if (child.getElementType() == DIRECTIVE) {
+			return new GDescDirectiveBlock(parentBlock, child.getFirstChildNode(), Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, settings, false);
+		} else if (child.getElementType() == STATEMENT) {
+			return new GDescCodeBlock(parentBlock, child.getFirstChildNode(), Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, settings, false);
 		} else if (isDirective(child)) {
-			return new GDescDirectiveBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
+			return new GDescDirectiveBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, settings, false);
 		} else if (isElementType(child, BLOCK) /*&& isElementType(child.getTreeNext(), LBRACE)*/) {
-			return new GDescCodeBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), alignment, spacingBuilder, false);
+			return new GDescCodeBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), alignment, spacingBuilder, settings, false);
 		} else if (isStatement(child)) {
-			return new GDescCodeBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, false);
+			return new GDescCodeBlock(parentBlock, child, Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder, settings, false);
 		} else if (isList(child)) {
-			return new GDescStmtBlock(parentBlock, child, spacingBuilder, alignment);
-		} else if (isBinaryOrMethodCallExpr(child)) {
-			return new GDescBinaryExpr(parentBlock, child, spacingBuilder, alignment);
+			return new GDescListBlock(parentBlock, child, alignment, spacingBuilder, settings);
+		} else if (isBinaryExpr(child)) {
+			return new GDescBinaryExpr(parentBlock, child, alignment, spacingBuilder, settings);
 		} else if (isElementType(child, TERNARY_EXPRESSION)) {
-			return new GDescTernaryExpr(parentBlock, child, spacingBuilder, alignment);
+			return new GDescTernaryExpr(parentBlock, child, alignment, spacingBuilder, settings);
 		} else {
-			return new GDescBlock(parentBlock, child, spacingBuilder, alignment);
+			return new GDescBlock(parentBlock, child, alignment, spacingBuilder, settings);
+		}
+	}
+
+	private static Indent getLeafIndent(ASTNode child, Alignment alignment) {
+		if (isElementType(child, LBRACE, RBRACE, LBRACK, RBRACK, LPAREN, RPAREN)) {
+			return Indent.getNoneIndent();
+		} else if (isElementType(child, GDescParserDefinition.COMMENT, GDescParserDefinition.LINE_COMMENT)) {
+			return Indent.getNormalIndent();
+		} else if (alignment != null) {
+			return Indent.getNoneIndent();
+		} else {
+			return Indent.getContinuationWithoutFirstIndent();
 		}
 	}
 
@@ -170,6 +184,14 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 		return node.getElementType() == OPTIONAL_EXPRESSION_LIST;
 	}
 
+	protected static boolean isBinaryExpr(ASTNode child) {
+		// Need to ignore bracketed BinaryExpr since they are just "(" BinaryExpr ")" and have no operator to align on
+		return isElementType(child, VARIABLE_DECLARATOR, ASSIGNMENT, CONDITIONAL_OR_EXPRESSION, CONDITIONAL_AND_EXPRESSION,
+				INCLUSIVE_OR_EXPRESSION, EXCLUSIVE_OR_EXPRESSION, AND_EXPRESSION, RELATIONAL_EXPRESSION, SHIFT_EXPRESSION,
+				ADDITIVE_EXPRESSION, MULTIPLICATIVE_EXPRESSION) &&
+				!isElementType(getFirstChildNotWhiteSpace(child.getPsi()), LPAREN);
+	}
+
 	public static boolean isElementType(PsiElement element, IElementType... types) {
 		return element != null && isElementType(element.getNode(), types);
 	}
@@ -183,7 +205,7 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 
 	// Get first non-comment, non-whitespace child
 	public static PsiElement getFirstChildNotWhiteSpace(PsiElement parent) {
-		return getFirstChild(parent, child -> Stream.of(GDescParserDefinition.COMMENT, GDescTokenTypeService.WHITESPACE, WHITE_SPACE)
+		return getFirstChild(parent, child -> Stream.of(GDescParserDefinition.COMMENT, GDescElementTypeService.WHITESPACE, WHITE_SPACE)
 				.noneMatch(type -> child.getNode().getElementType().equals(type)));
 	}
 
@@ -196,13 +218,25 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 		return null;
 	}
 
-	protected static boolean isBinaryOrMethodCallExpr(ASTNode child) {
-		// Need to ignore bracketed BinaryExpr since they are just "(" BinaryExpr ")" and have no operator to align on
-		return isElementType(child, CONDITIONAL_OR_EXPRESSION, CONDITIONAL_AND_EXPRESSION, INCLUSIVE_OR_EXPRESSION,
-				EXCLUSIVE_OR_EXPRESSION, AND_EXPRESSION, RELATIONAL_EXPRESSION, SHIFT_EXPRESSION, ADDITIVE_EXPRESSION,
-				MULTIPLICATIVE_EXPRESSION) &&
-				!isElementType(getFirstChildNotWhiteSpace(child.getPsi()), LPAREN) ||
-				isElementType(child, FUNC_REF);
+	protected Spacing computeSpacing(Block child1, Block child2) {
+		if (child1 instanceof ASTBlock && child2 instanceof ASTBlock) {
+			CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
+			ASTNode node1 = ((ASTBlock) child1).getNode();
+			ASTNode node2 = ((ASTBlock) child2).getNode();
+
+			if (((node1 == null ? null : node1.getElementType()) == GDescElementTypeService.LINE_COMMENT || isStatement(node1))
+                    && isStatement(node2)) {
+				return Spacing.createSpacing(0, Integer.MAX_VALUE, 1, true, commonSettings.KEEP_BLANK_LINES_IN_CODE);
+			}
+			// before comment
+			if ((node1 == null ? null : node1.getElementType()) == GDescElementTypeService.SEMICOLON && (node2 == null ? null : node2.getElementType()) == GDescElementTypeService.LINE_COMMENT) {
+				return Spacing.createSpacing(0, Integer.MAX_VALUE, 1, true, commonSettings.KEEP_BLANK_LINES_IN_CODE);
+			}
+			// before subprogram part
+			if (isDirective(node1) && isDirective(node2))
+				return Spacing.createSpacing(0, Integer.MAX_VALUE, 1, true, commonSettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
+		}
+		return spacingBuilder.getSpacing(this, child1, child2);
 	}
 
 }

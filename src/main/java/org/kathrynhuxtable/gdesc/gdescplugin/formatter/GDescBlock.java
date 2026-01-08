@@ -17,19 +17,20 @@ package org.kathrynhuxtable.gdesc.gdescplugin.formatter;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.*;
 
 public class GDescBlock extends GDescAbstractBlock {
-	GDescBlock(GDescAbstractBlock parentBlock, ASTNode node, SpacingBuilder spacingBuilder, Alignment alignment) {
-		super(parentBlock, node, null, alignment, spacingBuilder, false);
+	GDescBlock(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
+		super(parentBlock, node, null, alignment, spacingBuilder, settings, false);
 	}
 
 	@Override
 	public @Nullable Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-		return null;
+		return computeSpacing(child1, child2);
 	}
 
 	@Override

@@ -23,13 +23,19 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import com.intellij.formatting.Alignment;
+import com.intellij.formatting.Block;
+import com.intellij.formatting.Spacing;
 import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiWhiteSpace;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
-import org.kathrynhuxtable.gdesc.gdescplugin.GDescTokenTypeService;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService;
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.FUNC_REF;
 
@@ -39,19 +45,19 @@ public class GDescBinaryExpr extends GDescBlock {
 	Alignment operatorAlignment;
 	Map<ASTNode, Pos> childrenPos = new HashMap<>();
 
-	GDescBinaryExpr(GDescAbstractBlock parentBlock, ASTNode node, SpacingBuilder spacingBuilder, Alignment alignment) {
-		super(parentBlock, node, spacingBuilder, alignment);
+	GDescBinaryExpr(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
+		super(parentBlock, node, alignment, spacingBuilder, settings);
 		Pos pos = Pos.LEFT;
 		// If we are a method call then include our binary expr children as ours so we pretend
 		// that we are the binary expr
 		boolean isMethodCall = isElementType(node, FUNC_REF);
-		Predicate<ASTNode> flattenChildren = child -> false/*isMethodCall && isElementType(child, GDescExprElementType.BINARY_EXPR)*/;
+		Predicate<ASTNode> flattenChildren = child -> isMethodCall && isBinaryExpr(child);
 		Alignment parentOpAlign = parentBlock.getOperatorAlignment();
 		for (ASTNode child : Arrays.stream(getNode().getChildren(null))
 				.flatMap(child -> flattenChildren.test(child) ? Arrays.stream(child.getChildren(null)) : Stream.of(child))
 				.toList()) {
 			IElementType elementType = child.getElementType();
-			if (pos == Pos.LEFT && GDescTokenTypeService.OPERATOR.contains(elementType)) {
+			if (pos == Pos.LEFT && GDescElementTypeService.OPERATOR.contains(elementType)) {
 				// Once we get to the operator we need to check on newlines positions to decide how to align
 				// We only align on operators when they are the first thing on a line (i.e. previous whitespace included '\n')
 				// and are not followed by a newline. We also align on operator if our parent is operator aligned.
@@ -75,5 +81,11 @@ public class GDescBinaryExpr extends GDescBlock {
 			pos = Pos.RIGHT;
 		}
 		return pos == Pos.LEFT ? getAlignment() : operatorAlignment;
+	}
+
+	@Override
+	public Spacing getSpacing(Block child1, @NotNull Block child2) {
+		CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
+		return Spacing.createSpacing(commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS ? 1 : 0, Integer.MAX_VALUE, 0, true, 1);
 	}
 }

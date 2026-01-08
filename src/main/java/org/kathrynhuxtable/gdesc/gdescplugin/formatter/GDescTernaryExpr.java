@@ -16,8 +16,16 @@
 package org.kathrynhuxtable.gdesc.gdescplugin.formatter;
 
 import com.intellij.formatting.Alignment;
+import com.intellij.formatting.Block;
+import com.intellij.formatting.Spacing;
 import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.COLON;
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.QUESTION;
@@ -25,8 +33,8 @@ import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.QUESTI
 public class GDescTernaryExpr extends GDescBlock {
 	Alignment operatorAlignment = Alignment.createAlignment();
 
-	GDescTernaryExpr(GDescAbstractBlock parentBlock, ASTNode node, SpacingBuilder spacingBuilder, Alignment alignment) {
-		super(parentBlock, node, spacingBuilder, alignment);
+	GDescTernaryExpr(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
+		super(parentBlock, node, alignment, spacingBuilder, settings);
 	}
 
 	@Override
@@ -35,5 +43,18 @@ public class GDescTernaryExpr extends GDescBlock {
 			return operatorAlignment;
 		}
 		return getAlignment();
+	}
+
+	@Override
+	public @Nullable Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
+		CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
+		SpacingBuilder builder = new SpacingBuilder(commonSettings)
+				// Add a space before and after the '?'
+				.around(QUESTION)
+				.spaceIf(true)
+				// Add a space before and after the ':'
+				.around(COLON)
+				.spaceIf(true);
+		return builder.getSpacing(parentBlock, child1, child2);
 	}
 }

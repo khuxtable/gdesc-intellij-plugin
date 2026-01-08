@@ -22,18 +22,12 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 
-import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.*;
-
-public class GDescDirectiveBlock extends GDescAbstractBlock {
-	GDescDirectiveBlock(GDescAbstractBlock parentBlock, ASTNode node, Wrap wrap, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings, boolean isTopLevel) {
-		super(parentBlock, node, wrap, alignment, spacingBuilder, settings, isTopLevel);
-	}
-
-	@Override
-	public Indent getIndent() {
-		return Indent.getNoneIndent();
+public class GDescListBlock extends GDescAbstractBlock {
+	GDescListBlock(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
+		super(parentBlock, node, null, alignment, spacingBuilder, settings, false);
 	}
 
 	@Override
@@ -42,21 +36,14 @@ public class GDescDirectiveBlock extends GDescAbstractBlock {
 	}
 
 	@Override
-	public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
+	public @Nullable Indent getIndent() {
+		return Indent.getNormalIndent();
+	}
+
+	@Override
+	public @Nullable Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
 		CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
-		SpacingBuilder builder = new SpacingBuilder(commonSettings)
-				// Add a space before the '-'
-				.before(SUB)
-				.spaceIf(true)
-				// Add a space before the '('
-				.after(COLON)
-				.spaceIf(true)
-				// Add a space after the ')'
-				.around(EQUAL)
-				.spaceIf(true)
-				// Add a space after the ';'
-				.after(COMMA)
-				.spaceIf(true);
-		return builder.getSpacing(parentBlock, child1, child2);
+		SpacingBuilder spacingBuilder = new SpacingBuilder(commonSettings).after(GDescElementTypeService.COMMA).spaces(1);
+		return commonSettings.SPACE_AFTER_COMMA ? spacingBuilder.getSpacing(parentBlock, child1, child2) : null;
 	}
 }
