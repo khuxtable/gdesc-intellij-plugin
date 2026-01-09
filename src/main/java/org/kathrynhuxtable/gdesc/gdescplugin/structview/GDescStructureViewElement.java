@@ -24,7 +24,7 @@ import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
-import com.intellij.navigation.NavigationItem;
+import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.TokenSet;
 import org.antlr.intellij.adaptor.lexer.RuleIElementType;
@@ -36,9 +36,9 @@ import org.kathrynhuxtable.gdesc.gdescplugin.psi.GDescPSIFileRoot;
 import org.kathrynhuxtable.gdesc.parser.GameParser;
 
 public class GDescStructureViewElement implements StructureViewTreeElement, SortableTreeElement {
-	protected final PsiElement element;
+	protected final NavigatablePsiElement element;
 
-	public GDescStructureViewElement(PsiElement element) {
+	public GDescStructureViewElement(NavigatablePsiElement element) {
 		this.element = element;
 	}
 
@@ -49,21 +49,17 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 
 	@Override
 	public void navigate(boolean requestFocus) {
-		if (element instanceof NavigationItem) {
-			((NavigationItem) element).navigate(requestFocus);
-		}
+		element.navigate(requestFocus);
 	}
 
 	@Override
 	public boolean canNavigate() {
-		return element instanceof NavigationItem &&
-				((NavigationItem) element).canNavigate();
+		return element.canNavigate();
 	}
 
 	@Override
 	public boolean canNavigateToSource() {
-		return element instanceof NavigationItem &&
-				((NavigationItem) element).canNavigateToSource();
+		return element.canNavigateToSource();
 	}
 
 	@NotNull
@@ -155,7 +151,7 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 			Collection<? extends PsiElement> directives = XPath.findAll(GDescLanguage.INSTANCE, element, "/game/directive/*");
 			List<TreeElement> treeElements = new ArrayList<>(directives.size());
 			for (PsiElement el : directives) {
-				treeElements.add(new GDescStructureViewElement(el));
+				treeElements.add(new GDescStructureViewElement((NavigatablePsiElement) el));
 			}
 			return treeElements.toArray(new TreeElement[directives.size()]);
 		}

@@ -32,9 +32,9 @@ import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
+import org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition;
-import org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService;
 
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.ASSIGNMENT;
@@ -103,18 +103,13 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 	}
 
 	protected List<GDescAbstractBlock> buildChildren(GDescAbstractBlock parentBlock, ASTNode parentNode, SpacingBuilder spacingBuilder) {
-		Alignment alignment = null;
-//		if (isList(parentNode) || isRhsExpr(parentNode)) {
-//			// Create alignment for args or for init/cond/update part of "for" stmt or for rhs of assignment
-//			alignment = Alignment.createAlignment();
-//		}
-		return _buildChildren(parentBlock, parentNode, spacingBuilder, alignment);
+		return _buildChildren(parentBlock, parentNode, spacingBuilder, null);
 	}
 
 	protected List<GDescAbstractBlock> _buildChildren(GDescAbstractBlock parentBlock, ASTNode parentNode, SpacingBuilder spacingBuilder, Alignment alignment) {
 		List<GDescAbstractBlock> blocks = new ArrayList<>();
 		for (ASTNode child = parentNode.getFirstChildNode(); child != null; child = child.getTreeNext()) {
-//			// If we are a method call then subsume binary expr children into ours to make alignement
+//			// If we are a method call then subsume binary expr children into ours to make alignment
 //			// work better with auto-indent and aligning on '.' of method calls. This is due to how
 //			// auto-indent looks for candidate alignments. Only if text range of element overlaps with
 //			// place of indent will it then drill down into children to look for alignments.
@@ -223,16 +218,17 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 			CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
 			ASTNode node1 = ((ASTBlock) child1).getNode();
 			ASTNode node2 = ((ASTBlock) child2).getNode();
+			IElementType elementType1 = node1 == null ? null : node1.getElementType();
+			IElementType elementType2 = node2 == null ? null : node2.getElementType();
 
-			if (((node1 == null ? null : node1.getElementType()) == GDescElementTypeService.LINE_COMMENT || isStatement(node1))
-                    && isStatement(node2)) {
+			if ((elementType1 == GDescElementTypeService.LINE_COMMENT || isStatement(node1)) && isStatement(node2)) {
 				return Spacing.createSpacing(0, Integer.MAX_VALUE, 1, true, commonSettings.KEEP_BLANK_LINES_IN_CODE);
 			}
 			// before comment
-			if ((node1 == null ? null : node1.getElementType()) == GDescElementTypeService.SEMICOLON && (node2 == null ? null : node2.getElementType()) == GDescElementTypeService.LINE_COMMENT) {
+			if (elementType1 == GDescElementTypeService.SEMICOLON && elementType2 == GDescElementTypeService.LINE_COMMENT) {
 				return Spacing.createSpacing(0, Integer.MAX_VALUE, 1, true, commonSettings.KEEP_BLANK_LINES_IN_CODE);
 			}
-			// before subprogram part
+			// between directives
 			if (isDirective(node1) && isDirective(node2))
 				return Spacing.createSpacing(0, Integer.MAX_VALUE, 1, true, commonSettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
 		}

@@ -65,9 +65,10 @@ public class GDescItemPresentation implements ItemPresentation {
 		RuleIElementType elementType = (RuleIElementType) node.getElementType();
 		return switch (elementType.getRuleIndex()) {
 			case GameParser.RULE_includePragma, GameParser.RULE_infoPragma, GameParser.RULE_flagDirective,
-			     GameParser.RULE_stateDirective, GameParser.RULE_verbDirective, GameParser.RULE_noiseDirective, GameParser.RULE_variableDirective,
-			     GameParser.RULE_textDirective, GameParser.RULE_fragmentDirective, GameParser.RULE_placeDirective,
-			     GameParser.RULE_objectDirective, GameParser.RULE_actionDirective, GameParser.RULE_procDirective -> {
+			     GameParser.RULE_stateDirective, GameParser.RULE_verbDirective, GameParser.RULE_noiseDirective,
+			     GameParser.RULE_variableDirective, GameParser.RULE_textDirective, GameParser.RULE_fragmentDirective,
+			     GameParser.RULE_placeDirective, GameParser.RULE_objectDirective, GameParser.RULE_actionDirective,
+			     GameParser.RULE_procDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
 				yield children[2].getText();
 			}

@@ -24,7 +24,6 @@ import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
-import org.antlr.intellij.adaptor.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,11 +83,18 @@ public class GDescStructureViewModel extends StructureViewModelBase implements S
 	protected Class<?> @NotNull [] getSuitableClasses() {
 		return new Class[]{
 				IncludePragmaSubtree.class,
+				InfoPragmaSubtree.class,
+				FlagDirectiveSubtree.class,
+				StateDirectiveSubtree.class,
 				NoiseDirectiveSubtree.class,
-				FlagClauseSubtree.class,
+				VerbDirectiveSubtree.class,
+				VariableDirectiveSubtree.class,
+				TextDirectiveSubtree.class,
+				PlaceDirectiveSubtree.class,
+				ObjectDirectiveSubtree.class,
+				ActionDirectiveSubtree.class,
 				ProcDirectiveSubtree.class,
-				MainBlockSubtree.class,
-				ANTLRPsiNode.class
+				MainBlockSubtree.class
 		};
 	}
 }
