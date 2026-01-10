@@ -85,6 +85,8 @@ public class GDescElementTypeService {
 	public static RuleIElementType BASIC_FOR_STATEMENT;
 	public static RuleIElementType ENHANCED_FOR_STATEMENT;
 
+	public static RuleIElementType OPTIONAL_LABEL;
+
 	public static RuleIElementType ASSIGNMENT;
 	public static RuleIElementType CONDITIONAL_OR_EXPRESSION;
 	public static RuleIElementType CONDITIONAL_AND_EXPRESSION;
@@ -158,6 +160,8 @@ public class GDescElementTypeService {
 		REPEAT_STATEMENT = ruleIElementTypes.get(GameParser.RULE_repeatStatement);
 		BASIC_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_basicForStatement);
 		ENHANCED_FOR_STATEMENT = ruleIElementTypes.get(GameParser.RULE_enhancedForStatement);
+
+		OPTIONAL_LABEL = ruleIElementTypes.get(GameParser.RULE_optionalLabel);
 
 		ASSIGNMENT = ruleIElementTypes.get(GameParser.RULE_assignment);
 		CONDITIONAL_OR_EXPRESSION = ruleIElementTypes.get(GameParser.RULE_conditionalOrExpression);

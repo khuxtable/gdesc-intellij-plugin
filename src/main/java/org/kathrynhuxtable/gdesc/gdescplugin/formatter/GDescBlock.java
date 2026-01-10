@@ -21,6 +21,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.OPTIONAL_LABEL;
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.*;
 
 public class GDescBlock extends GDescAbstractBlock {
@@ -36,6 +37,8 @@ public class GDescBlock extends GDescAbstractBlock {
 	@Override
 	public @Nullable Indent getIndent() {
 		if (isElementType(myNode, GAME, DIRECTIVE, BLOCK)) {
+			return Indent.getNoneIndent();
+		} else if (myNode.getElementType() == OPTIONAL_LABEL) {
 			return Indent.getNoneIndent();
 		} else if (getAlignment() == null) {
 			return Indent.getContinuationWithoutFirstIndent();
