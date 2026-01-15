@@ -15,7 +15,10 @@
  */
 package org.kathrynhuxtable.gdesc.gdescplugin.formatter;
 
-import com.intellij.formatting.*;
+import com.intellij.formatting.Alignment;
+import com.intellij.formatting.Block;
+import com.intellij.formatting.Spacing;
+import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
@@ -24,30 +27,33 @@ import org.jetbrains.annotations.Nullable;
 
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 
-import static org.kathrynhuxtable.gdesc.gdescplugin.GDescElementTypeService.COMMA;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.COLON;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.QUESTION;
 
-public class GDescListBlock extends GDescAbstractBlock {
-	GDescListBlock(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
-		super(parentBlock, node, null, alignment, spacingBuilder, settings, false);
+public class GDescTernaryExprBlock extends GDescBlock {
+	Alignment operatorAlignment = Alignment.createAlignment();
+
+	GDescTernaryExprBlock(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
+		super(parentBlock, node, alignment, spacingBuilder, settings);
 	}
 
 	@Override
-	public boolean isLeaf() {
-		return false;
-	}
-
-	@Override
-	public @Nullable Indent getIndent() {
-		return Indent.getNormalIndent();
+	public Alignment getAlignment(ASTNode node) {
+		if (isElementType(node, QUESTION, COLON)) {
+			return operatorAlignment;
+		}
+		return getAlignment();
 	}
 
 	@Override
 	public @Nullable Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
 		CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
 		SpacingBuilder builder = new SpacingBuilder(commonSettings)
-				.before(COMMA)
-				.spaceIf(false)
-				.after(COMMA)
+				// Add a space before and after the '?'
+				.around(QUESTION)
+				.spaceIf(true)
+				// Add a space before and after the ':'
+				.around(COLON)
 				.spaceIf(true);
 		return builder.getSpacing(parentBlock, child1, child2);
 	}

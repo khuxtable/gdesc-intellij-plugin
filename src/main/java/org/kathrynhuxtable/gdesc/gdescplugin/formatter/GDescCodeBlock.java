@@ -59,6 +59,8 @@ public class GDescCodeBlock extends GDescAbstractBlock {
 				// Add spaces around ':'
 				.around(COLON)
 				.spaceIf(true)
+				.before(SEMICOLON)
+				.spaceIf(false)
 				// Add a space after the ';'
 				.after(SEMICOLON)
 				.spaceIf(true);

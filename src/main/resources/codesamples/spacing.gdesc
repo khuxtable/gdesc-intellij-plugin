@@ -27,7 +27,9 @@ proc bail.out stuff nonsense {
                 quip("You need to say what you want to do with the #.", arg1);
             }
         } else {
-            done = 4;
+            done = foo(x, y) + 1;
+            x = foo(x, y);
+            y = foo();
             quip("You need to say what you want to #.", arg1);
         }
     }

@@ -143,9 +143,11 @@ public abstract class GDescAbstractBlock extends AbstractBlock {
 		} else if (isList(child)) {
 			return new GDescListBlock(parentBlock, child, alignment, spacingBuilder, settings);
 		} else if (isBinaryExpr(child)) {
-			return new GDescBinaryExpr(parentBlock, child, alignment, spacingBuilder, settings);
+			return new GDescBinaryExprBlock(parentBlock, child, alignment, spacingBuilder, settings);
 		} else if (isElementType(child, TERNARY_EXPRESSION)) {
-			return new GDescTernaryExpr(parentBlock, child, alignment, spacingBuilder, settings);
+			return new GDescTernaryExprBlock(parentBlock, child, alignment, spacingBuilder, settings);
+		} else if (isElementType(child, FUNC_REF)) {
+			return new GDescFuncCallExprBlock(parentBlock, child, alignment, spacingBuilder, settings);
 		} else {
 			return new GDescBlock(parentBlock, child, alignment, spacingBuilder, settings);
 		}

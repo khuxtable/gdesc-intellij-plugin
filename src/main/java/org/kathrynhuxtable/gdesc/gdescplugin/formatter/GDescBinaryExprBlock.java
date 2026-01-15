@@ -39,13 +39,13 @@ import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 
 import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.FUNC_REF;
 
-public class GDescBinaryExpr extends GDescBlock {
+public class GDescBinaryExprBlock extends GDescBlock {
 	Alignment operandAlignment = Alignment.createAlignment();
 	@Getter
 	Alignment operatorAlignment;
 	Map<ASTNode, Pos> childrenPos = new HashMap<>();
 
-	GDescBinaryExpr(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
+	GDescBinaryExprBlock(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
 		super(parentBlock, node, alignment, spacingBuilder, settings);
 		Pos pos = Pos.LEFT;
 		// If we are a method call then include our binary expr children as ours so we pretend

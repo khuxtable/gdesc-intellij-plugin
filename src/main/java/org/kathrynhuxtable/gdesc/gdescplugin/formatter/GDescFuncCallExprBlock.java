@@ -15,6 +15,9 @@
  */
 package org.kathrynhuxtable.gdesc.gdescplugin.formatter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
 import com.intellij.formatting.Spacing;
@@ -22,39 +25,44 @@ import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import org.kathrynhuxtable.gdesc.gdescplugin.GDescLanguage;
 
-import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.COLON;
-import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.QUESTION;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.LPAREN;
+import static org.kathrynhuxtable.gdesc.gdescplugin.GDescParserDefinition.RPAREN;
 
-public class GDescTernaryExpr extends GDescBlock {
-	Alignment operatorAlignment = Alignment.createAlignment();
+public class GDescFuncCallExprBlock extends GDescBlock {
+	Alignment operandAlignment = Alignment.createAlignment();
+	@Getter
+	Alignment operatorAlignment;
+	Map<ASTNode, Pos> childrenPos = new HashMap<>();
 
-	GDescTernaryExpr(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
+	GDescFuncCallExprBlock(GDescAbstractBlock parentBlock, ASTNode node, Alignment alignment, SpacingBuilder spacingBuilder, CodeStyleSettings settings) {
 		super(parentBlock, node, alignment, spacingBuilder, settings);
 	}
 
-	@Override
-	public Alignment getAlignment(ASTNode node) {
-		if (isElementType(node, QUESTION, COLON)) {
-			return operatorAlignment;
+	public Alignment getAlignment(ASTNode child) {
+		if (operatorAlignment == null) {
+			// If we are not aligning on the operator then align everything together
+			return operandAlignment;
 		}
-		return getAlignment();
+		Pos pos = childrenPos.get(child);
+		if (pos == null) {
+			pos = Pos.RIGHT;
+		}
+		return pos == Pos.LEFT ? getAlignment() : operatorAlignment;
 	}
 
 	@Override
-	public @Nullable Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
+	public Spacing getSpacing(Block child1, @NotNull Block child2) {
 		CommonCodeStyleSettings commonSettings = settings.getCommonSettings(GDescLanguage.INSTANCE);
 		SpacingBuilder builder = new SpacingBuilder(commonSettings)
-				// Add a space before and after the '?'
-				.around(QUESTION)
-				.spaceIf(true)
-				// Add a space before and after the ':'
-				.around(COLON)
-				.spaceIf(true);
+				.around(LPAREN)
+				.spaceIf(false)
+				.around(RPAREN)
+				.spaceIf(false);
 		return builder.getSpacing(parentBlock, child1, child2);
 	}
 }

@@ -91,8 +91,9 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.ISAT:
 		case GameLexer.ISFLAG:
 		case GameLexer.HAVE:
-		case GameLexer.ISHEAR:
+		case GameLexer.ISHERE:
 		case GameLexer.ISNEAR:
+		case GameLexer.ISVERB:
 		case GameLexer.KEY:
 		case GameLexer.MOVE:
 		case GameLexer.NEEDCMD:
