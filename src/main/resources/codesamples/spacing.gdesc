@@ -21,7 +21,7 @@ proc bail.out stuff nonsense {
         x-=x*(5+x);
         x=y==1?1+y:15;
         if (arg1 instanceof verb) {  // If that word is an object name
-            if (!isnear(arg1)) {
+            if (!isnear(*arg1)) {
                 quip("There is no # here!",arg1);
             } else {
                 quip("You need to say what you want to do with the #.", arg1);
