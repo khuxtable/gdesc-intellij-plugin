@@ -99,6 +99,7 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.NEEDCMD:
 		case GameLexer.QUERY:
 		case GameLexer.QUIP:
+		case GameLexer.GETRANDOM:
 		case GameLexer.RESPOND:
 		case GameLexer.SAY:
 		case GameLexer.SETFLAG:
@@ -140,7 +141,6 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.FOR:
 		case GameLexer.IF:
 		case GameLexer.INSTANCEOF:
-		case GameLexer.REF:
 		case GameLexer.RETURN:
 		case GameLexer.SWITCH:
 		case GameLexer.TO:
