@@ -102,6 +102,7 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.GETRANDOM:
 		case GameLexer.RESPOND:
 		case GameLexer.SAY:
+		case GameLexer.SAYRANDOM:
 		case GameLexer.SETFLAG:
 		case GameLexer.SMOVE:
 		case GameLexer.STOP:
