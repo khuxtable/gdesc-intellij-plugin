@@ -225,8 +225,8 @@ public class GDescParserDefinition implements ParserDefinition {
 			case GameParser.RULE_initialDirective -> new MainBlockSubtree(node, true);
 			case GameParser.RULE_repeatDirective -> new MainBlockSubtree(node, false);
 			// Directive Clauses
-			case GameParser.RULE_flagClause -> new FlagClauseSubtree(node, elType);
-			case GameParser.RULE_stateClause -> new StateClauseSubtree(node, elType);
+			case GameParser.RULE_flagDeclarator -> new FlagClauseSubtree(node, elType);
+			case GameParser.RULE_stateDeclarator -> new StateClauseSubtree(node, elType);
 			// Block and Statements
 			case GameParser.RULE_block -> new BlockSubtree(node);
 			case GameParser.RULE_emptyStatement -> new EmptyStatementSubtree(node);
@@ -265,7 +265,6 @@ public class GDescParserDefinition implements ParserDefinition {
 			case GameParser.RULE_parenthesizedExpression -> new ParenthesizedExpressionSubtree(node, elType);
 			case GameParser.RULE_functionInvocation -> new FunctionInvocationSubtree(node);
 			case GameParser.RULE_optionalExpressionList -> new OptionalExpressionListSubtree(node, elType);
-			case GameParser.RULE_refExpression -> new RefExpressionSubtree(node, elType);
 			case GameParser.RULE_instanceofExpression -> new InstanceOfExpressionSubtree(node, elType);
 			default -> new ANTLRPsiNode(node);
 		};

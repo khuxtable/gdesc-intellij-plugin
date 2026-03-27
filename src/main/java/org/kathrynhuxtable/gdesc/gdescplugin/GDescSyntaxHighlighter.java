@@ -93,7 +93,6 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.HAVE:
 		case GameLexer.ISHERE:
 		case GameLexer.ISNEAR:
-		case GameLexer.ISVERB:
 		case GameLexer.KEY:
 		case GameLexer.MOVE:
 		case GameLexer.NEEDCMD:
@@ -106,7 +105,7 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.SETFLAG:
 		case GameLexer.SMOVE:
 		case GameLexer.STOP:
-		case GameLexer.TIE:
+		case GameLexer.STRCMP:
 		case GameLexer.USERTYPED:
 		case GameLexer.VARIS:
 		case GameLexer.VOCAB:
@@ -142,6 +141,7 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.FOR:
 		case GameLexer.IF:
 		case GameLexer.INSTANCEOF:
+		case GameLexer.REF:
 		case GameLexer.RETURN:
 		case GameLexer.SWITCH:
 		case GameLexer.TO:

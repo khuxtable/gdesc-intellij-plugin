@@ -73,8 +73,8 @@ public class GDescFindUsagesProvider implements FindUsagesProvider {
 		RuleIElementType elType = (RuleIElementType) parent.getNode().getElementType();
 		return switch (elType.getRuleIndex()) {
 			case RULE_functionInvocation -> "function";
-			case RULE_stateClause -> "state";
-			case RULE_flagClause -> "flag";
+			case RULE_stateDeclarator -> "state";
+			case RULE_flagDeclarator -> "flag";
 			case RULE_verbDirective -> "verb";
 			case RULE_variableDirective -> "global variable";
 			case RULE_textDirective -> "text";

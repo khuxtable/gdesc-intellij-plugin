@@ -73,7 +73,7 @@ public class GDescPSIFileRoot extends PsiFileBase implements ScopeNode {
 				GDescLanguage.INSTANCE,
 				element,
 				"/game/directive/*/IDENTIFIER",
-				"/game/directive/flagDirective/flagClause/IDENTIFIER",
-				"/game/directive/stateDirective/stateClause/IDENTIFIER");
+				"/game/directive/flagDirective/flagDeclarator/IDENTIFIER",
+				"/game/directive/stateDirective/stateDeclarator/IDENTIFIER");
 	}
 }
