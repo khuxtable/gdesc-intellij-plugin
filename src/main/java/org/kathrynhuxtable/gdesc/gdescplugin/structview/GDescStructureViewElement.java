@@ -110,6 +110,10 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
 				yield children[2].getText() + " [proc]";
 			}
+			case GameParser.RULE_messageDirective -> {
+				ASTNode[] children = node.getChildren(TokenSet.ANY);
+				yield children[2].getText() + " [message]";
+			}
 			case GameParser.RULE_initialDirective -> "initial [initial]";
 			case GameParser.RULE_repeatDirective -> "repeat [repeat]";
 			default -> "unknown key";
@@ -132,6 +136,7 @@ public class GDescStructureViewElement implements StructureViewTreeElement, Sort
 			case GameParser.RULE_placeDirective -> "Place";
 			case GameParser.RULE_objectDirective -> "Object";
 			case GameParser.RULE_actionDirective -> "Action";
+			case GameParser.RULE_messageDirective -> "Message";
 			case GameParser.RULE_procDirective -> "Proc";
 			case GameParser.RULE_initialDirective -> "Initial";
 			case GameParser.RULE_repeatDirective -> "Repeat";

@@ -129,6 +129,7 @@ public class GDescSyntaxHighlighter extends SyntaxHighlighterBase {
 		case GameLexer.VARIABLE:
 		case GameLexer.ARRAY:
 		case GameLexer.PROC:
+		case GameLexer.MESSAGE:
 		case GameLexer.INITIAL:
 		case GameLexer.REPEAT:
 			attrKey = KEYWORD;

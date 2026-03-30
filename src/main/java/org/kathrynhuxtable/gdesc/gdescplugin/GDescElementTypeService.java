@@ -62,6 +62,7 @@ public class GDescElementTypeService {
 	public static RuleIElementType PLACE_DIRECTIVE;
 	public static RuleIElementType OBJECT_DIRECTIVE;
 	public static RuleIElementType ACTION_DIRECTIVE;
+	public static RuleIElementType MESSAGE_DIRECTIVE;
 	public static RuleIElementType PROC_DIRECTIVE;
 	public static RuleIElementType INITIAL_DIRECTIVE;
 	public static RuleIElementType REPEAT_DIRECTIVE;
@@ -138,6 +139,7 @@ public class GDescElementTypeService {
 		PLACE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_placeDirective);
 		OBJECT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_objectDirective);
 		ACTION_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_actionDirective);
+		MESSAGE_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_messageDirective);
 		PROC_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_procDirective);
 		INITIAL_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_initialDirective);
 		REPEAT_DIRECTIVE = ruleIElementTypes.get(GameParser.RULE_repeatDirective);

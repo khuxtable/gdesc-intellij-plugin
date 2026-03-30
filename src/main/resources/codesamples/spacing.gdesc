@@ -1,6 +1,6 @@
 // You are reading the ".gdesc" entry.
-info name:"Sample Spacing"
-    author : "Me";
+info Name:"Sample Spacing",
+    Author : "Me";
 
 /*
  * Multi-line comments exist.
@@ -14,14 +14,14 @@ proc stuff {
     }
 }
 
-proc bail.out stuff nonsense {
+proc bailout(var stuff, var nonsense) {
     var qualifier;                  // Local variable initialised to zero
     if(status==1) {
         var x=1+3*4;
         x-=x*(5+x);
         x=y==1?1+y:15;
         if (arg1 instanceof verb) {  // If that word is an object name
-            if (!isnear(*arg1)) {
+            if (!isnear(arg1)) {
                 quip("There is no # here!",arg1);
             } else {
                 quip("You need to say what you want to do with the #.", arg1);
@@ -43,3 +43,12 @@ text cannot_tell_directions
     You can't tell directions here.
     Try Up, Down, Left, Right, Forward, Back
     """;
+
+object foo
+    "foo"
+    "a foo"
+{
+    message bar {
+
+    }
+}

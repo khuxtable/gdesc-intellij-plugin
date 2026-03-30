@@ -93,6 +93,7 @@ public class GDescStructureViewModel extends StructureViewModelBase implements S
 				PlaceDirectiveSubtree.class,
 				ObjectDirectiveSubtree.class,
 				ActionDirectiveSubtree.class,
+				MessageDirectiveSubtree.class,
 				ProcDirectiveSubtree.class,
 				MainBlockSubtree.class
 		};

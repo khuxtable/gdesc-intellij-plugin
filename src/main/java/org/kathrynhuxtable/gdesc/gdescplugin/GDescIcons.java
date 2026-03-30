@@ -34,6 +34,7 @@ public class GDescIcons {
 	public static final Icon PLACE_DIRECTIVE_ICON = IconLoader.getIcon("/icons/place_directive.svg", GDescIcons.class);
 	public static final Icon OBJECT_DIRECTIVE_ICON = IconLoader.getIcon("/icons/object_directive.svg", GDescIcons.class);
 	public static final Icon ACTION_DIRECTIVE_ICON = IconLoader.getIcon("/icons/action_directive.svg", GDescIcons.class);
+	public static final Icon MESSAGE_DIRECTIVE_ICON = IconLoader.getIcon("/icons/message_directive.svg", GDescIcons.class);
 	public static final Icon PROC_DIRECTIVE_ICON = IconLoader.getIcon("/icons/proc_directive.svg", GDescIcons.class);
 	public static final Icon INITIAL_DIRECTIVE_ICON = IconLoader.getIcon("/icons/initial_directive.svg", GDescIcons.class);
 	public static final Icon REPEAT_DIRECTIVE_ICON = IconLoader.getIcon("/icons/repeat_directive.svg", GDescIcons.class);

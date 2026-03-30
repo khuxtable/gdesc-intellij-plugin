@@ -51,6 +51,7 @@ public class GDescItemPresentation implements ItemPresentation {
 			case PlaceDirectiveSubtree place -> GDescIcons.PLACE_DIRECTIVE_ICON;
 			case ObjectDirectiveSubtree object -> GDescIcons.OBJECT_DIRECTIVE_ICON;
 			case ActionDirectiveSubtree action -> GDescIcons.ACTION_DIRECTIVE_ICON;
+			case MessageDirectiveSubtree action -> GDescIcons.MESSAGE_DIRECTIVE_ICON;
 			case ProcDirectiveSubtree proc -> GDescIcons.PROC_DIRECTIVE_ICON;
 			case MainBlockSubtree initial ->
 					initial.isInitial() ? GDescIcons.INITIAL_DIRECTIVE_ICON : GDescIcons.REPEAT_DIRECTIVE_ICON;
@@ -68,7 +69,7 @@ public class GDescItemPresentation implements ItemPresentation {
 			     GameParser.RULE_stateDirective, GameParser.RULE_verbDirective, GameParser.RULE_noiseDirective,
 			     GameParser.RULE_variableDirective, GameParser.RULE_textDirective, GameParser.RULE_fragmentDirective,
 			     GameParser.RULE_placeDirective, GameParser.RULE_objectDirective, GameParser.RULE_actionDirective,
-			     GameParser.RULE_procDirective -> {
+			     GameParser.RULE_messageDirective, GameParser.RULE_procDirective -> {
 				ASTNode[] children = node.getChildren(TokenSet.ANY);
 				yield children[2].getText();
 			}

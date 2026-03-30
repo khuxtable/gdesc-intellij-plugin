@@ -69,6 +69,7 @@ public class GDescParserDefinition implements ParserDefinition {
 	public static RuleIElementType OBJECT_DIRECTIVE = GDescElementTypeService.OBJECT_DIRECTIVE;
 	public static RuleIElementType ACTION_DIRECTIVE = GDescElementTypeService.ACTION_DIRECTIVE;
 	public static RuleIElementType PROC_DIRECTIVE = GDescElementTypeService.PROC_DIRECTIVE;
+	public static RuleIElementType MESSAGE_DIRECTIVE = GDescElementTypeService.MESSAGE_DIRECTIVE;
 	public static RuleIElementType INITIAL_DIRECTIVE = GDescElementTypeService.INITIAL_DIRECTIVE;
 	public static RuleIElementType REPEAT_DIRECTIVE = GDescElementTypeService.REPEAT_DIRECTIVE;
 
@@ -221,6 +222,7 @@ public class GDescParserDefinition implements ParserDefinition {
 			case GameParser.RULE_placeDirective -> new PlaceDirectiveSubtree(node, elType);
 			case GameParser.RULE_objectDirective -> new ObjectDirectiveSubtree(node, elType);
 			case GameParser.RULE_actionDirective -> new ActionDirectiveSubtree(node);
+			case GameParser.RULE_messageDirective -> new MessageDirectiveSubtree(node);
 			case GameParser.RULE_procDirective -> new ProcDirectiveSubtree(node, elType);
 			case GameParser.RULE_initialDirective -> new MainBlockSubtree(node, true);
 			case GameParser.RULE_repeatDirective -> new MainBlockSubtree(node, false);
